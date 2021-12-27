@@ -1,9 +1,9 @@
 package compiler.language.statement;
 
 /**
- * Statement v jazyce = jeden prikaz
+ * Statement - abstraktni trida
  */
-public class Statement {
+public abstract class Statement {
 
 
 }

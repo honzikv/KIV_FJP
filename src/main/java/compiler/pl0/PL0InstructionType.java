@@ -23,4 +23,8 @@ public enum PL0InstructionType {
         this.value = value;
     }
 
+    @Override
+    public String toString() {
+        return value;
+    }
 }

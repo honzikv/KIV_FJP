@@ -1,9 +1,13 @@
 package compiler.language.variable;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Reprezentuje promennou
  */
-
+@Getter
+@Setter
 public class Variable {
 
     /**
@@ -20,4 +24,14 @@ public class Variable {
      * Velikost v blocich
      */
     private int sizeOf;
+
+    /**
+     * Zda-li je promenna inicializovana
+     */
+    private boolean isInitalized;
+
+    /**
+     * Zda-li je promenna const
+     */
+    private boolean isConstant;
 }

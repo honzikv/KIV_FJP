@@ -1,10 +1,10 @@
 package compiler.language.variable;
 
 public enum DataType {
-    Int,
-    Bool,
+    Integer,
+    Boolean,
     String,
     Float,
-    IntArray,
+    IntegerArray,
     BoolArray
 }
