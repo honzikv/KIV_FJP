@@ -19,10 +19,16 @@
             <artifactId>antlr4-runtime</artifactId>
             <version>4.9.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <version>3.2.0</version>
+        </dependency>
     </dependencies>
 
     <build>
     <plugins>
+        <!-- ANTLR task -->
         <plugin>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-maven-plugin</artifactId>
@@ -36,6 +42,26 @@
                 </execution>
             </executions>
         </plugin>
+
+        <!-- Zkopirujeme target/antlr4 do source aby sel pouzit -->
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+                <execution>
+                    <phase>generate-sources</phase>
+                    <goals>
+                        <goal>add-source</goal>
+                    </goals>
+                    <configuration>
+                        <sources>
+                            <source>${project.build.directory}/generated-sources/antlr4</source>
+                        </sources>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
     </plugins>
     </build>
 

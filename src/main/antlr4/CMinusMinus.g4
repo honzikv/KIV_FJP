@@ -7,26 +7,32 @@ FLOAT: 'float';
 STRING: 'string';
 ARRAY: '[]';
 
-// Operatory
+// Aritmeticka operatory
 ADD: '+';
 SUB: '-';
 MULT: '*';
 DIV: '/';
 MOD: '%';
+
+// Porovnani
 GREATER: '>';
 LESSER: '<';
 GREATER_OR_EQUAL: '>=';
 LESSER_OR_EQUAL: '<=';
 EQUAL: '==';
-VAR_ASSIGN: '=';
+NOT_EQUAL: '!=';
+
+// Binarni operatory
 AND: '&&';
 OR: '||';
 NOT: '!';
+
+
+VAR_ASSIGNMENT: '=';
 TERNARY_QM: '?';
-FOR_EACH: ':';
 INSTANCE_OF: 'is';
 
-// Control flow
+// Keywordy
 IF: 'if';
 ELSE: 'else';
 FOR: 'for';
@@ -36,18 +42,23 @@ UNTIL: 'until';
 DO: 'do';
 TRUE: 'true';
 FALSE: 'false';
-LBRACE: '{';
-RBRACE: '}';
-LPARENTHESIS: '(';
-RPARENTHESIS: ')';
-RETURN: 'return';
-SEMICOLON: ';';
-COMMA: ',';
 FUNCTION: 'fun';
 VOID: 'void';
+RETURN: 'return';
+
+// Zavorky a oddelovatka
+LBRACE: '{';
+RBRACE: '}';
+LPAREN: '(';
+RPAREN: ')';
+SEMICOLON: ';';
+COMMA: ',';
 
 fragment LOWERCASE: [a-z];
 fragment UPPERCASE: [A-Z];
 fragment NUMBER: [0-9]+;
+fragment COLON: ':';
 
 LegalBooleanValues: TRUE | FALSE;
+
+WHITESPACE: [\r\t \n] -> skip;
