@@ -1,4 +1,4 @@
-grammar CMinusMinus;
+grammar CMM;
 
 // Datove typy
 INT: 'int';
@@ -54,11 +54,13 @@ RPAREN: ')';
 SEMICOLON: ';';
 COMMA: ',';
 
-fragment LOWERCASE: [a-z];
-fragment UPPERCASE: [A-Z];
+fragment LETTER: [A-Za-z];
 fragment NUMBER: [0-9]+;
 fragment COLON: ':';
 
-LegalBooleanValues: TRUE | FALSE;
+LEGAL_BOOLEAN_VALUES: TRUE | FALSE;
+LEGAL_TYPE_VALUES: INT | BOOL | FLOAT | STRING;
+LEGAL_ARRAY_TYPE_VALUES: INT ARRAY | BOOL ARRAY | FLOAT ARRAY;
 
+// ignorujeme whitespaces
 WHITESPACE: [\r\t \n] -> skip;
