@@ -80,16 +80,19 @@ identifier: (ALPHABET_LETTER | UNDERLINE)+ (ALPHABET_LETTER | UNDERLINE | DIGIT)
 // = x
 chainAssignment: EQUALS identifier;
 
-LEGAL_STRING_LITERALS: [a-z A-Z()0-9!#%&`*+,_\-.\\;[\]^{}~|]; // TODO utf emoji /s
+//LEGAL_STRING_LITERALS: [A-Z a-z()0-9!#%&`*+,_\-.\\;[\]^{}~|]; // TODO utf emoji /s
+//LEGAL_STRING_LITERALS: [A-Za-z]; // TODO utf emoji /s
+
+legalStringLiterals: ALPHABET_LETTER | WHITESPACE | ;
 
 // Deklarace - pouze deklarujeme typ bez prirazeni napr. int x;
 variableDeclaration: legalDataType identifier SEMICOLON;
 
-// Assignment je mysleno napr. x = 2;
-intVariableAssignment: identifier chainAssignment* EQUALS INTEGER_NUMBER | expression;
+// Assignment je mysleno napr. x = 2; nebo int x = y + z;
+intVariableAssignment: identifier chainAssignment* EQUALS (INTEGER_NUMBER | expression);
 boolVariableAssignment: identifier chainAssignment* EQUALS (TRUE | FALSE | expression);
 stringVariableAssignment: identifier chainAssignment* EQUALS
-                          ((SINGLE_QUOTE LEGAL_STRING_LITERALS SINGLE_QUOTE) | (DOUBLE_QUOTE LEGAL_STRING_LITERALS DOUBLE_QUOTE));
+                          ((SINGLE_QUOTE ALPHABET_LETTER+ SINGLE_QUOTE) | (DOUBLE_QUOTE ALPHABET_LETTER+ DOUBLE_QUOTE));
 variableAssignment: (intVariableAssignment | stringVariableAssignment | boolVariableAssignment) SEMICOLON;
 
 // Initialization - zaroven vytvorime a priradime. Napr. bool y = false;
@@ -116,7 +119,9 @@ functionParameter: legalDataType identifier;
 // skupina funkcnich parametru
 functionParameters: functionParameter | functionParameter COMMA functionParameters;
 
-functionCall: identifier LEFT_PAREN RIGHT_PAREN SEMICOLON; // x();
+identifierChain: identifier | identifier COMMA identifierChain; // (x1) (x1, x2, ... )
+
+functionCall: identifier LEFT_PAREN identifierChain? RIGHT_PAREN SEMICOLON; // x(); nebo x(identifier_chain)
 
 ///
 ///     CONTROL FLOW + obecna pravidla
@@ -152,18 +157,19 @@ forExpression: FOR LEFT_PAREN identifier IN INTEGER_NUMBER (DOUBLE_DOT | IN | TR
 
 
 expression:
+    identifier #identifierExpression
     // operace pro deleni nasobeni a modulo maji stejnou vahu a chceme resolve jako prvni
-    expression op = (DIV | MOD | MULT) expression #multiplicationExpression
+    | expression op = (DIV | MOD | MULT) expression #multiplicationExpression
     // operace +-
     | expression op = (PLUS | MINUS) expression #additionExpression
     // operace pro provnani
     | expression op = (GREATER | GREATER_OR_EQUAL | EQUAL | LESSER | LESSER_OR_EQUAL | NOT_EQUAL) expression
     #comparisonExpression
     // binarni operace
-    | expression op = (AND | OR) expression #booleanPriorityLevel
+    | expression op = (AND | OR) expression #booleanOperationExpression
     // odzavorkovani
     | LEFT_PAREN expression RIGHT_PAREN #parenthesizedExpression
     // negace vyrazu
-    | NOT expression #negation
+    | NOT expression #negationExpression
     // Unarni minus
     | op=(PLUS | MINUS) expression #unaryMinusExpression;

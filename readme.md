@@ -3,6 +3,11 @@
 Jednoduchý překladač, který umí přeložit C-like syntaxi do
 virtuálního stroje PL/0.
 
+## Quickstart
+
+- Ke překladu aplikace je potřeba SDK Javy 17 a nejnovější verze Mavenu
+- Přeložíme pomocí `mvn package`
+
 ## Bonusové body:
 
 - Základní datové typy **boolean**, **float** a **string** (3b)

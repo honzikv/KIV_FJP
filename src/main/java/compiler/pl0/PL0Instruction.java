@@ -38,6 +38,6 @@ public class PL0Instruction {
      */
     @Override
     public String toString() {
-        return instructionNumber + " " + instructionType + " " + stackLevel + instructionAddress + "\n";
+        return instructionNumber + " " + instructionType + " " + stackLevel + " " + instructionAddress;
     }
 }
