@@ -17,4 +17,10 @@ public class ConstVariableInitializationVisitor extends CMMLevelAwareVisitor<Var
         return new VariableInitializationVisitor(depth, true)
                 .visitVariableInitialization(ctx.variableInitialization());
     }
+
+    @Override
+    public VariableInitializationStatement visitConstVariableInitializationStatement(
+            CMMParser.ConstVariableInitializationStatementContext ctx) {
+        return visitConstVariableInitialization(ctx.constVariableInitialization());
+    }
 }

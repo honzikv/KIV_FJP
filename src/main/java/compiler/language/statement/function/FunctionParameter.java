@@ -4,8 +4,10 @@ import compiler.language.statement.Statement;
 import compiler.language.statement.StatementType;
 import compiler.language.variable.DataType;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class FunctionParameter extends Statement {
 
     private final DataType dataType;

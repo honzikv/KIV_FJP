@@ -22,7 +22,7 @@ public class FunctionParametersVisitor extends CMMLevelAwareVisitor<List<Functio
     private FunctionParameter getFunctionParameter(CMMParser.FunctionParameterContext ctx) {
         return new FunctionParameter(
                 depth,
-                DataType.valueOf(ctx.LEGAL_DATA_TYPES().getText().toUpperCase(Locale.ROOT)),
+                DataType.fromString(ctx.legalDataTypes().getText()),
                 ctx.identifier().getText()
         );
     }

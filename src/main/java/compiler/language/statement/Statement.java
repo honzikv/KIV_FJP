@@ -2,19 +2,20 @@ package compiler.language.statement;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * Statement - abstraktni trida
  */
 @AllArgsConstructor
+@ToString
+@Getter
 public abstract class Statement {
 
     /**
      * Typ statementu
      */
-    @Getter
     private final StatementType statementType;
 
-    @Getter
     private final long depthLevel;
 }

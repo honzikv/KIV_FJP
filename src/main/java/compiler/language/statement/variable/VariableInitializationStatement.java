@@ -15,37 +15,13 @@ import lombok.ToString;
  */
 @Getter
 @ToString
-public class VariableInitializationStatement extends Statement {
+public class VariableInitializationStatement extends VariableAssignmentStatement {
 
     /**
      * Datovy typ promenne
      */
     private final DataType dataType;
 
-    /**
-     * Identifikator promenne
-     */
-    private final String identifier;
-
-    /**
-     * Seznam zretezenych identifikatoru - muze byt prazdny
-     */
-    private final List<String> chainedIdentifiers;
-
-    /**
-     * Zda-li se jedna o prirazeni primo a nebo vyrazem
-     */
-    private final boolean isLiteralExpression;
-
-    /**
-     * Prirazeni primo
-     */
-    private final String literalValue;
-
-    /**
-     * Prirazeni vyrazem
-     */
-    private final Expression expressionValue;
 
     /**
      * Zda-li je prirazeni konstanta
@@ -59,32 +35,12 @@ public class VariableInitializationStatement extends Statement {
                                            List<String> chainedIdentifiers,
                                            String literalValue,
                                            boolean isConst) {
-        super(StatementType.VariableInitialization, depthLevel);
+        super(StatementType.VariableInitialization, depthLevel, identifier, chainedIdentifiers,
+                literalValue);
         this.dataType = dataType;
-        this.identifier = identifier;
-        this.literalValue = literalValue;
-        this.isLiteralExpression = true;
-        this.expressionValue = null;
         this.isConst = isConst;
-        this.chainedIdentifiers = chainedIdentifiers;
     }
 
-    protected VariableInitializationStatement(StatementType statementType,
-                                              long depthLevel,
-                                              DataType dataType,
-                                              String identifier,
-                                              List<String> chainedIdentifiers,
-                                              String literalValue,
-                                              boolean isConst) {
-        super(statementType, depthLevel);
-        this.dataType = dataType;
-        this.identifier = identifier;
-        this.literalValue = literalValue;
-        this.isLiteralExpression = true;
-        this.expressionValue = null;
-        this.isConst = isConst;
-        this.chainedIdentifiers = chainedIdentifiers;
-    }
 
     public VariableInitializationStatement(long depthLevel,
                                            DataType dataType,
@@ -92,31 +48,11 @@ public class VariableInitializationStatement extends Statement {
                                            List<String> chainedIdentifiers,
                                            Expression expressionValue,
                                            boolean isConst) {
-        super(StatementType.VariableInitialization, depthLevel);
+        super(StatementType.VariableInitialization, depthLevel, identifier, chainedIdentifiers,
+                expressionValue);
         this.dataType = dataType;
-        this.identifier = identifier;
-        this.literalValue = null;
-        this.expressionValue = expressionValue;
-        this.isLiteralExpression = false;
         this.isConst = isConst;
-        this.chainedIdentifiers = chainedIdentifiers;
     }
 
-    protected VariableInitializationStatement(StatementType statementType,
-                                              long depthLevel,
-                                              DataType dataType,
-                                              String identifier,
-                                              List<String> chainedIdentifiers,
-                                              Expression expressionValue,
-                                              boolean isConst) {
-        super(statementType, depthLevel);
-        this.dataType = dataType;
-        this.identifier = identifier;
-        this.literalValue = null;
-        this.expressionValue = expressionValue;
-        this.isLiteralExpression = false;
-        this.isConst = isConst;
-        this.chainedIdentifiers = chainedIdentifiers;
-    }
 
 }

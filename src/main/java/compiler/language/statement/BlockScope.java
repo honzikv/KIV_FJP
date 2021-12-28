@@ -4,16 +4,18 @@ package compiler.language.statement;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * Reprezentuje "{ statement* }"
  */
+@ToString
+@Getter
 public class BlockScope extends Statement {
 
     /**
      * Vsechny statementy v bloku
      */
-    @Getter
     private final List<Statement> childStatements = new ArrayList<>();
 
     /**

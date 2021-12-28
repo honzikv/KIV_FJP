@@ -37,6 +37,8 @@ public class PL0Compiler {
 
         // Entrypoint je vstup cele gramatiky, takze staci navstivit ten a rekurzivne resolvujeme zbytek
         var entrypointVisitor = new EntrypointVisitor();
-        entrypointVisitor.visit(parser.entrypoint());
+        var entrypoint = entrypointVisitor.visit(parser.entrypoint());
+
+        entrypoint.getChildStatements().forEach(System.out::println);
     }
 }

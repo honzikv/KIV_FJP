@@ -4,8 +4,10 @@ import compiler.language.statement.Statement;
 import compiler.language.statement.StatementType;
 import java.util.List;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class FunctionCall extends Statement {
 
     private final String identifier;

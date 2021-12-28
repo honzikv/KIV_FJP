@@ -21,7 +21,7 @@ public class FunctionVisitor extends CMMLevelAwareVisitor<FunctionDeclaration> {
 
     @Override
     public FunctionDeclaration visitFunctionDeclaration(CMMParser.FunctionDeclarationContext ctx) {
-        var returnType = DataType.valueOf(ctx.FUNCTION_DATA_TYPES().getText().toUpperCase(Locale.ROOT));
+        var returnType = DataType.fromString(ctx.functionDataTypes().getText());
         var identifier = ctx.identifier().getText();
 
         var functionParameters = ctx.functionParameters() != null

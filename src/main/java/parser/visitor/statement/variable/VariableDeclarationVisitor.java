@@ -24,7 +24,7 @@ public class VariableDeclarationVisitor extends CMMLevelAwareVisitor<VariableDec
     @Override
     public VariableDeclarationStatement visitVariableDeclaration(CMMParser.VariableDeclarationContext ctx) {
         var identifier = ctx.identifier().getText();
-        var dataType = DataType.valueOf(ctx.LEGAL_DATA_TYPES().getText().toUpperCase(Locale.ROOT));
+        var dataType = DataType.fromString(ctx.legalDataTypes().getText());
 
         return new VariableDeclarationStatement(depth, identifier, dataType);
     }

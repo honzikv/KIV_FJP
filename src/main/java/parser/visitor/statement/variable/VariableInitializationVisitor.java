@@ -22,8 +22,14 @@ public class VariableInitializationVisitor extends CMMLevelAwareVisitor<Variable
     }
 
     @Override
+    public VariableInitializationStatement visitVariableInitializationStatement(
+            CMMParser.VariableInitializationStatementContext ctx) {
+        return visitVariableInitialization(ctx.variableInitialization());
+    }
+
+    @Override
     public VariableInitializationStatement visitVariableInitialization(CMMParser.VariableInitializationContext ctx) {
-        var dataType = DataType.valueOf(ctx.LEGAL_DATA_TYPES().getText().toUpperCase(Locale.ROOT));
+        var dataType = DataType.fromString(ctx.legalDataTypes().getText());
         var identifier = ctx.identifier().getText();
 
         var chainedIdentifiers = new ArrayList<String>();
@@ -41,6 +47,8 @@ public class VariableInitializationVisitor extends CMMLevelAwareVisitor<Variable
         }
 
         return new VariableInitializationStatement(depth, dataType, identifier, chainedIdentifiers,
-                ctx.LEGAL_DATA_TYPES().getText(), useConst);
+                ctx.legalVariableLiterals().getText(), useConst);
     }
+
+
 }

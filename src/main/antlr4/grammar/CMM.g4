@@ -66,18 +66,16 @@ EXP: 'e';
 WHITESPACE: [\r\t \n] -> skip;
 ALPHABET_LETTER: [A-Za-z];
 
-
-
-
-
 INTEGER_NUMBER: DIGIT+;
 
 // TODO check
-FLOAT_NUMBER: (INTEGER_NUMBER* DOT INTEGER_NUMBER+) | (INTEGER_NUMBER+ DOT);
 STRING_TEXT: [A-Z a-z()0-9!#%&`*+,_\-.\\;[\]^{}~|]; // TODO utf emoji /s
-BOOLEAN_VALUES: TRUE | FALSE;
-LEGAL_VARIABLE_LITERALS: INTEGER_NUMBER | STRING_TEXT | BOOLEAN_VALUES | FLOAT_NUMBER;
-LEGAL_DATA_TYPES: INT | BOOL | FLOAT | STRING;
+legalVariableLiterals: INTEGER_NUMBER | STRING_TEXT
+                        | TRUE | FALSE
+                        | (INTEGER_NUMBER* DOT INTEGER_NUMBER+)
+                        | (INTEGER_NUMBER+ DOT);
+
+legalDataTypes: INT | BOOL | FLOAT | STRING;
 
 // identifikator pro promennou nebo jmeno funkce
 identifier: (ALPHABET_LETTER | UNDERLINE)+ (ALPHABET_LETTER | UNDERLINE | DIGIT)* ;
@@ -85,19 +83,19 @@ identifier: (ALPHABET_LETTER | UNDERLINE)+ (ALPHABET_LETTER | UNDERLINE | DIGIT)
 // = x
 chainAssignment: EQUALS identifier;
 
-variableAssignment: identifier chainAssignment* EQUALS (LEGAL_VARIABLE_LITERALS | expression);
-variableDeclaration: LEGAL_DATA_TYPES identifier;
-variableInitialization: LEGAL_DATA_TYPES identifier chainAssignment* EQUALS (LEGAL_VARIABLE_LITERALS | expression);
+variableAssignment: identifier chainAssignment* EQUALS (legalVariableLiterals | expression) SEMICOLON;
+variableDeclaration: legalDataTypes identifier SEMICOLON;
+variableInitialization: legalDataTypes identifier chainAssignment* EQUALS (legalVariableLiterals | expression) SEMICOLON;
 constVariableInitialization: CONST variableInitialization;
 
 
-FUNCTION_DATA_TYPES: (VOID | LEGAL_DATA_TYPES);
+functionDataTypes: (VOID | legalDataTypes);
 
 // deklarace funkce
-functionDeclaration: FUNCTION_DATA_TYPES identifier LEFT_PAREN functionParameters? RIGHT_PAREN blockScope;
+functionDeclaration: functionDataTypes identifier LEFT_PAREN functionParameters? RIGHT_PAREN blockScope;
 
 // funkcni parametr
-functionParameter: LEGAL_DATA_TYPES identifier;
+functionParameter: legalDataTypes identifier;
 
 // skupina funkcnich parametru
 functionParameters: functionParameter | functionParameter COMMA functionParameters;
@@ -111,7 +109,7 @@ functionCall: identifier LEFT_PAREN identifierChain? RIGHT_PAREN SEMICOLON; // x
 ///
 
 // pocatecni pravidlo
-entrypoint: statement*;
+entrypoint: statement+;
 
 blockScope: LEFT_CURLY (statement)* RIGHT_CURLY; // { } nebo { var x = 1; } nebo { int x() {} ...}
 

@@ -2,16 +2,17 @@ package compiler.language.statement;
 
 import compiler.language.expression.Expression;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * Reprezentuje for cyklus
  */
+@ToString
+@Getter
 public class ForStatement extends Statement {
 
-    @Getter
     private final Expression expression;
 
-    @Getter
     private final BlockScope blockScope;
 
     /**
