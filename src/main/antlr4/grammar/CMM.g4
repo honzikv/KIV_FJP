@@ -46,8 +46,6 @@ RETURN: 'return';
 
 DIGIT: [0-9];
 
-INTEGER_NUMBER: DIGIT+;
-
 
 UNDERLINE: '_';
 SEMICOLON: ';';
@@ -63,58 +61,43 @@ DOUBLE_DOT: '..';
 IN: 'IN';
 TRIPLE_DOT: '...';
 CONST: 'const';
+EXP: 'e';
 
 WHITESPACE: [\r\t \n] -> skip;
 ALPHABET_LETTER: [A-Za-z];
 
 
 
-///
-///        PRAVIDLA PRO PROMENNE
-///
+
+
+INTEGER_NUMBER: DIGIT+;
+
+// TODO check
+FLOAT_NUMBER: (INTEGER_NUMBER* DOT INTEGER_NUMBER+) | (INTEGER_NUMBER+ DOT);
+STRING_TEXT: [A-Z a-z()0-9!#%&`*+,_\-.\\;[\]^{}~|]; // TODO utf emoji /s
+BOOLEAN_VALUES: TRUE | FALSE;
+LEGAL_VARIABLE_LITERALS: INTEGER_NUMBER | STRING_TEXT | BOOLEAN_VALUES | FLOAT_NUMBER;
+LEGAL_DATA_TYPES: INT | BOOL | FLOAT | STRING;
 
 // identifikator pro promennou nebo jmeno funkce
 identifier: (ALPHABET_LETTER | UNDERLINE)+ (ALPHABET_LETTER | UNDERLINE | DIGIT)* ;
 
-
 // = x
 chainAssignment: EQUALS identifier;
 
-//LEGAL_STRING_LITERALS: [A-Z a-z()0-9!#%&`*+,_\-.\\;[\]^{}~|]; // TODO utf emoji /s
-//LEGAL_STRING_LITERALS: [A-Za-z]; // TODO utf emoji /s
-
-legalStringLiterals: ALPHABET_LETTER | WHITESPACE | ;
-
-// Deklarace - pouze deklarujeme typ bez prirazeni napr. int x;
-variableDeclaration: legalDataType identifier SEMICOLON;
-
-// Assignment je mysleno napr. x = 2; nebo int x = y + z;
-intVariableAssignment: identifier chainAssignment* EQUALS (INTEGER_NUMBER | expression);
-boolVariableAssignment: identifier chainAssignment* EQUALS (TRUE | FALSE | expression);
-stringVariableAssignment: identifier chainAssignment* EQUALS
-                          ((SINGLE_QUOTE ALPHABET_LETTER+ SINGLE_QUOTE) | (DOUBLE_QUOTE ALPHABET_LETTER+ DOUBLE_QUOTE));
-variableAssignment: (intVariableAssignment | stringVariableAssignment | boolVariableAssignment) SEMICOLON;
-
-// Initialization - zaroven vytvorime a priradime. Napr. bool y = false;
-intVariableIntialization: INT intVariableAssignment;
-boolVariableInitialization: BOOL boolVariableAssignment;
-stringVariableInitialization: STRING stringVariableAssignment;
-variableInitialization: (intVariableIntialization | stringVariableInitialization | boolVariableInitialization) SEMICOLON;
+variableAssignment: identifier chainAssignment* EQUALS (LEGAL_VARIABLE_LITERALS | expression);
+variableDeclaration: LEGAL_DATA_TYPES identifier;
+variableInitialization: LEGAL_DATA_TYPES identifier chainAssignment* EQUALS (LEGAL_VARIABLE_LITERALS | expression);
 constVariableInitialization: CONST variableInitialization;
 
 
-///
-///         PRAVIDLA PRO FUNKCE
-///
-
-// Povoleny datovy typ
-legalDataType: INT | BOOL | FLOAT;
+FUNCTION_DATA_TYPES: (VOID | LEGAL_DATA_TYPES);
 
 // deklarace funkce
-functionDeclaration: (VOID | legalDataType) identifier LEFT_PAREN functionParameters* RIGHT_PAREN;
+functionDeclaration: FUNCTION_DATA_TYPES identifier LEFT_PAREN functionParameters? RIGHT_PAREN blockScope;
 
 // funkcni parametr
-functionParameter: legalDataType identifier;
+functionParameter: LEGAL_DATA_TYPES identifier;
 
 // skupina funkcnich parametru
 functionParameters: functionParameter | functionParameter COMMA functionParameters;

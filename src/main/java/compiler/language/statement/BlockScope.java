@@ -18,7 +18,7 @@ public class BlockScope extends Statement {
 
     /**
      * Konstruktor
-     * @param depthLevel hloubka zanoreni - chceme aktualni uroven + 1
+     * @param depthLevel hloubka zanoreni
      */
     public BlockScope(long depthLevel) {
         super(StatementType.BlockStatement, depthLevel);
@@ -26,7 +26,7 @@ public class BlockScope extends Statement {
 
     /**
      * Prida statement na konec seznamu
-     * @param statement
+     * @param statement statement, ktery se ma pridat
      */
     public void addStatement(Statement statement) {
         childStatements.add(statement);

@@ -1,0 +1,12 @@
+package parser.visitor.statement.variable;
+
+import main.antlr4.grammar.CMMBaseVisitor;
+import main.antlr4.grammar.CMMParser;
+
+public class ChainAssignmentVisitor extends CMMBaseVisitor<String> {
+
+    @Override
+    public String visitChainAssignment(CMMParser.ChainAssignmentContext ctx) {
+        return ctx.identifier().getText();
+    }
+}
