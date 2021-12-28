@@ -24,7 +24,7 @@ public class ControlFlowVisitor extends CMMLevelAwareVisitor<Statement> {
     public Statement visitIfStatement(CMMParser.IfStatementContext ctx) {
         var expression = new ExpressionVisitor(depth).visit(ctx.parenthesesExpression());
         var ifScope = new BlockScopeVisitor(depth).visit(ctx.blockScope().get(0));
-        var elseScope = ctx.blockScope().get(1) != null
+        var elseScope = ctx.blockScope().size() > 1
                 ? new BlockScopeVisitor(depth).visit(ctx.blockScope().get(1))
                 : null;
 

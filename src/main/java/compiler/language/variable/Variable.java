@@ -1,5 +1,6 @@
 package compiler.language.variable;
 
+import compiler.language.expression.Expression;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +9,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Variable {
+public class Variable<T> {
 
     /**
      * Jmeno promenne
@@ -19,6 +20,8 @@ public class Variable {
      * Typ promenne
      */
     private DataType dataType;
+
+    private T literalValue;
 
     /**
      * Velikost v blocich
@@ -34,4 +37,8 @@ public class Variable {
      * Zda-li je promenna const
      */
     private boolean isConstant;
+
+    private boolean isLiteralExpression;
+
+    private Expression expression;
 }

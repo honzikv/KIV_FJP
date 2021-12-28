@@ -43,9 +43,7 @@ FALSE: 'false';
 VOID: 'void';
 RETURN: 'return';
 
-
 DIGIT: [0-9];
-
 
 UNDERLINE: '_';
 SEMICOLON: ';';
@@ -66,14 +64,11 @@ EXP: 'e';
 WHITESPACE: [\r\t \n] -> skip;
 ALPHABET_LETTER: [A-Za-z];
 
-INTEGER_NUMBER: DIGIT+;
 
 // TODO check
 STRING_TEXT: [A-Z a-z()0-9!#%&`*+,_\-.\\;[\]^{}~|]; // TODO utf emoji /s
-legalVariableLiterals: INTEGER_NUMBER | STRING_TEXT
-                        | TRUE | FALSE
-                        | (INTEGER_NUMBER* DOT INTEGER_NUMBER+)
-                        | (INTEGER_NUMBER+ DOT);
+//legalVariableLiterals: DIGIT+ | STRING_TEXT+ | TRUE | FALSE | (DIGIT* DOT DIGIT+)| (DIGIT+ DOT);
+legalVariableLiterals: DIGIT+ | TRUE | FALSE | (DIGIT* DOT DIGIT+) | (DIGIT+ DOT) | STRING_TEXT+;
 
 legalDataTypes: INT | BOOL | FLOAT | STRING;
 
@@ -134,7 +129,7 @@ parenthesesExpression: LEFT_PAREN expression RIGHT_PAREN;
 
 // Expression ve for
 // neni c-like ale je to hezke
-forExpression: FOR LEFT_PAREN identifier IN INTEGER_NUMBER (DOUBLE_DOT | IN | TRIPLE_DOT) INTEGER_NUMBER RIGHT_PAREN;
+forExpression: FOR LEFT_PAREN identifier IN DIGIT+ (DOUBLE_DOT | IN | TRIPLE_DOT) DIGIT+ RIGHT_PAREN;
 
 
 expression:

@@ -21,10 +21,10 @@ public enum DataType {
         return switch (input) {
             case "int" -> Integer;
             case "float" -> Float;
-            case "boolean" -> Boolean;
+            case "bool" -> Boolean;
             case "string" -> String;
             case "void" -> Void;
-            default -> Invalid;
+            default -> Invalid; // todo exception handling
         };
 
         // TODO remove
