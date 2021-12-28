@@ -135,14 +135,14 @@ forExpression: FOR LEFT_PAREN identifier IN DIGIT+ (DOUBLE_DOT | IN | TRIPLE_DOT
 expression:
     identifier #identifierExpression
     // operace pro deleni nasobeni a modulo maji stejnou vahu a chceme resolve jako prvni
-    | expression op = (DIV | MOD | MULT) expression #multiplicationExpression
+    | expression operation = (DIV | MOD | MULT) expression #multiplicationExpression
     // operace +-
-    | expression op = (PLUS | MINUS) expression #additionExpression
+    | expression operation = (PLUS | MINUS) expression #additionExpression
     // operace pro provnani
-    | expression op = (GREATER | GREATER_OR_EQUAL | EQUAL | LESSER | LESSER_OR_EQUAL | NOT_EQUAL) expression
+    | expression operation = (GREATER | GREATER_OR_EQUAL | EQUAL | LESSER | LESSER_OR_EQUAL | NOT_EQUAL) expression
     #comparisonExpression
     // binarni operace
-    | expression op = (AND | OR) expression #booleanOperationExpression
+    | expression operation = (AND | OR) expression #booleanOperationExpression
     // odzavorkovani
     | LEFT_PAREN expression RIGHT_PAREN #parenthesizedExpression
     // negace vyrazu
