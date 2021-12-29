@@ -21,7 +21,7 @@ public class FunctionDeclaration extends Statement {
 
     private final List<FunctionParameter> functionParameters;
 
-    private final BlockScope blockScope;
+    private final BlockScope blockScope; // bude typu FunctionBlockScope
 
     public FunctionDeclaration(long depthLevel,
                                DataType returnType,

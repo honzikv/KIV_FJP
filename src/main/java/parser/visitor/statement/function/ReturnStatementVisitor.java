@@ -15,20 +15,22 @@ public class ReturnStatementVisitor extends CMMLevelAwareVisitor<ReturnStatement
 
     @Override
     public ReturnStatement visitReturnStatement(CMMParser.ReturnStatementContext ctx) {
-        if (ctx.VOID() != null) {
-            return new ReturnStatement(depth);
-        }
 
         if (ctx.IDENTIFIER() != null) {
             return new ReturnStatement(depth, ctx.IDENTIFIER().getText());
         }
 
-        if (ctx.legalVariableLiterals().getText() != null) {
+        if (ctx.legalVariableLiterals() != null) {
             var valueExpression = ctx.legalVariableLiterals().getText();
             return new ReturnStatement(depth, new ValueExpression(DataType.getDataTypeFromValue(valueExpression), valueExpression));
         }
 
         // Jinak je to neterminal expression
-        return new ReturnStatement(depth, new ExpressionVisitor(depth).visit(ctx.expression()));
+
+        if (ctx.expression() != null) {
+            return new ReturnStatement(depth, new ExpressionVisitor(depth).visit(ctx.expression()));
+        }
+
+        return new ReturnStatement(depth); // void
     }
 }
