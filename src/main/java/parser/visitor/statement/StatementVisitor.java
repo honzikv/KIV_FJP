@@ -1,6 +1,6 @@
 package parser.visitor.statement;
 
-import compiler.language.statement.Statement;
+import compiler.parsing.statement.Statement;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.BlockScopeVisitor;
 import parser.visitor.CMMLevelAwareVisitor;

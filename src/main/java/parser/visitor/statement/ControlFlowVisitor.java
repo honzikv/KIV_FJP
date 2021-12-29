@@ -1,10 +1,10 @@
 package parser.visitor.statement;
 
-import compiler.language.statement.DoWhileStatement;
-import compiler.language.statement.ForStatement;
-import compiler.language.statement.IfStatement;
-import compiler.language.statement.Statement;
-import compiler.language.statement.WhileStatement;
+import compiler.parsing.statement.DoWhileStatement;
+import compiler.parsing.statement.ForStatement;
+import compiler.parsing.statement.IfStatement;
+import compiler.parsing.statement.Statement;
+import compiler.parsing.statement.WhileStatement;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.BlockScopeVisitor;
 import parser.visitor.CMMLevelAwareVisitor;

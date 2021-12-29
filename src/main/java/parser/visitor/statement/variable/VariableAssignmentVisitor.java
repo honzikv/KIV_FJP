@@ -1,6 +1,6 @@
 package parser.visitor.statement.variable;
 
-import compiler.language.statement.variable.VariableAssignmentStatement;
+import compiler.parsing.statement.variable.VariableAssignmentStatement;
 import java.util.ArrayList;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.CMMLevelAwareVisitor;

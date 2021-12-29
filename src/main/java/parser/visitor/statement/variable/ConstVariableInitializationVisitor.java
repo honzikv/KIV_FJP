@@ -1,6 +1,6 @@
 package parser.visitor.statement.variable;
 
-import compiler.language.statement.variable.VariableInitializationStatement;
+import compiler.parsing.statement.variable.VariableInitializationStatement;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.CMMLevelAwareVisitor;
 

@@ -1,7 +1,7 @@
 package parser.visitor.statement.variable;
 
-import compiler.language.statement.variable.VariableDeclarationStatement;
-import compiler.language.variable.DataType;
+import compiler.parsing.statement.variable.VariableDeclarationStatement;
+import compiler.parsing.DataType;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.CMMLevelAwareVisitor;
 

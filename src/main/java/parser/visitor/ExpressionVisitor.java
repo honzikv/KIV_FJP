@@ -1,12 +1,12 @@
 package parser.visitor;
 
-import compiler.language.expression.BinaryOperationExpression;
-import compiler.language.expression.Expression;
-import compiler.language.expression.IdentifierExpression;
-import compiler.language.expression.OperationType;
-import compiler.language.expression.UnaryOperationExpression;
-import compiler.language.expression.ValueExpression;
-import compiler.language.variable.DataType;
+import compiler.parsing.expression.BinaryOperationExpression;
+import compiler.parsing.expression.Expression;
+import compiler.parsing.expression.IdentifierExpression;
+import compiler.parsing.expression.OperationType;
+import compiler.parsing.expression.UnaryOperationExpression;
+import compiler.parsing.expression.ValueExpression;
+import compiler.parsing.DataType;
 import main.antlr4.grammar.CMMParser;
 
 /**

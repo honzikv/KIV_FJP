@@ -1,7 +1,7 @@
 package parser.visitor;
 
-import compiler.language.statement.BlockScope;
-import compiler.language.statement.function.FunctionBlockScope;
+import compiler.parsing.statement.BlockScope;
+import compiler.parsing.statement.function.FunctionBlockScope;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.statement.StatementVisitor;
 import parser.visitor.statement.function.ReturnStatementVisitor;

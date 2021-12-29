@@ -1,8 +1,8 @@
 package parser.visitor.statement.variable;
 
 
-import compiler.language.statement.variable.VariableInitializationStatement;
-import compiler.language.variable.DataType;
+import compiler.parsing.statement.variable.VariableInitializationStatement;
+import compiler.parsing.DataType;
 import java.util.ArrayList;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.CMMLevelAwareVisitor;

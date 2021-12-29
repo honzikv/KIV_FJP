@@ -1,7 +1,7 @@
 package parser.visitor.statement.function;
 
-import compiler.language.statement.function.FunctionParameter;
-import compiler.language.variable.DataType;
+import compiler.parsing.statement.function.FunctionParameter;
+import compiler.parsing.DataType;
 import java.util.ArrayList;
 import java.util.List;
 import main.antlr4.grammar.CMMParser;

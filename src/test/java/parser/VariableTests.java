@@ -1,8 +1,6 @@
 package parser;
 
-import compiler.language.Entrypoint;
-import compiler.language.statement.variable.VariableInitializationStatement;
-import java.util.List;
+import compiler.parsing.statement.variable.VariableInitializationStatement;
 import main.antlr4.grammar.CMMLexer;
 import main.antlr4.grammar.CMMParser;
 import org.antlr.v4.runtime.CharStreams;

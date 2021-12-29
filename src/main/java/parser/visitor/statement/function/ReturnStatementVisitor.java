@@ -1,8 +1,8 @@
 package parser.visitor.statement.function;
 
-import compiler.language.expression.ValueExpression;
-import compiler.language.statement.function.ReturnStatement;
-import compiler.language.variable.DataType;
+import compiler.parsing.expression.ValueExpression;
+import compiler.parsing.statement.function.ReturnStatement;
+import compiler.parsing.DataType;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.CMMLevelAwareVisitor;
 import parser.visitor.ExpressionVisitor;

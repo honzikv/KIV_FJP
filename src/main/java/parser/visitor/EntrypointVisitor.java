@@ -1,6 +1,6 @@
 package parser.visitor;
 
-import compiler.language.Entrypoint;
+import compiler.parsing.Entrypoint;
 import main.antlr4.grammar.CMMBaseVisitor;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.statement.StatementVisitor;

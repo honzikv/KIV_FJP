@@ -1,8 +1,8 @@
 package parser.visitor.statement.function;
 
-import compiler.language.statement.function.FunctionDeclaration;
-import compiler.language.statement.function.FunctionParameter;
-import compiler.language.variable.DataType;
+import compiler.parsing.statement.function.FunctionDeclaration;
+import compiler.parsing.statement.function.FunctionParameter;
+import compiler.parsing.DataType;
 import java.util.ArrayList;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.BlockScopeVisitor;

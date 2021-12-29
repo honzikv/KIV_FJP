@@ -1,6 +1,6 @@
 package parser.visitor.statement.function;
 
-import compiler.language.statement.function.FunctionCall;
+import compiler.parsing.statement.function.FunctionCall;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.CMMLevelAwareVisitor;
 

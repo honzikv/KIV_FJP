@@ -1,8 +1,6 @@
 package compiler.pl0;
 
 import compiler.utils.IOProvider;
-import java.util.ArrayList;
-import java.util.List;
 import main.antlr4.grammar.CMMLexer;
 import main.antlr4.grammar.CMMParser;
 import org.antlr.v4.runtime.CharStreams;
@@ -14,8 +12,6 @@ import parser.visitor.EntrypointVisitor;
  */
 public class PL0Compiler {
 
-    private final List<PL0Instruction> instructions = new ArrayList<>();
-
     /**
      * Metoda pro spusteni prekladu
      */
@@ -23,7 +19,6 @@ public class PL0Compiler {
         // Ziskame vstup do compileru
         var input = IOProvider.read();
         compile(input);
-        IOProvider.write(instructions);
     }
 
     /**
@@ -40,5 +35,8 @@ public class PL0Compiler {
         var entrypoint = entrypointVisitor.visit(parser.entrypoint());
 
         entrypoint.getChildStatements().forEach(System.out::println);
+
+        var instructionGenerator = new PL0InstructionGenerator(entrypoint);
+        var instructions = instructionGenerator.generate();
     }
 }
