@@ -73,7 +73,7 @@ constVariableInitialization: CONST variableInitialization;
 
 functionDataTypes: (VOID | legalDataTypes);
 blockScope: LEFT_CURLY (statement)* RIGHT_CURLY; // { } nebo { var x = 1; } nebo { int x() {} ...}
-returnStatement: RETURN (IDENTIFIER | legalVariableLiterals | expression | VOID);
+returnStatement: RETURN (IDENTIFIER | legalVariableLiterals | expression | VOID) SEMICOLON;
 functionBlockScope: LEFT_CURLY (statement)* returnStatement RIGHT_CURLY;
 
 // deklarace funkce

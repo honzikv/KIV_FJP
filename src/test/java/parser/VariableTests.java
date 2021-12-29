@@ -20,7 +20,7 @@ public class VariableTests {
     @Test
     public void testBooleanVariables() {
         var input = """
-                int iiintt = false;
+                bool iiintt = false;
                 bool booool = false;
                 """;
 
@@ -33,4 +33,5 @@ public class VariableTests {
             Assert.assertEquals((((VariableInitializationStatement) variable).getLiteralValue()), "false");
         }
     }
+
 }
