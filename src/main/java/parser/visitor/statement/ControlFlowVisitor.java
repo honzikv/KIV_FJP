@@ -8,7 +8,7 @@ import compiler.language.statement.WhileStatement;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.BlockScopeVisitor;
 import parser.visitor.CMMLevelAwareVisitor;
-import parser.visitor.expression.ExpressionVisitor;
+import parser.visitor.ExpressionVisitor;
 
 /**
  * Visitor pro control flow - tzn. cykly, if, apod.

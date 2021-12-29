@@ -5,7 +5,7 @@ import compiler.language.statement.function.ReturnStatement;
 import compiler.language.variable.DataType;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.CMMLevelAwareVisitor;
-import parser.visitor.expression.ExpressionVisitor;
+import parser.visitor.ExpressionVisitor;
 
 public class ReturnStatementVisitor extends CMMLevelAwareVisitor<ReturnStatement> {
 

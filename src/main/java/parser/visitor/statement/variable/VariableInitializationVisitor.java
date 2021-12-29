@@ -6,7 +6,7 @@ import compiler.language.variable.DataType;
 import java.util.ArrayList;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.CMMLevelAwareVisitor;
-import parser.visitor.expression.ExpressionVisitor;
+import parser.visitor.ExpressionVisitor;
 
 public class VariableInitializationVisitor extends CMMLevelAwareVisitor<VariableInitializationStatement> {
 

@@ -1,13 +1,10 @@
 package parser.visitor.statement.variable;
 
 import compiler.language.statement.variable.VariableAssignmentStatement;
-import compiler.language.statement.variable.VariableInitializationStatement;
-import compiler.language.variable.DataType;
 import java.util.ArrayList;
-import java.util.Locale;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.CMMLevelAwareVisitor;
-import parser.visitor.expression.ExpressionVisitor;
+import parser.visitor.ExpressionVisitor;
 
 public class VariableAssignmentVisitor extends CMMLevelAwareVisitor<VariableAssignmentStatement> {
 

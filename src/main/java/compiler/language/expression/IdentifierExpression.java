@@ -9,7 +9,7 @@ public class IdentifierExpression extends Expression {
 
     private final String identifier;
 
-    protected IdentifierExpression(String identifier) {
+    public IdentifierExpression(String identifier) {
         super();
         this.identifier = identifier;
     }
