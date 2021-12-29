@@ -66,7 +66,7 @@ ALPHABET_LETTER: [A-Za-z];
 
 
 // TODO check
-STRING_TEXT: [A-Z a-z()0-9!#%&`*+,_\-.\\;[\]^{}~|]; // TODO utf emoji /s
+STRING_TEXT: [A-Z a-z()0-9!#%&`*+,_\-.\\;[\]^{}~|]; // TODO fixnout - vubec nefunguje pri parsovani
 //legalVariableLiterals: DIGIT+ | STRING_TEXT+ | TRUE | FALSE | (DIGIT* DOT DIGIT+)| (DIGIT+ DOT);
 legalVariableLiterals: DIGIT+ | TRUE | FALSE | (DIGIT* DOT DIGIT+) | (DIGIT+ DOT) | STRING_TEXT+;
 
@@ -133,7 +133,8 @@ forExpression: FOR LEFT_PAREN identifier IN DIGIT+ (DOUBLE_DOT | IN | TRIPLE_DOT
 
 
 expression:
-    identifier #identifierExpression
+    functionCall #functionCallExpression
+    | identifier #identifierExpression
     // operace pro deleni nasobeni a modulo maji stejnou vahu a chceme resolve jako prvni
     | expression operation = (DIV | MOD | MULT) expression #multiplicationExpression
     // operace +-
