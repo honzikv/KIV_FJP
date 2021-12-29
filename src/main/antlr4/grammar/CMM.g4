@@ -87,7 +87,7 @@ functionParameters: functionParameter | functionParameter COMMA functionParamete
 
 identifierChain: IDENTIFIER | IDENTIFIER COMMA identifierChain; // (x1) (x1, x2, ... )
 
-functionCall: IDENTIFIER LEFT_PAREN identifierChain? RIGHT_PAREN SEMICOLON; // x(); nebo x(identifier_chain)
+functionCall: IDENTIFIER LEFT_PAREN identifierChain? RIGHT_PAREN; // x(); nebo x(identifier_chain)
 
 ///
 ///     CONTROL FLOW + obecna pravidla
@@ -109,7 +109,7 @@ statement:
     | constVariableInitialization #constVariableInitializationStatement
     | variableAssignment #variableAssignmentStatement
     | functionDeclaration #functionDeclarationStatement
-    | functionCall #functionCallStatement
+    | functionCall SEMICOLON #functionCallStatement
 ;
 
 // Odzavorkovany vyraz
@@ -120,8 +120,8 @@ parenthesesExpression: LEFT_PAREN expression RIGHT_PAREN;
 forExpression: FOR LEFT_PAREN IDENTIFIER IN INTEGER_NUMBER (DOUBLE_DOT | IN | TRIPLE_DOT) INTEGER_NUMBER RIGHT_PAREN;
 
 expression:
-//    functionCall #functionCallExpression //TODO pridat
-    valueExpr #valueExpression
+    functionCall #functionCallExpression //TODO pridat
+    | valueExpr #valueExpression
     | IDENTIFIER #identifierExpression
     // operace pro deleni nasobeni a modulo maji stejnou vahu a chceme resolve jako prvni
     | expression operation = (DIV | MOD | MULT) expression #multiplicationExpression // / * %
