@@ -2,13 +2,20 @@ package compiler.language.expression;
 
 import compiler.language.variable.DataType;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
-@Getter
+
 @ToString
 public abstract class Expression {
 
-    private final DataType expectedOutput;
+    @Getter
+    @Setter
+    protected DataType expectedOutput;
 
     protected Expression(DataType expectedOutput) { this.expectedOutput = expectedOutput; }
+
+    protected Expression() {
+        expectedOutput = null;
+    }
 }

@@ -14,7 +14,7 @@ import lombok.ToString;
  *
  */
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class VariableInitializationStatement extends VariableAssignmentStatement {
 
     /**

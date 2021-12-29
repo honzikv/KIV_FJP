@@ -16,7 +16,7 @@ public class BlockScope extends Statement {
     /**
      * Vsechny statementy v bloku
      */
-    private final List<Statement> childStatements = new ArrayList<>();
+    protected final List<Statement> childStatements = new ArrayList<>();
 
     /**
      * Konstruktor

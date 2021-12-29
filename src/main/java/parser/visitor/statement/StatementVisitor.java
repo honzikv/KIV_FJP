@@ -20,7 +20,6 @@ public class StatementVisitor extends CMMLevelAwareVisitor<Statement> {
     }
 
 
-
     @Override
     public Statement visitBlockScope(CMMParser.BlockScopeContext ctx) {
         return new BlockScopeVisitor(depth).visit(ctx);

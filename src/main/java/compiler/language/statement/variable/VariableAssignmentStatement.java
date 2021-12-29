@@ -12,7 +12,7 @@ import lombok.ToString;
  * navic promennou i rovnou vytvori
  */
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class VariableAssignmentStatement extends Statement {
 
     /**

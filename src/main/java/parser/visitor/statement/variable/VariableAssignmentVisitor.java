@@ -22,7 +22,7 @@ public class VariableAssignmentVisitor extends CMMLevelAwareVisitor<VariableAssi
 
     @Override
     public VariableAssignmentStatement visitVariableAssignment(CMMParser.VariableAssignmentContext ctx) {
-        var identifier = ctx.identifier().getText();
+        var identifier = ctx.IDENTIFIER().getText();
         var chainedIdentifiers = new ArrayList<String>();
         if (ctx.chainAssignment() != null) {
             var chainAssignmentVisitor = new ChainAssignmentVisitor();

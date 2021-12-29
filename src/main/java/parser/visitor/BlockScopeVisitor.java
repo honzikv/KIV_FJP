@@ -1,9 +1,10 @@
 package parser.visitor;
 
 import compiler.language.statement.BlockScope;
+import compiler.language.statement.function.FunctionBlockScope;
 import main.antlr4.grammar.CMMParser;
-import parser.visitor.statement.ControlFlowVisitor;
 import parser.visitor.statement.StatementVisitor;
+import parser.visitor.statement.function.ReturnStatementVisitor;
 
 public class BlockScopeVisitor extends CMMLevelAwareVisitor<BlockScope> {
     public BlockScopeVisitor(long depth) {
@@ -15,6 +16,21 @@ public class BlockScopeVisitor extends CMMLevelAwareVisitor<BlockScope> {
         var blockScope = new BlockScope(depth + 1);
         ctx.statement().forEach(statementCtx ->
                 blockScope.addStatement(new StatementVisitor(depth + 1).visit(statementCtx)));
+
+        return blockScope;
+    }
+
+    @Override
+    public BlockScope visitFunctionBlockScope(CMMParser.FunctionBlockScopeContext ctx) {
+        var returnStatement = new ReturnStatementVisitor(depth).visit(ctx.returnStatement());
+
+        var blockScope = new FunctionBlockScope(depth + 1, returnStatement);
+
+        if (ctx.statement() != null) {
+            var statementVisitor = new StatementVisitor(depth);
+            ctx.statement().forEach(statementContext ->
+                    blockScope.addStatement(statementVisitor.visit(statementContext)));
+        }
 
         return blockScope;
     }

@@ -5,7 +5,7 @@ import main.antlr4.grammar.CMMParser;
 import parser.visitor.CMMLevelAwareVisitor;
 
 /**
- * Visitor pro zakladni veci ohledne expression
+ * Visitor pro expression
  */
 public class ExpressionVisitor extends CMMLevelAwareVisitor<Expression> {
 
@@ -23,4 +23,6 @@ public class ExpressionVisitor extends CMMLevelAwareVisitor<Expression> {
     public Expression visitParenthesizedExpression(CMMParser.ParenthesizedExpressionContext ctx) {
         return super.visitParenthesizedExpression(ctx);
     }
+
+
 }

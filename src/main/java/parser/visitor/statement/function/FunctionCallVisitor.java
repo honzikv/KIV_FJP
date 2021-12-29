@@ -16,7 +16,7 @@ public class FunctionCallVisitor extends CMMLevelAwareVisitor<FunctionCall> {
 
     @Override
     public FunctionCall visitFunctionCall(CMMParser.FunctionCallContext ctx) {
-        var identifier = ctx.identifier().getText();
+        var identifier = ctx.IDENTIFIER().getText();
         var params = new FunctionIdentifierChainVisitor(depth).visit(ctx.identifierChain());
 
         return new FunctionCall(depth, identifier, params);

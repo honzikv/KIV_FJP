@@ -12,11 +12,13 @@ public class BinaryOperationExpression extends Expression{
 
     private final Expression rightSide;
 
-    private OperationType operation;
+    private final OperationType operation;
 
-    public BinaryOperationExpression(DataType expectedOutput, Expression leftSide, Expression rightSide) {
-        super(expectedOutput);
+    public BinaryOperationExpression(Expression leftSide, Expression rightSide,
+                                     OperationType operation) {
+        super();
         this.leftSide = leftSide;
         this.rightSide = rightSide;
+        this.operation = operation;
     }
 }

@@ -15,6 +15,7 @@ public enum StatementType {
     DoWhileLoop,
     ForEachLoop, // for each item in array { }
     RepeatUntilLoop, // repeat { } until (expression)
+    ReturnStatement,
     FunctionDeclaration, // function int myFunction(int param1) { }
     FunctionParameter,
     FunctionCall // myFunction();

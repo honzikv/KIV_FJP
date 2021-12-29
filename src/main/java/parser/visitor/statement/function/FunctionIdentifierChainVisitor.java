@@ -14,7 +14,7 @@ public class FunctionIdentifierChainVisitor extends CMMLevelAwareVisitor<List<St
 
     @Override
     public List<String> visitIdentifierChain(CMMParser.IdentifierChainContext ctx) {
-        var result = new ArrayList<>(List.of(ctx.identifier().getText()));
+        var result = new ArrayList<>(List.of(ctx.IDENTIFIER().getText()));
 
         if (ctx.identifierChain() != null) {
             result.addAll(visitIdentifierChain(ctx.identifierChain()));

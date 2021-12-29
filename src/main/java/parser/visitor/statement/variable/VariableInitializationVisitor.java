@@ -4,7 +4,6 @@ package parser.visitor.statement.variable;
 import compiler.language.statement.variable.VariableInitializationStatement;
 import compiler.language.variable.DataType;
 import java.util.ArrayList;
-import java.util.Locale;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.CMMLevelAwareVisitor;
 import parser.visitor.expression.ExpressionVisitor;
@@ -29,8 +28,8 @@ public class VariableInitializationVisitor extends CMMLevelAwareVisitor<Variable
 
     @Override
     public VariableInitializationStatement visitVariableInitialization(CMMParser.VariableInitializationContext ctx) {
-        var dataType = DataType.fromString(ctx.legalDataTypes().getText());
-        var identifier = ctx.identifier().getText();
+        var dataType = DataType.convertStringTypeToDataType(ctx.legalDataTypes().getText());
+        var identifier = ctx.IDENTIFIER().getText();
 
         var chainedIdentifiers = new ArrayList<String>();
         if (ctx.chainAssignment() != null) {

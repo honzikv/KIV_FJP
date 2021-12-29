@@ -4,7 +4,6 @@ import compiler.language.statement.function.FunctionDeclaration;
 import compiler.language.statement.function.FunctionParameter;
 import compiler.language.variable.DataType;
 import java.util.ArrayList;
-import java.util.Locale;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.BlockScopeVisitor;
 import parser.visitor.CMMLevelAwareVisitor;
@@ -21,14 +20,14 @@ public class FunctionVisitor extends CMMLevelAwareVisitor<FunctionDeclaration> {
 
     @Override
     public FunctionDeclaration visitFunctionDeclaration(CMMParser.FunctionDeclarationContext ctx) {
-        var returnType = DataType.fromString(ctx.functionDataTypes().getText());
-        var identifier = ctx.identifier().getText();
+        var returnType = DataType.convertStringTypeToDataType(ctx.functionDataTypes().getText());
+        var identifier = ctx.IDENTIFIER().getText();
 
         var functionParameters = ctx.functionParameters() != null
                 ? new FunctionParametersVisitor(depth).visit(ctx.functionParameters())
                 : new ArrayList<FunctionParameter>();
 
-        var blockScope = new BlockScopeVisitor(depth + 1).visit(ctx.blockScope());
+        var blockScope = new BlockScopeVisitor(depth + 1).visit(ctx.functionBlockScope());
 
         return new FunctionDeclaration(depth, returnType, identifier, functionParameters, blockScope);
     }

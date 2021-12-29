@@ -2,7 +2,6 @@ package parser.visitor.statement.variable;
 
 import compiler.language.statement.variable.VariableDeclarationStatement;
 import compiler.language.variable.DataType;
-import java.util.Locale;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.CMMLevelAwareVisitor;
 
@@ -23,8 +22,8 @@ public class VariableDeclarationVisitor extends CMMLevelAwareVisitor<VariableDec
 
     @Override
     public VariableDeclarationStatement visitVariableDeclaration(CMMParser.VariableDeclarationContext ctx) {
-        var identifier = ctx.identifier().getText();
-        var dataType = DataType.fromString(ctx.legalDataTypes().getText());
+        var identifier = ctx.IDENTIFIER().getText();
+        var dataType = DataType.convertStringTypeToDataType(ctx.legalDataTypes().getText());
 
         return new VariableDeclarationStatement(depth, identifier, dataType);
     }

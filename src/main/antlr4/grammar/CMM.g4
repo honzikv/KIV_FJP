@@ -1,49 +1,28 @@
 grammar CMM;
 
 // Datove typy
-INT: 'int';
-BOOL: 'bool';
-FLOAT: 'float';
-STRING: 'string';
+INT: 'int'; BOOL: 'bool'; FLOAT: 'float'; STRING: 'string';
 
 // Aritmeticka operatory
-PLUS: '+';
-MINUS: '-';
-MULT: '*';
-DIV: '/';
-MOD: '%';
+PLUS: '+'; MINUS: '-'; MULT: '*'; DIV: '/'; MOD: '%';
 
 // Porovnani
-GREATER: '>';
-LESSER: '<';
-GREATER_OR_EQUAL: '>=';
-LESSER_OR_EQUAL: '<=';
-EQUAL: '==';
-NOT_EQUAL: '!=';
+GREATER: '>'; LESSER: '<'; GREATER_OR_EQUAL: '>='; LESSER_OR_EQUAL: '<='; EQUAL: '=='; NOT_EQUAL: '!=';
 
 // Binarni operatory
-AND: '&&';
-OR: '||';
-NOT: '!';
+AND: '&&'; OR: '||'; NOT: '!';
 
 EQUALS: '=';
-TERNARY_QM: '?';
 INSTANCE_OF: 'is';
 
 // Keywordy
-IF: 'if';
-ELSE: 'else';
-FOR: 'for';
-WHILE: 'while';
-REPEAT: 'repeat';
-UNTIL: 'until';
-DO: 'do';
-TRUE: 'true';
-FALSE: 'false';
+IF: 'if'; ELSE: 'else';
+
+FOR: 'for'; WHILE: 'while'; REPEAT: 'repeat'; UNTIL: 'until'; DO: 'do';
+
+TRUE: 'true'; FALSE: 'false';
 VOID: 'void';
 RETURN: 'return';
-
-DIGIT: [0-9];
 
 UNDERLINE: '_';
 SEMICOLON: ';';
@@ -59,45 +38,56 @@ DOUBLE_DOT: '..';
 IN: 'IN';
 TRIPLE_DOT: '...';
 CONST: 'const';
-EXP: 'e';
-
-WHITESPACE: [\r\t \n] -> skip;
-ALPHABET_LETTER: [A-Za-z];
-
-
-// TODO check
-STRING_TEXT: [A-Z a-z()0-9!#%&`*+,_\-.\\;[\]^{}~|]; // TODO fixnout - vubec nefunguje pri parsovani
-//legalVariableLiterals: DIGIT+ | STRING_TEXT+ | TRUE | FALSE | (DIGIT* DOT DIGIT+)| (DIGIT+ DOT);
-legalVariableLiterals: DIGIT+ | TRUE | FALSE | (DIGIT* DOT DIGIT+) | (DIGIT+ DOT) | STRING_TEXT+;
-
-legalDataTypes: INT | BOOL | FLOAT | STRING;
 
 // identifikator pro promennou nebo jmeno funkce
-identifier: (ALPHABET_LETTER | UNDERLINE)+ (ALPHABET_LETTER | UNDERLINE | DIGIT)* ;
+//identifier: (ALPHABET_LETTER | UNDERLINE)+ (ALPHABET_LETTER | UNDERLINE | DIGIT)* ;
+IDENTIFIER: (UPPERCASE_LETTER | LOWERCASE_LETTER | '_')+ (UPPERCASE_LETTER | LOWERCASE_LETTER | '_' | DIGIT)*;
 
-// = x
-chainAssignment: EQUALS identifier;
+ALPHABET_LETTER: [A-Za-z];
+fragment LOWERCASE_LETTER: [a-z];
+fragment UPPERCASE_LETTER: [a-z];
+fragment DIGIT: [0-9];
 
-variableAssignment: identifier chainAssignment* EQUALS (legalVariableLiterals | expression) SEMICOLON;
-variableDeclaration: legalDataTypes identifier SEMICOLON;
-variableInitialization: legalDataTypes identifier chainAssignment* EQUALS (legalVariableLiterals | expression) SEMICOLON;
+INTEGER_NUMBER: DIGIT+;
+
+// preskakovani whitespaces
+WHITESPACE: [\r\t \n] -> skip;
+
+// TODO check
+//STRING_TEXT: [A-Z a-z()0-9!#%&`*+,_\-.\\;[\]^{}~|]; // TODO fixnout - vubec nefunguje pri parsovani
+
+//IDENTIFIER: (UPPERCASE_LETTER | LOWERCASE_LETTER | '_')+ (UPPERCASE_LETTER | LOWERCASE_LETTER | '_' | DIGIT)*;
+
+
+//legalVariableLiterals: DIGIT+ | STRING_TEXT+ | TRUE | FALSE | (DIGIT* DOT DIGIT+)| (DIGIT+ DOT);
+//stringLiteral: (SINGLE_QUOTE STRING_TEXT SINGLE_QUOTE) | (DOUBLE_QUOTE STRING_TEXT DOUBLE_QUOTE);
+legalVariableLiterals: INTEGER_NUMBER | TRUE | FALSE | (INTEGER_NUMBER? DOT INTEGER_NUMBER) | (INTEGER_NUMBER DOT);
+
+
+chainAssignment: EQUALS IDENTIFIER;
+variableAssignment: IDENTIFIER chainAssignment* EQUALS (legalVariableLiterals | expression) SEMICOLON;
+variableDeclaration: legalDataTypes IDENTIFIER SEMICOLON;
+variableInitialization: legalDataTypes IDENTIFIER chainAssignment* EQUALS (legalVariableLiterals | expression) SEMICOLON;
 constVariableInitialization: CONST variableInitialization;
 
 
 functionDataTypes: (VOID | legalDataTypes);
+blockScope: LEFT_CURLY (statement)* RIGHT_CURLY; // { } nebo { var x = 1; } nebo { int x() {} ...}
+returnStatement: RETURN (IDENTIFIER | legalVariableLiterals | expression | VOID);
+functionBlockScope: LEFT_CURLY (statement)* returnStatement RIGHT_CURLY;
 
 // deklarace funkce
-functionDeclaration: functionDataTypes identifier LEFT_PAREN functionParameters? RIGHT_PAREN blockScope;
+functionDeclaration: functionDataTypes IDENTIFIER LEFT_PAREN functionParameters? RIGHT_PAREN functionBlockScope;
 
 // funkcni parametr
-functionParameter: legalDataTypes identifier;
+functionParameter: legalDataTypes IDENTIFIER;
 
 // skupina funkcnich parametru
 functionParameters: functionParameter | functionParameter COMMA functionParameters;
 
-identifierChain: identifier | identifier COMMA identifierChain; // (x1) (x1, x2, ... )
+identifierChain: IDENTIFIER | IDENTIFIER COMMA identifierChain; // (x1) (x1, x2, ... )
 
-functionCall: identifier LEFT_PAREN identifierChain? RIGHT_PAREN SEMICOLON; // x(); nebo x(identifier_chain)
+functionCall: IDENTIFIER LEFT_PAREN identifierChain? RIGHT_PAREN SEMICOLON; // x(); nebo x(identifier_chain)
 
 ///
 ///     CONTROL FLOW + obecna pravidla
@@ -106,9 +96,7 @@ functionCall: identifier LEFT_PAREN identifierChain? RIGHT_PAREN SEMICOLON; // x
 // pocatecni pravidlo
 entrypoint: statement+;
 
-blockScope: LEFT_CURLY (statement)* RIGHT_CURLY; // { } nebo { var x = 1; } nebo { int x() {} ...}
 
-// FOREACH ?
 statement:
     blockScope #blockOfCode
     | IF parenthesesExpression blockScope (ELSE blockScope)? #ifStatement
@@ -129,24 +117,25 @@ parenthesesExpression: LEFT_PAREN expression RIGHT_PAREN;
 
 // Expression ve for
 // neni c-like ale je to hezke
-forExpression: FOR LEFT_PAREN identifier IN DIGIT+ (DOUBLE_DOT | IN | TRIPLE_DOT) DIGIT+ RIGHT_PAREN;
-
+forExpression: FOR LEFT_PAREN IDENTIFIER IN INTEGER_NUMBER (DOUBLE_DOT | IN | TRIPLE_DOT) INTEGER_NUMBER RIGHT_PAREN;
 
 expression:
-    functionCall #functionCallExpression
-    | identifier #identifierExpression
+//    functionCall #functionCallExpression //TODO pridat
+    valueExpr #valueExpression
+    | IDENTIFIER #identifierExpression
     // operace pro deleni nasobeni a modulo maji stejnou vahu a chceme resolve jako prvni
-    | expression operation = (DIV | MOD | MULT) expression #multiplicationExpression
-    // operace +-
-    | expression operation = (PLUS | MINUS) expression #additionExpression
-    // operace pro provnani
+    | expression operation = (DIV | MOD | MULT) expression #multiplicationExpression // / * %
+    | expression operation = (PLUS | MINUS) expression #additionExpression // + -
     | expression operation = (GREATER | GREATER_OR_EQUAL | EQUAL | LESSER | LESSER_OR_EQUAL | NOT_EQUAL) expression
     #comparisonExpression
-    // binarni operace
     | expression operation = (AND | OR) expression #booleanOperationExpression
-    // odzavorkovani
     | LEFT_PAREN expression RIGHT_PAREN #parenthesizedExpression
-    // negace vyrazu
     | NOT expression #negationExpression
-    // Unarni minus
-    | op=(PLUS | MINUS) expression #unaryMinusExpression;
+    | operation = (PLUS | MINUS) expression #unaryMinusExpression;
+
+
+valueExpr: INTEGER_NUMBER | TRUE | FALSE | (INTEGER_NUMBER? DOT INTEGER_NUMBER) | (INTEGER_NUMBER DOT);
+
+
+// Legalni datove typy
+legalDataTypes: INT | BOOL | FLOAT | STRING;

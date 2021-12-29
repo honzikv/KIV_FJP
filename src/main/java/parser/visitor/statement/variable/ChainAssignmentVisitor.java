@@ -7,6 +7,6 @@ public class ChainAssignmentVisitor extends CMMBaseVisitor<String> {
 
     @Override
     public String visitChainAssignment(CMMParser.ChainAssignmentContext ctx) {
-        return ctx.identifier().getText();
+        return ctx.IDENTIFIER().getText();
     }
 }
