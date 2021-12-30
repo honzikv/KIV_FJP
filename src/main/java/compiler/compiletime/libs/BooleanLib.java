@@ -11,7 +11,7 @@ public class BooleanLib {
      * @param value boolean hodnota
      */
     public static void addOnStack(GeneratorContext context, Boolean value) {
-        context.appendInstruction(PL0InstructionType.LIT, 0, value ? 0 : 1);
+        context.addInstruction(PL0InstructionType.LIT, 0, value ? 0 : 1);
     }
 
 }

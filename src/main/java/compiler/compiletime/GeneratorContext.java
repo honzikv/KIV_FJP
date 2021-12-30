@@ -81,12 +81,13 @@ public class GeneratorContext {
 
     /**
      * Prida instrukci do kontextu a zvysi instruction number
-     * @param instructionType typ instrukce instrukce
-     * @param stackLevel uroven na zasobniku
+     *
+     * @param instructionType  typ instrukce instrukce
+     * @param stackLevel       uroven na zasobniku
      * @param instructionParam adresa / parametr
      */
-    public void appendInstruction(PL0InstructionType instructionType,
-                             long stackLevel, long instructionParam) {
+    public void addInstruction(PL0InstructionType instructionType,
+                               long stackLevel, long instructionParam) {
         var instruction = new PL0Instruction(instructionType, stackLevel, instructionNumber, instructionParam);
         instructions.add(instruction);
         instructionNumber += 1;

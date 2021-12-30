@@ -78,7 +78,7 @@ public class BinaryOperationExpressionProcessor implements IProcessor {
      */
     private void processIntegerOperation(GeneratorContext context) throws CompileException {
         var operationCode = PL0Utils.getOperationNumberFromOperationType(expression.getOperation());
-        context.appendInstruction(PL0InstructionType.OPR, context.getStackLevel(), operationCode);
+        context.addInstruction(PL0InstructionType.OPR, context.getStackLevel(), operationCode);
     }
 
     /**

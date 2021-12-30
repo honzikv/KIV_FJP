@@ -13,12 +13,12 @@ public class UnaryOperationExpression extends Expression {
     private final OperationType operation;
 
     /**
-     * Leva strana
+     * Vyraz za nebo pred operatorem
      */
-    private final Expression leftSide;
+    private final Expression childExpression;
 
-    public UnaryOperationExpression(Expression leftSide, OperationType operation) {
+    public UnaryOperationExpression(Expression childExpression, OperationType operation) {
         this.operation = operation;
-        this.leftSide = leftSide;
+        this.childExpression = childExpression;
     }
 }

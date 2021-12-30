@@ -14,9 +14,9 @@ public class StringLib {
     public static void addOnStack(GeneratorContext context, String value) {
         // Na zasobnik pridame vsechny znaky
         for (var symbol : value.getBytes(StandardCharsets.UTF_8)) {
-            context.appendInstruction(PL0InstructionType.LIT, 0, symbol);
+            context.addInstruction(PL0InstructionType.LIT, 0, symbol);
         }
         // Zakoncime 0
-        context.appendInstruction(PL0InstructionType.LIT, 0, StringTermination);
+        context.addInstruction(PL0InstructionType.LIT, 0, StringTermination);
     }
 }

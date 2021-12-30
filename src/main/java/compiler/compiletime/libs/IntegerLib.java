@@ -8,6 +8,6 @@ import lombok.AllArgsConstructor;
 public class IntegerLib {
 
     public static void addOnStack(GeneratorContext context, int value) {
-        context.appendInstruction(PL0InstructionType.LIT, 0, value);
+        context.addInstruction(PL0InstructionType.LIT, 0, value);
     }
 }
