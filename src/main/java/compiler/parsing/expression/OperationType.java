@@ -1,24 +1,34 @@
 package compiler.parsing.expression;
 
+import lombok.Getter;
+
 /**
  * Typ operace ve vyrazu
  */
 public enum OperationType {
-    Addition,
-    Subtraction,
-    Multiplication,
-    Division,
-    Modulo,
-    GreaterThan,
-    GreaterOrEqual,
-    Equal,
-    Lesser,
-    LesserOrEqual,
-    NotEqual,
-    BooleanAnd,
-    BooleanOr,
-    BooleanNot,
-    UnaryMinus;
+    Addition("+"),
+    Subtraction("-"),
+    Multiplication("*"),
+    Division("/"),
+    Modulo("%"),
+    GreaterThan(">"),
+    GreaterOrEqual(">="),
+    Equal("=="),
+    Lesser("<"),
+    LesserOrEqual("<="),
+    NotEqual("!="),
+    BooleanAnd("&&"),
+    BooleanOr("||"),
+    BooleanNot("!"),
+    UnaryPlus("+"),
+    UnaryMinus("-");
+
+    @Getter
+    private final String stringValue;
+
+    OperationType(String stringValue) {
+        this.stringValue = stringValue;
+    }
 
     public static OperationType getBinaryOperationType(String operation) {
         return switch (operation) {

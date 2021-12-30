@@ -42,6 +42,7 @@ CONST: 'const';
 // identifikator pro promennou nebo jmeno funkce
 //identifier: (ALPHABET_LETTER | UNDERLINE)+ (ALPHABET_LETTER | UNDERLINE | DIGIT)* ;
 IDENTIFIER: (UPPERCASE_LETTER | LOWERCASE_LETTER | '_')+ (UPPERCASE_LETTER | LOWERCASE_LETTER | '_' | DIGIT)*;
+STRING_TEXT: [A-Z a-z()0-9!#%&`*+,_\-.\\;[\]^{}~|]; // TODO fixnout - vubec nefunguje pri parsovani
 
 ALPHABET_LETTER: [A-Za-z];
 fragment LOWERCASE_LETTER: [a-z];
@@ -54,7 +55,6 @@ INTEGER_NUMBER: DIGIT+;
 WHITESPACE: [\r\t \n] -> skip;
 
 // TODO check
-//STRING_TEXT: [A-Z a-z()0-9!#%&`*+,_\-.\\;[\]^{}~|]; // TODO fixnout - vubec nefunguje pri parsovani
 
 //IDENTIFIER: (UPPERCASE_LETTER | LOWERCASE_LETTER | '_')+ (UPPERCASE_LETTER | LOWERCASE_LETTER | '_' | DIGIT)*;
 

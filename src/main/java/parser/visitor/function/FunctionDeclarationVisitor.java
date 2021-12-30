@@ -24,6 +24,6 @@ public class FunctionDeclarationVisitor extends CMMLevelAwareVisitor<FunctionDef
 
         var blockScope = new BlockScopeVisitor(depth + 1).visit(ctx.functionBlockScope());
 
-        return new FunctionDefinition(depth, returnType, identifier, functionParameters, blockScope);
+        return new FunctionDefinition(returnType, identifier, functionParameters, blockScope);
     }
 }

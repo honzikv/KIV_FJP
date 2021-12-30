@@ -22,9 +22,7 @@ public class InstructionGenerator {
         var result = new ArrayList<PL0Instruction>();
 
         // Pridame prvni instrukci
-        var initInstruction = PL0Instruction.create(
-                rootContext, PL0InstructionType.JMP, 0, 1);
-        rootContext.addInstruction(initInstruction);
+        rootContext.appendInstruction(PL0InstructionType.JMP, 0, 1);
 
         entrypoint.getChildStatements().forEach(statement -> result.addAll(resolveStatement(statement)));
 

@@ -2,6 +2,7 @@ package compiler.compiletime;
 
 import compiler.parsing.FunctionDefinition;
 import compiler.pl0.PL0Instruction;
+import compiler.pl0.PL0InstructionType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +33,7 @@ public class GeneratorContext {
 
     @Getter
     @Setter
-    private long depth;
+    private long stackLevel;
 
     @Getter
     @Setter
@@ -45,32 +46,49 @@ public class GeneratorContext {
     @Getter
     private final List<PL0Instruction> instructions = new ArrayList<>();
 
-    public void addInstruction(PL0Instruction instruction) {
-        instructions.add(instruction);
-    }
-
-    public void incrementInstructionNumber() {
-        instructionNumber += 1;
-    }
-
-    public void addInstructions(List<PL0Instruction> instructionList) {
-        instructions.addAll(instructionList);
-    }
-
     public boolean identifierExists(String identifier) {
-        return variables.containsKey(identifier) || functions.containsKey(identifier);
+        if (variables.containsKey(identifier) || functions.containsKey(identifier)) {
+            return true;
+        }
+
+        return parentContext != null && parentContext.identifierExists(identifier);
     }
 
-    public GeneratorContext(long depth, long stackPointerAddress, long currentInstruction) {
-        this.depth = depth;
+    /**
+     * Ziska promennou z tohoto objektu a nebo rekurzivne z rodicu, pokud existuje
+     * @param identifier hledany identifikator
+     * @return objekt, pokud existuje, jinak null
+     */
+    public Variable getVariableOrDefault(String identifier) {
+        if (variables.containsKey(identifier)) {
+            return variables.get(identifier);
+        }
+
+        return parentContext == null ? null : parentContext.getVariableOrDefault(identifier);
+    }
+
+    public GeneratorContext(long stackLevel, long stackPointerAddress, long currentInstruction) {
+        this.stackLevel = stackLevel;
         this.stackPointerAddress = stackPointerAddress;
         this.instructionNumber = currentInstruction;
         this.variables = new HashMap<>();
     }
 
-    public GeneratorContext(long depth, long stackPointerAddress, long currentInstruction, GeneratorContext parent) {
-        this(depth, stackPointerAddress, currentInstruction);
+    public GeneratorContext(long stackLevel, long stackPointerAddress, long currentInstruction, GeneratorContext parent) {
+        this(stackLevel, stackPointerAddress, currentInstruction);
         this.parentContext = parent;
     }
 
+    /**
+     * Prida instrukci do kontextu a zvysi instruction number
+     * @param instructionType typ instrukce instrukce
+     * @param stackLevel uroven na zasobniku
+     * @param instructionAddress adresa
+     */
+    public void appendInstruction(PL0InstructionType instructionType,
+                             long stackLevel, long instructionAddress) {
+        var instruction = new PL0Instruction(instructionType, stackLevel, instructionNumber, instructionAddress);
+        instructions.add(instruction);
+        instructionNumber += 1;
+    }
 }

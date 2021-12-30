@@ -4,18 +4,18 @@ import lombok.Getter;
 import org.apache.commons.lang3.math.NumberUtils;
 
 public enum DataType {
-    Int("INT"),
-    Boolean("BOOLEAN"),
-    String("STRING"),
-    Float("FLOAT"),
-    Void("VOID"), // pouzite pouze pro return type
-    Invalid("INVALID");
+    Int("int"),
+    Boolean("bool"),
+    String("string"),
+    Float("float"),
+    Void("void"), // pouzite pouze pro return type
+    Invalid("invalid"); // aby byl java compiler spokojeny
 
     @Getter
-    private final String value;
+    private final String stringValue;
 
-    DataType(String value) {
-        this.value = value;
+    DataType(String stringValue) {
+        this.stringValue = stringValue;
     }
 
     public static DataType convertStringTypeToDataType(String input) {

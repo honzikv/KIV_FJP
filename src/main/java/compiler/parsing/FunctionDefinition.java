@@ -1,4 +1,5 @@
 package compiler.parsing;
+
 import compiler.parsing.DataType;
 import compiler.parsing.statement.BlockScope;
 import compiler.parsing.statement.function.FunctionParameter;
@@ -21,8 +22,7 @@ public class FunctionDefinition {
 
     private final BlockScope blockScope; // bude typu FunctionBlockScope
 
-    public FunctionDefinition(long depthLevel,
-                              DataType returnType,
+    public FunctionDefinition(DataType returnType,
                               String identifier,
                               List<FunctionParameter> functionParameters,
                               BlockScope blockScope) {
@@ -31,6 +31,5 @@ public class FunctionDefinition {
         this.functionParameters = functionParameters;
         this.blockScope = blockScope;
     }
-
 
 }

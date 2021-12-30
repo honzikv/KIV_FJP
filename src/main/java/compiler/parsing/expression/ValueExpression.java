@@ -11,13 +11,11 @@ import lombok.ToString;
 @ToString
 public class ValueExpression extends Expression{
 
-    private final DataType dataType;
-
     private final String value;
 
     public ValueExpression(DataType dataType, String value) {
-        super(dataType); // ocekavany vystup je samozrejme datovy typ toho co vstoupilo
-        this.dataType = dataType;
+        // Ocekavany vystup je samozrejme to, co vstoupilo
+        super(dataType);
         this.value = value;
     }
 
