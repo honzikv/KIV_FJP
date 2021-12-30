@@ -61,7 +61,7 @@ public class BinaryOperationExpressionProcessor implements IProcessor {
 
         // processor nam automaticky na levou a pravou stranu nastavil datovy typ, takze resolvovani tohoto je
         // jednoduche. Provedeme check, jestli typy sedi a jestli pro ne operator existuje
-        checkIfExpressionValid(leftSide, rightSide);
+        validate(leftSide, rightSide);
 
         if (expression.getLeftSide().getDataType() == DataType.Int) {
             processIntegerOperation(context);
@@ -92,7 +92,7 @@ public class BinaryOperationExpressionProcessor implements IProcessor {
         return "";
     }
 
-    private void checkIfExpressionValid(Expression leftSide, Expression rightSide) throws CompileException {
+    private void validate(Expression leftSide, Expression rightSide) throws CompileException {
         if (leftSide.getDataType() != rightSide.getDataType()) {
             throw new CompileException("Error, different operand types present in binary expression. Left side is "
                     + leftSide.getDataType().getStringValue() + getValueIfValueExpression(leftSide)

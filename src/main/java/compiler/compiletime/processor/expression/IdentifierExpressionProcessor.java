@@ -7,6 +7,9 @@ import compiler.pl0.PL0InstructionType;
 import compiler.utils.CompileException;
 import lombok.AllArgsConstructor;
 
+/**
+ * Zpracovani vyrazu s identifikatorem
+ */
 @AllArgsConstructor
 public class IdentifierExpressionProcessor implements IProcessor {
 
@@ -25,7 +28,7 @@ public class IdentifierExpressionProcessor implements IProcessor {
         }
 
         // A umistime ji do kontextu
-        context.appendInstruction(PL0InstructionType.LIT, variable.getLevel(), variable.getAddress());
+        context.appendInstruction(PL0InstructionType.LIT, 0, variable.getAddress());
 
         // Nastavime ocekavany typ, abychom mohli kontrolovat vyse
         expression.setDataType(variable.getDataType());
