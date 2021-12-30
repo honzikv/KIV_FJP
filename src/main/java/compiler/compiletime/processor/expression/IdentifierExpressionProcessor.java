@@ -27,8 +27,14 @@ public class IdentifierExpressionProcessor implements IProcessor {
             throw new CompileException("Error, unknown symbol: " + identifier + " referenced before declaration.");
         }
 
+        // Pokud promenna existuje, ale neni inicializovana vyhodime vyjimku
+        if (!variable.isInitalized()) {
+            throw new CompileException("Error, trying to perform operation on uninitialized variable (" +
+                    variable.getIdentifier() + " )!");
+        }
+
         // A umistime ji do kontextu
-        context.addInstruction(PL0InstructionType.LIT, 0, variable.getAddress());
+        context.addInstruction(PL0InstructionType.LOD, 0, variable.getAddress());
 
         // Nastavime ocekavany typ, abychom mohli kontrolovat vyse
         expression.setDataType(variable.getDataType());

@@ -54,8 +54,23 @@ public class GeneratorContext {
         return parentContext != null && parentContext.identifierExists(identifier);
     }
 
+    public boolean variableExistsInCurrentScope(String identifier) {
+        return variables.containsKey(identifier);
+    }
+
+    /**
+     * Prida promennou do lookup tabulky, ale neprida ji na stack
+     *
+     * @param variable
+     */
+    public void addVariableToLookupTable(Variable variable) {
+        variables.put(variable.getIdentifier(), variable);
+    }
+
+
     /**
      * Ziska promennou z tohoto objektu a nebo rekurzivne z rodicu, pokud existuje
+     *
      * @param identifier hledany identifikator
      * @return objekt, pokud existuje, jinak null
      */

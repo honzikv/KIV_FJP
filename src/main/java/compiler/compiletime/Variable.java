@@ -1,7 +1,6 @@
 package compiler.compiletime;
 
 import compiler.parsing.DataType;
-import compiler.parsing.expression.Expression;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,36 +19,49 @@ public class Variable {
     /**
      * Uroven zanoreni v zasobniku
      */
-    private long level;
+    private Long stackLevel;
 
     /**
      * Adresa
      */
-    private long address;
+    private Long address;
 
     /**
      * Typ promenne
      */
     private DataType dataType;
 
-    private String literalValue;
-
-    /**
-     * Velikost v blocich
-     */
-    private int sizeOf;
-
     /**
      * Zda-li je promenna inicializovana
      */
-    private boolean isInitalized;
+    private boolean isInitalized = false;
 
     /**
      * Zda-li je promenna const
      */
-    private boolean isConst;
+    private boolean isConst = false;
 
-    private boolean isLiteralExpression;
+    private Variable() { }
 
-    private Expression expression;
+    public static Variable createVariableDeclaration(String identifier, DataType dataType) {
+        var result = new Variable();
+        result.identifier = identifier;
+        result.isInitalized = false;
+        result.address = null;
+        result.stackLevel = null;
+        result.dataType = dataType;
+        return result;
+    }
+
+    public static Variable createVariableInitialization(String identifier, DataType dataType, long address,
+                                                        long stackLevel, boolean isConst) {
+        var result = new Variable();
+        result.identifier = identifier;
+        result.isInitalized = true;
+        result.address = address;
+        result.stackLevel = stackLevel;
+        result.dataType = dataType;
+        result.isConst = isConst;
+        return result;
+    }
 }
