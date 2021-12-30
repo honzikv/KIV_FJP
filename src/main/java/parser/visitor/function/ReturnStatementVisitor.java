@@ -1,4 +1,4 @@
-package parser.visitor.statement.function;
+package parser.visitor.function;
 
 import compiler.parsing.expression.ValueExpression;
 import compiler.parsing.statement.function.ReturnStatement;

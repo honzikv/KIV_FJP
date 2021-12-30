@@ -1,4 +1,4 @@
-package parser.visitor.statement.function;
+package parser.visitor.function;
 
 import compiler.parsing.statement.function.FunctionCall;
 import main.antlr4.grammar.CMMParser;

@@ -1,20 +1,20 @@
-package parser.visitor.statement.function;
+package parser.visitor.function;
 
 import compiler.parsing.DataType;
-import compiler.parsing.FunctionDeclaration;
+import compiler.parsing.FunctionDefinition;
 import compiler.parsing.statement.function.FunctionParameter;
 import java.util.ArrayList;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.BlockScopeVisitor;
 import parser.visitor.CMMLevelAwareVisitor;
 
-public class FunctionVisitor extends CMMLevelAwareVisitor<FunctionDeclaration> {
-    public FunctionVisitor(long depth) {
+public class FunctionDeclarationVisitor extends CMMLevelAwareVisitor<FunctionDefinition> {
+    public FunctionDeclarationVisitor(long depth) {
         super(depth);
     }
 
     @Override
-    public FunctionDeclaration visitFunctionDeclaration(CMMParser.FunctionDeclarationContext ctx) {
+    public FunctionDefinition visitFunctionDefinition(CMMParser.FunctionDefinitionContext ctx) {
         var returnType = DataType.convertStringTypeToDataType(ctx.functionDataTypes().getText());
         var identifier = ctx.IDENTIFIER().getText();
 
@@ -24,6 +24,6 @@ public class FunctionVisitor extends CMMLevelAwareVisitor<FunctionDeclaration> {
 
         var blockScope = new BlockScopeVisitor(depth + 1).visit(ctx.functionBlockScope());
 
-        return new FunctionDeclaration(depth, returnType, identifier, functionParameters, blockScope);
+        return new FunctionDefinition(depth, returnType, identifier, functionParameters, blockScope);
     }
 }

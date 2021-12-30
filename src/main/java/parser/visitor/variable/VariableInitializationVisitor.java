@@ -1,4 +1,4 @@
-package parser.visitor.statement.variable;
+package parser.visitor.variable;
 
 
 import compiler.parsing.statement.variable.VariableInitializationStatement;

@@ -1,6 +1,6 @@
 package compiler.compiletime;
 
-import compiler.parsing.FunctionDeclaration;
+import compiler.parsing.FunctionDefinition;
 import compiler.pl0.PL0Instruction;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +15,13 @@ import lombok.Setter;
 public class GeneratorContext {
 
     /**
-     * Reference na rodicovsky kontext - muze byt null
+     * Deklararace funkci - toto je staticke, protoze nelze definovat funkci ve funkci
+     */
+    private static final Map<String, FunctionDefinition> functions = new HashMap<>();
+
+    /**
+     * Reference na rodicovsky kontext - muze byt i null, pokud je tento kontext root
+     * Pres tento kontext prohledame, zda-li existuje nejaka promenna
      */
     private GeneratorContext parentContext;
 
@@ -23,11 +29,6 @@ public class GeneratorContext {
      * Lokalni promenne
      */
     private final Map<String, Variable> variables;
-
-    /**
-     * Lokalni funkce
-     */
-    private final Map<String, FunctionDeclaration> functions;
 
     @Getter
     @Setter
@@ -60,14 +61,11 @@ public class GeneratorContext {
         return variables.containsKey(identifier) || functions.containsKey(identifier);
     }
 
-
-
     public GeneratorContext(long depth, long stackPointerAddress, long currentInstruction) {
         this.depth = depth;
         this.stackPointerAddress = stackPointerAddress;
         this.instructionNumber = currentInstruction;
         this.variables = new HashMap<>();
-        this.functions = new HashMap<>();
     }
 
     public GeneratorContext(long depth, long stackPointerAddress, long currentInstruction, GeneratorContext parent) {

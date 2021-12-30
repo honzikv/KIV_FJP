@@ -1,4 +1,4 @@
-package parser.visitor.statement.variable;
+package parser.visitor.variable;
 
 import main.antlr4.grammar.CMMBaseVisitor;
 import main.antlr4.grammar.CMMParser;

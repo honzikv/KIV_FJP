@@ -3,8 +3,7 @@ package parser.visitor;
 import compiler.parsing.statement.BlockScope;
 import compiler.parsing.statement.function.FunctionBlockScope;
 import main.antlr4.grammar.CMMParser;
-import parser.visitor.statement.StatementVisitor;
-import parser.visitor.statement.function.ReturnStatementVisitor;
+import parser.visitor.function.ReturnStatementVisitor;
 
 public class BlockScopeVisitor extends CMMLevelAwareVisitor<BlockScope> {
     public BlockScopeVisitor(long depth) {

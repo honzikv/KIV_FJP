@@ -11,7 +11,7 @@ import lombok.ToString;
  */
 @Getter
 @ToString
-public class FunctionDeclaration {
+public class FunctionDefinition {
 
     private final DataType returnType;
 
@@ -21,11 +21,11 @@ public class FunctionDeclaration {
 
     private final BlockScope blockScope; // bude typu FunctionBlockScope
 
-    public FunctionDeclaration(long depthLevel,
-                               DataType returnType,
-                               String identifier,
-                               List<FunctionParameter> functionParameters,
-                               BlockScope blockScope) {
+    public FunctionDefinition(long depthLevel,
+                              DataType returnType,
+                              String identifier,
+                              List<FunctionParameter> functionParameters,
+                              BlockScope blockScope) {
         this.returnType = returnType;
         this.identifier = identifier;
         this.functionParameters = functionParameters;

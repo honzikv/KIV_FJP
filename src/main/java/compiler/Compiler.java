@@ -36,6 +36,7 @@ public class Compiler {
         var entrypoint = entrypointVisitor.visit(parser.entrypoint());
 
         entrypoint.getChildStatements().forEach(System.out::println);
+        entrypoint.getFunctionDefinitions().forEach(System.out::println);
 
         var instructionGenerator = new InstructionGenerator(entrypoint);
         var instructions = instructionGenerator.generate();

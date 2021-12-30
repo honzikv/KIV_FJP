@@ -1,4 +1,4 @@
-package parser.visitor.statement;
+package parser.visitor;
 
 import compiler.parsing.statement.DoWhileStatement;
 import compiler.parsing.statement.ForStatement;
@@ -6,9 +6,6 @@ import compiler.parsing.statement.IfStatement;
 import compiler.parsing.statement.Statement;
 import compiler.parsing.statement.WhileStatement;
 import main.antlr4.grammar.CMMParser;
-import parser.visitor.BlockScopeVisitor;
-import parser.visitor.CMMLevelAwareVisitor;
-import parser.visitor.ExpressionVisitor;
 
 /**
  * Visitor pro control flow - tzn. cykly, if, apod.

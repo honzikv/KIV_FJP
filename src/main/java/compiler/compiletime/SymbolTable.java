@@ -1,6 +1,6 @@
 package compiler.compiletime;
 
-import compiler.parsing.FunctionDeclaration;
+import compiler.parsing.FunctionDefinition;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +11,7 @@ public class SymbolTable {
 
     private final Map<String, Variable> variables;
 
-    private final Map<String, FunctionDeclaration> functions;
+    private final Map<String, FunctionDefinition> functions;
 
     public SymbolTable() {
         this.variables = new HashMap<>();
@@ -34,11 +34,11 @@ public class SymbolTable {
         return functions.containsKey(identifier);
     }
 
-    public FunctionDeclaration getFunction(String identifier) {
+    public FunctionDefinition getFunction(String identifier) {
         return functions.get(identifier);
     }
 
-    public void addFunction(FunctionDeclaration function) {
+    public void addFunction(FunctionDefinition function) {
         functions.put(function.getIdentifier(), function);
     }
 }

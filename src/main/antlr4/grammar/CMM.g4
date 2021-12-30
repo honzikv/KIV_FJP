@@ -76,8 +76,8 @@ blockScope: LEFT_CURLY (statement)* RIGHT_CURLY; // { } nebo { var x = 1; } nebo
 returnStatement: RETURN (IDENTIFIER | legalVariableLiterals | expression)? SEMICOLON;
 functionBlockScope: LEFT_CURLY (statement)* returnStatement RIGHT_CURLY;
 
-// deklarace funkce
-functionDeclaration: functionDataTypes IDENTIFIER LEFT_PAREN functionParameters? RIGHT_PAREN functionBlockScope;
+// definice funkce
+functionDefinition: functionDataTypes IDENTIFIER LEFT_PAREN functionParameters? RIGHT_PAREN functionBlockScope;
 
 // funkcni parametr
 functionParameter: legalDataTypes IDENTIFIER;
@@ -94,7 +94,7 @@ functionCall: IDENTIFIER LEFT_PAREN identifierChain? RIGHT_PAREN; // x(); nebo x
 ///
 
 // pocatecni pravidlo
-entrypoint: (functionDeclaration | statement)*;
+entrypoint: (functionDefinition | statement)*;
 
 
 statement:

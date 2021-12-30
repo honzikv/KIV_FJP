@@ -1,14 +1,15 @@
-package parser.visitor.statement;
+package parser.visitor;
 
 import compiler.parsing.statement.Statement;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.BlockScopeVisitor;
 import parser.visitor.CMMLevelAwareVisitor;
-import parser.visitor.statement.function.FunctionCallVisitor;
-import parser.visitor.statement.variable.ConstVariableInitializationVisitor;
-import parser.visitor.statement.variable.VariableAssignmentVisitor;
-import parser.visitor.statement.variable.VariableDeclarationVisitor;
-import parser.visitor.statement.variable.VariableInitializationVisitor;
+import parser.visitor.ControlFlowVisitor;
+import parser.visitor.function.FunctionCallVisitor;
+import parser.visitor.variable.ConstVariableInitializationVisitor;
+import parser.visitor.variable.VariableAssignmentVisitor;
+import parser.visitor.variable.VariableDeclarationVisitor;
+import parser.visitor.variable.VariableInitializationVisitor;
 
 /**
  * Wrapper okolo vsech statement visitoru

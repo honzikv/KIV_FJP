@@ -1,4 +1,4 @@
-package parser.visitor.statement.function;
+package parser.visitor.function;
 
 import java.util.ArrayList;
 import java.util.Arrays;
