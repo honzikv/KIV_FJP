@@ -45,7 +45,7 @@ IDENTIFIER: (UPPERCASE_LETTER | LOWERCASE_LETTER | '_')+ (UPPERCASE_LETTER | LOW
 
 ALPHABET_LETTER: [A-Za-z];
 fragment LOWERCASE_LETTER: [a-z];
-fragment UPPERCASE_LETTER: [a-z];
+fragment UPPERCASE_LETTER: [A-Z];
 fragment DIGIT: [0-9];
 
 INTEGER_NUMBER: DIGIT+;
@@ -94,7 +94,7 @@ functionCall: IDENTIFIER LEFT_PAREN identifierChain? RIGHT_PAREN; // x(); nebo x
 ///
 
 // pocatecni pravidlo
-entrypoint: statement+;
+entrypoint: (functionDeclaration | statement)*;
 
 
 statement:
@@ -108,7 +108,7 @@ statement:
     | variableInitialization #variableInitializationStatement
     | constVariableInitialization #constVariableInitializationStatement
     | variableAssignment #variableAssignmentStatement
-    | functionDeclaration #functionDeclarationStatement
+//    | functionDeclaration #functionDeclarationStatement
     | functionCall SEMICOLON #functionCallStatement
 ;
 

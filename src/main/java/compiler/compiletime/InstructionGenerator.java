@@ -1,29 +1,31 @@
-package compiler.pl0;
+package compiler.compiletime;
 
 import compiler.parsing.Entrypoint;
 import compiler.parsing.statement.Statement;
-import compiler.runtime.SymbolTable;
+import compiler.pl0.PL0Instruction;
+import compiler.pl0.PL0InstructionType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PL0InstructionGenerator {
+public class InstructionGenerator {
 
     private final Entrypoint entrypoint;
 
-    private int returnAddress;
+    private final GeneratorContext rootContext;
 
-    /**
-     * Globalni tabulka symbolu
-     */
-    private final SymbolTable symbolTable;
-
-    public PL0InstructionGenerator(Entrypoint entrypoint) {
+    public InstructionGenerator(Entrypoint entrypoint) {
         this.entrypoint = entrypoint;
-        this.symbolTable = new SymbolTable();
+        this.rootContext = new GeneratorContext(0, 0, 1);
     }
 
     public List<PL0Instruction> generate() {
         var result = new ArrayList<PL0Instruction>();
+
+        // Pridame prvni instrukci
+        var initInstruction = PL0Instruction.create(
+                rootContext, PL0InstructionType.JMP, 0, 1);
+        rootContext.addInstruction(initInstruction);
+
         entrypoint.getChildStatements().forEach(statement -> result.addAll(resolveStatement(statement)));
 
         return result;

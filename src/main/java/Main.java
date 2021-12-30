@@ -1,4 +1,4 @@
-import compiler.pl0.PL0Compiler;
+import compiler.Compiler;
 
 /**
  * Entrypoint programu pri spusteni prekladu
@@ -10,7 +10,7 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
-        new PL0Compiler()
+        new Compiler()
                 .run();
     }
 }

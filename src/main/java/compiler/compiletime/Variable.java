@@ -1,4 +1,4 @@
-package compiler.runtime;
+package compiler.compiletime;
 
 import compiler.parsing.DataType;
 import compiler.parsing.expression.Expression;
@@ -16,6 +16,16 @@ public class Variable {
      * Jmeno promenne
      */
     private String identifier;
+
+    /**
+     * Uroven zanoreni v zasobniku
+     */
+    private long level;
+
+    /**
+     * Adresa
+     */
+    private long address;
 
     /**
      * Typ promenne
@@ -37,7 +47,7 @@ public class Variable {
     /**
      * Zda-li je promenna const
      */
-    private boolean isConstant;
+    private boolean isConst;
 
     private boolean isLiteralExpression;
 

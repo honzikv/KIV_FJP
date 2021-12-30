@@ -1,5 +1,6 @@
-package compiler.pl0;
+package compiler;
 
+import compiler.compiletime.InstructionGenerator;
 import compiler.utils.IOProvider;
 import main.antlr4.grammar.CMMLexer;
 import main.antlr4.grammar.CMMParser;
@@ -10,7 +11,7 @@ import parser.visitor.EntrypointVisitor;
 /**
  * Objekt prekladace, ktery se vola z mainu a provede preklad ze vstupu
  */
-public class PL0Compiler {
+public class Compiler {
 
     /**
      * Metoda pro spusteni prekladu
@@ -36,7 +37,7 @@ public class PL0Compiler {
 
         entrypoint.getChildStatements().forEach(System.out::println);
 
-        var instructionGenerator = new PL0InstructionGenerator(entrypoint);
+        var instructionGenerator = new InstructionGenerator(entrypoint);
         var instructions = instructionGenerator.generate();
     }
 }

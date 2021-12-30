@@ -5,7 +5,6 @@ package compiler.parsing.statement;
  */
 public enum StatementType {
     VariableAssignment, // prirazeni -> int x = 2;
-    ConstVariableInitialization,
     VariableInitialization,
     VariableDeclaration,
     IfStatement,
@@ -16,7 +15,6 @@ public enum StatementType {
     ForEachLoop, // for each item in array { }
     RepeatUntilLoop, // repeat { } until (expression)
     ReturnStatement,
-    FunctionDeclaration, // function int myFunction(int param1) { }
     FunctionParameter,
     FunctionCall // myFunction();
     ;

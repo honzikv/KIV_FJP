@@ -5,7 +5,6 @@ import main.antlr4.grammar.CMMParser;
 import parser.visitor.BlockScopeVisitor;
 import parser.visitor.CMMLevelAwareVisitor;
 import parser.visitor.statement.function.FunctionCallVisitor;
-import parser.visitor.statement.function.FunctionVisitor;
 import parser.visitor.statement.variable.ConstVariableInitializationVisitor;
 import parser.visitor.statement.variable.VariableAssignmentVisitor;
 import parser.visitor.statement.variable.VariableDeclarationVisitor;
@@ -68,11 +67,6 @@ public class StatementVisitor extends CMMLevelAwareVisitor<Statement> {
     @Override
     public Statement visitBlockOfCode(CMMParser.BlockOfCodeContext ctx) {
         return new BlockScopeVisitor(depth).visit(ctx);
-    }
-
-    @Override
-    public Statement visitFunctionDeclarationStatement(CMMParser.FunctionDeclarationStatementContext ctx) {
-        return new FunctionVisitor(depth).visit(ctx);
     }
 
     @Override

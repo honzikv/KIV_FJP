@@ -1,5 +1,6 @@
 package compiler.parsing.expression;
 
+import compiler.compiletime.IResolvable;
 import compiler.parsing.DataType;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +8,7 @@ import lombok.ToString;
 
 
 @ToString
-public abstract class Expression {
+public abstract class Expression implements IResolvable {
 
     @Getter
     @Setter
@@ -18,4 +19,6 @@ public abstract class Expression {
     protected Expression() {
         expectedOutput = null;
     }
+
+
 }

@@ -1,6 +1,6 @@
-package compiler.runtime;
+package compiler.compiletime;
 
-import compiler.parsing.statement.function.FunctionDeclaration;
+import compiler.parsing.FunctionDeclaration;
 import java.util.HashMap;
 import java.util.Map;
 

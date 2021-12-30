@@ -1,8 +1,9 @@
 package compiler.parsing.statement.function;
 
+
+import compiler.parsing.DataType;
 import compiler.parsing.statement.Statement;
 import compiler.parsing.statement.StatementType;
-import compiler.parsing.DataType;
 import lombok.Getter;
 import lombok.ToString;
 
