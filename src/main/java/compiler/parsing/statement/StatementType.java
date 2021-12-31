@@ -8,7 +8,7 @@ public enum StatementType {
     VariableInitialization,
     VariableDeclaration,
     IfStatement,
-    BlockStatement,
+    BlockScope,
     ForLoop, // for i in (0, 10) { }
     WhileLoop, // while (expression) { }
     DoWhileLoop,
@@ -17,6 +17,5 @@ public enum StatementType {
     ReturnStatement,
     FunctionParameter,
     FunctionCall // myFunction();
-    ;
 
 }

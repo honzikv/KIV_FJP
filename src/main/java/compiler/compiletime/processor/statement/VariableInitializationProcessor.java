@@ -9,10 +9,8 @@ import compiler.compiletime.libs.FloatLib;
 import compiler.compiletime.libs.IntegerLib;
 import compiler.compiletime.processor.expression.ExpressionProcessor;
 import compiler.parsing.DataType;
-import compiler.parsing.expression.Expression;
 import compiler.parsing.statement.variable.VariableAssignmentStatement;
 import compiler.parsing.statement.variable.VariableInitializationStatement;
-import compiler.pl0.PL0InstructionType;
 import compiler.utils.CompileException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,57 +23,6 @@ import lombok.AllArgsConstructor;
 public class VariableInitializationProcessor implements IProcessor {
 
     private final VariableAssignmentStatement variableStatement;
-
-    private Variable getVariableOrThrowException(GeneratorContext context, String identifier) throws CompileException {
-        var variable = context.getVariableOrDefault(identifier);
-        if (variable == null) {
-            throw new CompileException("Error, variable with identifier " + variableStatement.getIdentifier() +
-                    " does not exist!");
-        }
-        return variable;
-    }
-
-    /**
-     * Nastavi hodnotu dane promenne
-     *
-     * @param value      hodnota
-     * @param identifier promenna
-     */
-    private void setVariableValue(GeneratorContext context, String value, String identifier) throws CompileException {
-        // Ziskame promennou
-        var variable = getVariableOrThrowException(context, identifier);
-    }
-
-    /**
-     * Nastavi vysledek vyrazu pro danou promennou
-     *
-     * @param context
-     * @param expression
-     * @param identifier
-     */
-    private void setVariableExpression(GeneratorContext context, Expression expression, String identifier)
-            throws CompileException {
-        var variable = getVariableOrThrowException(context, identifier);
-
-        // Vyraz musime vyhodnotit
-        var expressionProcessor = new ExpressionProcessor(expression);
-        expressionProcessor.process(context);
-
-        // Nyni je na stacku vysledek vyrazu, takze ho muzeme nacist do promenne
-        if (variable.isInitalized()) {
-            // Promenna je inicializovana, takze staci nahrat do pameti nekde na stacku
-            context.addInstruction(PL0InstructionType.LOD, variable.getStackLevel(), variable.getAddress());
-        }
-    }
-
-    void createVariableIfNotInitialized(GeneratorContext context, Variable variable) {
-        if (variable.isInitalized()) {
-            return;
-        }
-
-        context.addInstruction(PL0InstructionType.LIT, 0, 0);
-        variable.setAddress(context.getStackPointerAddress());
-    }
 
     /**
      * Prida promenne do kontextu. Pokud v kontextu uz existuji vyhodi vyjimky
@@ -105,6 +52,11 @@ public class VariableInitializationProcessor implements IProcessor {
         }
     }
 
+    /**
+     * Ziska vsechny identifikatory, ktere se prirazuji
+     *
+     * @return
+     */
     private List<String> getVariableIdentifiers() {
         var identifiers = new ArrayList<String>();
         identifiers.add(variableStatement.getIdentifier());
@@ -139,7 +91,7 @@ public class VariableInitializationProcessor implements IProcessor {
             return;
         }
 
-        processExpression(variables);
+        processExpression(context, variables);
     }
 
     /**
@@ -151,7 +103,8 @@ public class VariableInitializationProcessor implements IProcessor {
      */
     private void validateVariable(Variable variable, DataType dataType) throws CompileException {
         if (variable.getDataType() != dataType) {
-            throw new CompileException("Error, trying to assign integer value to non-integer variable with" +
+            throw new CompileException("Error, trying to assign" + dataType.getStringValue() +
+                    " value to non-integer variable with" +
                     " identifier" + variable.getIdentifier());
         }
 
@@ -243,9 +196,56 @@ public class VariableInitializationProcessor implements IProcessor {
             case String -> processStringVariables(context, variables, value);
             default -> throw new CompileException("Error, invalid data type present");
         }
+        variables.forEach(variable -> variable.setInitalized(true));
     }
 
-    private void processExpression(List<Variable> variables) {
+    /**
+     * Zpracuje vyraz a ulozi ho do seznamu promennych
+     *
+     * @param context   kontext, kam se vyraz bude ukladat
+     * @param variables seznam promennych
+     */
+    private void processExpression(GeneratorContext context, List<Variable> variables) throws CompileException {
+        var expression = variableStatement.getExpression();
 
+        // Vyraz musime pridat na zasobnik
+        var expressionProcessor = new ExpressionProcessor(expression);
+        expressionProcessor.process(context);
+
+        // Pro prvni promennou nacteme vysledek operace ze stacku
+        var variable = variables.get(0);
+        validateVariable(variable, expression.getDataType());
+
+        switch (variable.getDataType()) {
+            case Int -> IntegerLib.loadToVariable(context, variable.getAddress());
+            case Boolean -> BooleanLib.loadToVariable(context, variable.getAddress());
+            case Float -> FloatLib.loadToVariable(context, variable.getAddress());
+            default -> throw new CompileException("Error while reading variable from stack during expression assignment");
+        }
+        variable.setInitalized(true);
+
+        // Pro zbytek nacteme vysledek z promenne na stack a ze stacku na jejich adresu
+        for (var i = 1; i < variables.size(); i += 1) {
+            var chainedVariable = variables.get(i);
+            validateVariable(chainedVariable, expression.getDataType());
+
+            switch (variable.getDataType()) {
+                case Int -> {
+                    IntegerLib.loadFromVariable(context, variable.getAddress());
+                    IntegerLib.loadToVariable(context, chainedVariable.getAddress());
+                }
+                case Boolean -> {
+                    BooleanLib.loadFromVariable(context, variable.getAddress());
+                    BooleanLib.loadToVariable(context, chainedVariable.getAddress());
+                }
+                case Float -> {
+                    FloatLib.loadFromVariable(context, variable.getAddress());
+                    FloatLib.loadToVariable(context, chainedVariable.getAddress());
+                }
+                default -> throw new CompileException("Error while reading " +
+                        "variable from stack during expression assignment");
+            }
+            chainedVariable.setInitalized(true);
+        }
     }
 }

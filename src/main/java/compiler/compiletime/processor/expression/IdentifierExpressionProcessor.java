@@ -35,6 +35,7 @@ public class IdentifierExpressionProcessor implements IProcessor {
 
         // A umistime ji do kontextu
         context.addInstruction(PL0InstructionType.LOD, 0, variable.getAddress());
+        context.incrementStackPointer();
 
         // Nastavime ocekavany typ, abychom mohli kontrolovat vyse
         expression.setDataType(variable.getDataType());

@@ -5,6 +5,7 @@ import compiler.compiletime.IProcessor;
 import compiler.parsing.expression.BinaryOperationExpression;
 import compiler.parsing.expression.Expression;
 import compiler.parsing.expression.IdentifierExpression;
+import compiler.parsing.expression.UnaryOperationExpression;
 import compiler.parsing.expression.ValueExpression;
 import compiler.utils.CompileException;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,9 @@ public class ExpressionProcessor implements IProcessor {
                     .process(context);
 
             case Value -> new ValueExpressionProcessor((ValueExpression) expression)
+                    .process(context);
+
+            case Unary -> new UnaryOperationExpressionProcessor((UnaryOperationExpression) expression)
                     .process(context);
         }
     }

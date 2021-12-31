@@ -114,6 +114,38 @@ public class GeneratorContext {
         instructionNumber += 1;
     }
 
+    /**
+     * Inkrementace stack pointeru
+     */
+    public void incrementStackPointer() {
+        this.stackPointerAddress += 1;
+    }
+
+    /**
+     * Zvysi adresu stack pointeru o dany pocet
+     *
+     * @param amount pocet, o ktery se ma adresa zvysit
+     */
+    public void increaseStackPointer(int amount) {
+        this.stackPointerAddress += amount;
+    }
+
+    /**
+     * Dekrementace stack pointeru
+     */
+    public void decrementStackPointer() {
+        this.stackPointerAddress -= 1;
+    }
+
+    /**
+     * Snizi adresu stack pointeru o dany pocet
+     *
+     * @param amount pocet, o ktery se ma adresa snizit
+     */
+    public void decreaseStackPointer(int amount) {
+        this.stackPointerAddress -= amount;
+    }
+
     public void allocateVariable(Variable variable) throws CompileException {
         switch (variable.getDataType()) {
             case Int -> allocateVariable(variable, 0);

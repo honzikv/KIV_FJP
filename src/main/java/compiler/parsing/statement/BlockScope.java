@@ -23,7 +23,7 @@ public class BlockScope extends Statement {
      * @param depthLevel hloubka zanoreni
      */
     public BlockScope(long depthLevel) {
-        super(StatementType.BlockStatement, depthLevel);
+        super(StatementType.BlockScope, depthLevel);
     }
 
     /**

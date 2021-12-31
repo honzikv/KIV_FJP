@@ -38,32 +38,32 @@ public class VariableAssignmentStatement extends Statement {
     /**
      * Prirazeni vyrazem
      */
-    protected final Expression expressionValue;
+    protected final Expression expression;
 
 
     public VariableAssignmentStatement(long depthLevel,
                                        String identifier,
                                        List<String> chainedIdentifiers,
-                                       Expression expressionValue) {
+                                       Expression expression) {
         super(StatementType.VariableAssignment, depthLevel);
         this.identifier = identifier;
         this.chainedIdentifiers = chainedIdentifiers;
         this.isLiteralExpression = false;
         this.literalValue = null;
-        this.expressionValue = expressionValue;
+        this.expression = expression;
     }
 
     protected VariableAssignmentStatement(StatementType statementType,
                                           long depthLevel,
                                           String identifier,
                                           List<String> chainedIdentifiers,
-                                          Expression expressionValue) {
+                                          Expression expression) {
         super(statementType, depthLevel);
         this.identifier = identifier;
         this.chainedIdentifiers = chainedIdentifiers;
         this.isLiteralExpression = false;
         this.literalValue = null;
-        this.expressionValue = expressionValue;
+        this.expression = expression;
     }
 
     public VariableAssignmentStatement(long depthLevel,
@@ -73,7 +73,7 @@ public class VariableAssignmentStatement extends Statement {
         super(StatementType.VariableInitialization, depthLevel);
         this.identifier = identifier;
         this.literalValue = literalValue;
-        this.expressionValue = null;
+        this.expression = null;
         this.isLiteralExpression = true;
         this.chainedIdentifiers = chainedIdentifiers;
     }
@@ -86,7 +86,7 @@ public class VariableAssignmentStatement extends Statement {
         super(statementType, depthLevel);
         this.identifier = identifier;
         this.literalValue = literalValue;
-        this.expressionValue = null;
+        this.expression = null;
         this.isLiteralExpression = true;
         this.chainedIdentifiers = chainedIdentifiers;
     }
