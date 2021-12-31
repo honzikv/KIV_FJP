@@ -18,6 +18,7 @@ public class UnaryOperationExpression extends Expression {
     private final Expression childExpression;
 
     public UnaryOperationExpression(Expression childExpression, OperationType operation) {
+        super(ExpressionType.Unary);
         this.operation = operation;
         this.childExpression = childExpression;
     }

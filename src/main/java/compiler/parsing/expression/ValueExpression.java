@@ -9,13 +9,14 @@ import lombok.ToString;
  */
 @Getter
 @ToString
-public class ValueExpression extends Expression{
+public class ValueExpression extends Expression {
 
     private final String value;
 
     public ValueExpression(DataType dataType, String value) {
         // Ocekavany vystup je samozrejme to, co vstoupilo
-        super(dataType);
+        super(ExpressionType.Value, dataType);
+        this.expressionType = ExpressionType.Value;
         this.value = value;
     }
 

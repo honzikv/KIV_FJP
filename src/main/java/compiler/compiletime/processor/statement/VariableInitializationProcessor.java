@@ -115,6 +115,25 @@ public class VariableInitializationProcessor implements IProcessor {
         }
     }
 
+    /**
+     * Inicializuje promennou, pokud neni inicializovana
+     *
+     * @param context
+     * @param variable
+     */
+    private void initializeVariableIfUninitialized(GeneratorContext context, Variable variable) throws CompileException {
+        if (variable.isInitalized()) {
+            return;
+        }
+
+        switch (variable.getDataType()) {
+            case Int -> context.allocateVariable(variable, 0);
+            case Float -> context.allocateVariable(variable, 0.0f);
+            case Boolean -> context.allocateVariable(variable, false);
+            default -> throw new CompileException("Error, invalid data type for variable initialization provided");
+        }
+    }
+
     private void processIntegerVariables(GeneratorContext context, List<Variable> variables, String value)
             throws CompileException {
         var intValue = DataTypeParseUtils.getIntegerOrDefault(value);
@@ -199,6 +218,7 @@ public class VariableInitializationProcessor implements IProcessor {
         variables.forEach(variable -> variable.setInitalized(true));
     }
 
+
     /**
      * Zpracuje vyraz a ulozi ho do seznamu promennych
      *
@@ -214,10 +234,14 @@ public class VariableInitializationProcessor implements IProcessor {
 
         // Pro prvni promennou nacteme vysledek operace ze stacku
         var variable = variables.get(0);
+        initializeVariableIfUninitialized(context, variable);
         validateVariable(variable, expression.getDataType());
 
         switch (variable.getDataType()) {
-            case Int -> IntegerLib.loadToVariable(context, variable.getAddress());
+            case Int -> {
+                if (!variable.isInitalized())
+                    IntegerLib.loadToVariable(context, variable.getAddress());
+            }
             case Boolean -> BooleanLib.loadToVariable(context, variable.getAddress());
             case Float -> FloatLib.loadToVariable(context, variable.getAddress());
             default -> throw new CompileException("Error while reading variable from stack during expression assignment");
@@ -228,6 +252,7 @@ public class VariableInitializationProcessor implements IProcessor {
         for (var i = 1; i < variables.size(); i += 1) {
             var chainedVariable = variables.get(i);
             validateVariable(chainedVariable, expression.getDataType());
+            initializeVariableIfUninitialized(context, chainedVariable);
 
             switch (variable.getDataType()) {
                 case Int -> {

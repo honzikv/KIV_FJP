@@ -1,6 +1,7 @@
 package compiler;
 
 import compiler.compiletime.InstructionGenerator;
+import compiler.utils.CompileException;
 import compiler.utils.IOProvider;
 import main.antlr4.grammar.CMMLexer;
 import main.antlr4.grammar.CMMParser;
@@ -16,7 +17,7 @@ public class Compiler {
     /**
      * Metoda pro spusteni prekladu
      */
-    public void run() {
+    public void run() throws CompileException {
         // Ziskame vstup do compileru
         var input = IOProvider.read();
         compile(input);
@@ -24,9 +25,10 @@ public class Compiler {
 
     /**
      * Metoda pro samotnou kompilaci instrukci
+     *
      * @param input
      */
-    private void compile(String input) {
+    private void compile(String input) throws CompileException {
         // Vytvorime lexer a parser
         var lexer = new CMMLexer(CharStreams.fromString(input));
         var parser = new CMMParser(new CommonTokenStream(lexer));

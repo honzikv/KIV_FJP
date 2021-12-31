@@ -15,7 +15,7 @@ public class BinaryOperationExpression extends Expression {
 
     public BinaryOperationExpression(Expression leftSide, Expression rightSide,
                                      OperationType operation) {
-        super();
+        super(ExpressionType.Binary);
         this.leftSide = leftSide;
         this.rightSide = rightSide;
         this.operation = operation;

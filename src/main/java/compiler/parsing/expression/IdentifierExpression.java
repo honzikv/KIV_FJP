@@ -10,7 +10,7 @@ public class IdentifierExpression extends Expression {
     private final String identifier;
 
     public IdentifierExpression(String identifier) {
-        super();
+        super(ExpressionType.Identifier);
         this.identifier = identifier;
     }
 

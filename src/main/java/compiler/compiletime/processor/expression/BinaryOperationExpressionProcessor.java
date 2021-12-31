@@ -65,6 +65,7 @@ public class BinaryOperationExpressionProcessor implements IProcessor {
 
         if (expression.getLeftSide().getDataType() == DataType.Int) {
             processIntegerOperation(context);
+            expression.setDataType(DataType.Int);
             return;
         }
 

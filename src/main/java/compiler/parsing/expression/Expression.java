@@ -16,12 +16,13 @@ public abstract class Expression {
     @Getter
     protected ExpressionType expressionType;
 
-    protected Expression(DataType dataType) {
-        this.dataType = dataType;
+    protected Expression(ExpressionType expressionType) {
+        this.expressionType = expressionType;
     }
 
-    protected Expression() {
-        dataType = null;
+    protected Expression(ExpressionType expressionType, DataType dataType) {
+        this.expressionType = expressionType;
+        this.dataType = dataType;
     }
 
 
