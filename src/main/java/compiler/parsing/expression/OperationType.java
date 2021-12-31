@@ -52,6 +52,7 @@ public enum OperationType {
 
     public static OperationType getUnaryOperationType(String operation) {
         return switch (operation) {
+            case "+" -> UnaryPlus;
             case "-" -> UnaryMinus;
             case "!" -> BooleanNot;
             default -> NotEqual; // nestane se, pouze kvuli jave

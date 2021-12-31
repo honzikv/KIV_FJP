@@ -177,7 +177,7 @@ public class VariableInitializationProcessor implements IProcessor {
             throws CompileException {
         var boolValue = DataTypeParseUtils.getBooleanOrDefault(value);
         if (boolValue == null) {
-            throw new CompileException("Error, invalid value for float variable: " + value);
+            throw new CompileException("Error, invalid value for bool variable: " + value);
         }
 
         for (var variable : variables) {
