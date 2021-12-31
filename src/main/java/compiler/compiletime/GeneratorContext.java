@@ -56,12 +56,8 @@ public class GeneratorContext {
         return functions.containsKey(identifier);
     }
 
-    public boolean identifierExists(String identifier) {
-        if (variables.containsKey(identifier) || functions.containsKey(identifier)) {
-            return true;
-        }
-
-        return parentContext != null && parentContext.identifierExists(identifier);
+    public void addFunction(FunctionDefinition function) {
+        functions.put(function.getIdentifier(), function);
     }
 
     public boolean variableExistsInCurrentScope(String identifier) {
@@ -77,6 +73,7 @@ public class GeneratorContext {
         variables.put(variable.getIdentifier(), variable);
     }
 
+    public int getNextInstructionNumber() { return instructions.size(); }
 
     /**
      * Ziska promennou z tohoto objektu a nebo rekurzivne z rodicu, pokud existuje
@@ -123,6 +120,16 @@ public class GeneratorContext {
             case INT -> stackPointerAddress += instructionParam;
             case STO, JMC, OPR -> stackPointerAddress -= 1;
         }
+    }
+
+    /**
+     * Ziska danou instrukci
+     *
+     * @param idx
+     * @return
+     */
+    public PL0Instruction getInstruction(int idx) {
+        return instructions.get(idx);
     }
 
     public void allocateVariable(Variable variable) throws CompileException {

@@ -6,6 +6,7 @@ import compiler.compiletime.libs.BooleanLib;
 import compiler.compiletime.libs.FloatLib;
 import compiler.compiletime.libs.IntegerLib;
 import compiler.parsing.FunctionDefinition;
+import compiler.pl0.PL0InstructionType;
 import compiler.utils.CompileException;
 import lombok.AllArgsConstructor;
 
@@ -37,5 +38,7 @@ public class FunctionDefinitionProcessor implements IProcessor {
 
         var totalSize = FunctionSize + getParamsSize();
 
+        // Vytvorime misto pro argumenty
+        context.addInstruction(PL0InstructionType.INT, 0, totalSize);
     }
 }
