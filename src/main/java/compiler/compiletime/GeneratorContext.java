@@ -1,8 +1,14 @@
 package compiler.compiletime;
 
+import compiler.compiletime.libs.BooleanLib;
+import compiler.compiletime.libs.FloatLib;
+import compiler.compiletime.libs.IntegerLib;
+import compiler.compiletime.libs.StringLib;
+import compiler.parsing.DataType;
 import compiler.parsing.FunctionDefinition;
 import compiler.pl0.PL0Instruction;
 import compiler.pl0.PL0InstructionType;
+import compiler.utils.CompileException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -106,5 +112,54 @@ public class GeneratorContext {
         var instruction = new PL0Instruction(instructionType, stackLevel, instructionNumber, instructionParam);
         instructions.add(instruction);
         instructionNumber += 1;
+    }
+
+    public void allocateVariable(Variable variable) throws CompileException {
+        switch (variable.getDataType()) {
+            case Int -> allocateVariable(variable, 0);
+            case Float -> allocateVariable(variable, 0.0f);
+            case Boolean -> allocateVariable(variable, false);
+            default -> throw new CompileException("Error, invalid data type present");
+        }
+    }
+
+    public void allocateVariable(Variable variable, Integer value) throws CompileException {
+        if (variable.getDataType() != DataType.Int) {
+            throw new CompileException("Error, trying to allocate integer to a non-integer variable");
+        }
+
+        IntegerLib.addOnStack(this, value);
+        variable.setAddress(stackPointerAddress);
+        stackPointerAddress += IntegerLib.sizeOf();
+    }
+
+    public void allocateVariable(Variable variable, Float value) throws CompileException {
+        if (variable.getDataType() != DataType.Float) {
+            throw new CompileException("Error, trying to allocate float to a non-float variable");
+        }
+
+        FloatLib.addOnStack(this, value);
+        variable.setAddress(stackPointerAddress);
+        stackPointerAddress += FloatLib.sizeOf();
+    }
+
+    public void allocateVariable(Variable variable, Boolean value) throws CompileException {
+        if (variable.getDataType() != DataType.Boolean) {
+            throw new CompileException("Error, trying to allocate boolean to a non-boolean variable");
+        }
+
+        BooleanLib.addOnStack(this, value);
+        variable.setAddress(stackPointerAddress);
+        stackPointerAddress += BooleanLib.sizeOf();
+    }
+
+    public void allocateVariable(Variable variable, String value) throws CompileException {
+        if (variable.getDataType() != DataType.String) {
+            throw new CompileException("Error, trying to allocate string to a non-string variable");
+        }
+
+        StringLib.addOnStack(this, value);
+        variable.setAddress(stackPointerAddress);
+        stackPointerAddress += StringLib.sizeOf(value);
     }
 }

@@ -19,4 +19,8 @@ public class StringLib {
         // Zakoncime 0
         context.addInstruction(PL0InstructionType.LIT, 0, StringTermination);
     }
+
+    public static int sizeOf(String string) {
+        return string.length() + 1; // + 0 terminal
+    }
 }
