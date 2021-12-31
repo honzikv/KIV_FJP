@@ -79,7 +79,8 @@ public class VariableInitializationProcessor implements IProcessor {
         for (var identifier : identifiers) {
             var variable = context.getVariableOrDefault(identifier);
             if (variable == null) {
-                throw new CompileException("Error, variable with identifier " + identifier + " was assigned before declaration");
+                throw new CompileException("Error, variable with identifier " + identifier +
+                        " was assigned before declaration");
             }
 
             variables.add(variable);

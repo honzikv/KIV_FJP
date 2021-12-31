@@ -52,6 +52,10 @@ public class GeneratorContext {
     @Getter
     private final List<PL0Instruction> instructions = new ArrayList<>();
 
+    public boolean functionExists(String identifier) {
+        return functions.containsKey(identifier);
+    }
+
     public boolean identifierExists(String identifier) {
         if (variables.containsKey(identifier) || functions.containsKey(identifier)) {
             return true;
@@ -112,38 +116,13 @@ public class GeneratorContext {
         var instruction = new PL0Instruction(instructionType, stackLevel, instructionNumber, instructionParam);
         instructions.add(instruction);
         instructionNumber += 1;
-    }
 
-    /**
-     * Inkrementace stack pointeru
-     */
-    public void incrementStackPointer() {
-        this.stackPointerAddress += 1;
-    }
-
-    /**
-     * Zvysi adresu stack pointeru o dany pocet
-     *
-     * @param amount pocet, o ktery se ma adresa zvysit
-     */
-    public void increaseStackPointer(int amount) {
-        this.stackPointerAddress += amount;
-    }
-
-    /**
-     * Dekrementace stack pointeru
-     */
-    public void decrementStackPointer() {
-        this.stackPointerAddress -= 1;
-    }
-
-    /**
-     * Snizi adresu stack pointeru o dany pocet
-     *
-     * @param amount pocet, o ktery se ma adresa snizit
-     */
-    public void decreaseStackPointer(int amount) {
-        this.stackPointerAddress -= amount;
+        // Navic musime adekvatne upravit stack pointer
+        switch (instructionType) {
+            case LIT, LOD -> stackPointerAddress += 1;
+            case INT -> stackPointerAddress += instructionParam;
+            case STO, JMC, OPR -> stackPointerAddress -= 1;
+        }
     }
 
     public void allocateVariable(Variable variable) throws CompileException {

@@ -21,7 +21,6 @@ public class FloatLib {
             context.addInstruction(PL0InstructionType.STO, 0, variableAddress + i);
         }
 
-        context.decreaseStackPointer(sizeOf());
     }
 
     public static void loadFromVariable(GeneratorContext context, long variableAddress) {
@@ -29,7 +28,6 @@ public class FloatLib {
             context.addInstruction(PL0InstructionType.LOD, 0, variableAddress + i);
         }
 
-        context.increaseStackPointer(sizeOf());
     }
 
 }

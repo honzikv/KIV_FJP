@@ -3,7 +3,7 @@ package parser.visitor;
 import compiler.parsing.Entrypoint;
 import main.antlr4.grammar.CMMBaseVisitor;
 import main.antlr4.grammar.CMMParser;
-import parser.visitor.function.FunctionDeclarationVisitor;
+import parser.visitor.function.FunctionDefinitionVisitor;
 
 /**
  * Visitor pro vstup programu - tzn. uplny zacatek derivacniho stromu.
@@ -24,7 +24,7 @@ public class EntrypointVisitor extends CMMBaseVisitor<Entrypoint> {
         }
 
         if (ctx.functionDefinition() != null) {
-            var functionVisitor = new FunctionDeclarationVisitor(0);
+            var functionVisitor = new FunctionDefinitionVisitor(0);
             ctx.functionDefinition().forEach(functionDeclaration ->
                     entrypoint.addFunctionDefinition(functionVisitor.visit(functionDeclaration)));
         }

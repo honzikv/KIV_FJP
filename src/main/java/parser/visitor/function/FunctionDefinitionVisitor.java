@@ -8,8 +8,8 @@ import main.antlr4.grammar.CMMParser;
 import parser.visitor.BlockScopeVisitor;
 import parser.visitor.CMMLevelAwareVisitor;
 
-public class FunctionDeclarationVisitor extends CMMLevelAwareVisitor<FunctionDefinition> {
-    public FunctionDeclarationVisitor(long depth) {
+public class FunctionDefinitionVisitor extends CMMLevelAwareVisitor<FunctionDefinition> {
+    public FunctionDefinitionVisitor(long depth) {
         super(depth);
     }
 

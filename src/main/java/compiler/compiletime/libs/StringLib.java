@@ -18,7 +18,6 @@ public class StringLib {
         }
         // Zakoncime 0
         context.addInstruction(PL0InstructionType.LIT, 0, StringTermination);
-        context.increaseStackPointer(value.length() + 1);
     }
 
     public static int sizeOf(String string) {
