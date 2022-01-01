@@ -32,8 +32,8 @@ public class EntrypointProcessor implements IProcessor {
         // Trochu osklive, ale vytvorime processor pro blockScope a zavolame funkci pro alokaci promennych
         var blockScope = new BlockScope(0);
         entrypoint.getStatements().forEach(blockScope::addStatement);
-        var blockScopeProcessor = new BlockScopeProcessor(blockScope, true, 0);
-        blockScopeProcessor.allocateSpaceForVariables(context);
+        var blockScopeProcessor = new BlockScopeProcessor(blockScope, true, 0, context);
+        blockScopeProcessor.allocateSpace(context);
 
         // Zpracujeme funkce (pokud jsou)
         var functionProcessor = new FunctionDefinitionProcessor();

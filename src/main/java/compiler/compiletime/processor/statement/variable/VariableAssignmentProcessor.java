@@ -44,7 +44,7 @@ public class VariableAssignmentProcessor implements IProcessor {
 
         // Pokud je promenna konstantni a inicializovana vyhodime exception
         // Neinicializovana je pouze v pripade, ze jsme ji prave vytvorili
-        if (variable.isConst() && variable.isInitalized()) {
+        if (variable.isConst() && variable.isInitialized()) {
             throw new CompileException("Error, trying to reassign constant value!");
         }
     }
@@ -126,7 +126,7 @@ public class VariableAssignmentProcessor implements IProcessor {
                 case Boolean -> VariableAssignmentProcessor.processBooleanVariable(context, variable, value);
                 default -> throw new CompileException("Error, invalid data type present");
             }
-            variable.setInitalized(true);
+            variable.setInitialized(true);
         }
     }
 
@@ -150,14 +150,14 @@ public class VariableAssignmentProcessor implements IProcessor {
 
         // Nacteme dana data do promenne
         VariableUtils.loadToVariable(context, variable);
-        variable.setInitalized(true);
+        variable.setInitialized(true);
 
         // Pro zbytek nacteme vysledek z promenne na stack a ze stacku na jejich adresu
         for (var i = 1; i < variables.size(); i += 1) {
             var chainedVariable = variables.get(i);
             VariableAssignmentProcessor.validateVariable(chainedVariable, expression.getDataType());
             VariableUtils.loadToVariable(context, variable, chainedVariable);
-            chainedVariable.setInitalized(true);
+            chainedVariable.setInitialized(true);
         }
     }
 }

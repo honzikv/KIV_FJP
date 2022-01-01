@@ -8,7 +8,8 @@ import compiler.compiletime.processor.statement.variable.VariableInitializationP
 import compiler.parsing.statement.BlockScope;
 import compiler.parsing.statement.IfStatement;
 import compiler.parsing.statement.Statement;
-import compiler.parsing.statement.function.ReturnStatement;
+import compiler.parsing.statement.loop.ForLoopStatement;
+import compiler.parsing.statement.loop.WhileLoopStatement;
 import compiler.parsing.statement.variable.VariableAssignmentStatement;
 import compiler.parsing.statement.variable.VariableDeclarationStatement;
 import compiler.parsing.statement.variable.VariableInitializationStatement;
@@ -27,11 +28,9 @@ public class StatementProcessor implements IProcessor {
     @Override
     public void process(GeneratorContext context) throws CompileException {
         // Zpracovani provedeme tak, ze zjistime typ z enumu a pretypujeme na danou implementaci
+        // slo by to samozrejme udelat i pres reflexi nebo pomoci instanceof, ale Java z nejakeho duvodu nema instanceof
+        // switch a enum bude pravdepodobne stejne rychlejsi
         switch (statement.getStatementType()) {
-            case ReturnStatement -> new ReturnStatementProcessor((ReturnStatement) statement)
-                    .process(context);
-            // Assignment a inicializace jsou temer to same, krome toho ze inicializace navic "deklaruje", takze
-            // to zpracovava stejna trida
             case VariableAssignment -> new VariableAssignmentProcessor(
                     (VariableAssignmentStatement) statement)
                     .process(context);
@@ -40,11 +39,17 @@ public class StatementProcessor implements IProcessor {
                     .process(context);
             case VariableDeclaration -> new VariableDeclarationProcessor((VariableDeclarationStatement) statement)
                     .process(context);
-            case BlockScope -> new BlockScopeProcessor((BlockScope) statement, false, context.getStackLevel())
+            case BlockScope -> {
+                var blockScopeProcessor = new BlockScopeProcessor((BlockScope) statement, true,
+                        context.getStackLevel(), context);
+                blockScopeProcessor.allocateSpace();
+                blockScopeProcessor.process(context);
+            }
+
+            case WhileLoop, DoWhileLoop -> new WhileLoopProcessor((WhileLoopStatement) statement)
                     .process(context);
-//            case WhileLoop, DoWhileLoop, ForLoop, ForEachLoop, RepeatUntilLoop -> new LoopProcessor(
-//                    (ForStatement) statement)
-//                    .process(context);
+            case ForLoop -> new ForLoopProcessor((ForLoopStatement) statement)
+                    .process(context);
             case IfStatement -> new IfStatementProcessor((IfStatement) statement)
                     .process(context);
 //            case FunctionCall -> new FunctionCallProcessor((FunctionCall) statement)

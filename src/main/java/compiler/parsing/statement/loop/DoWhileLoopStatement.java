@@ -11,9 +11,9 @@ import lombok.ToString;
  */
 @ToString
 @Getter
-public class DoWhileLoopStatement extends ForLoopStatement {
+public class DoWhileLoopStatement extends WhileLoopStatement {
 
     public DoWhileLoopStatement(long depthLevel, Expression expression, BlockScope blockScope) {
-        super(StatementType.DoWhileLoop, depthLevel, expression, blockScope);
+        super(StatementType.WhileLoop, depthLevel, expression, blockScope);
     }
 }

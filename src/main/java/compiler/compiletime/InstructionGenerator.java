@@ -16,7 +16,7 @@ public class InstructionGenerator {
 
     public InstructionGenerator(Entrypoint entrypoint) {
         this.entrypoint = entrypoint;
-        this.rootContext = new GeneratorContext(0, 0, 0);
+        this.rootContext = new GeneratorContext();
     }
 
     public List<PL0Instruction> generate() throws CompileException {
@@ -30,7 +30,7 @@ public class InstructionGenerator {
         }
 
 
-        rootContext.getInstructions().forEach(System.out::println);
+        GeneratorContext.getInstructions().forEach(System.out::println);
 
         return result;
     }

@@ -35,7 +35,7 @@ DOUBLE_QUOTE: '"';
 COMMA: ',';
 DOT: '.';
 DOUBLE_DOT: '..';
-IN: 'IN';
+IN: 'in';
 TRIPLE_DOT: '...';
 CONST: 'const';
 
@@ -118,12 +118,13 @@ parenthesesExpression: LEFT_PAREN expression RIGHT_PAREN;
 
 // Expression ve for
 // neni c-like ale je to hezke
-forExpression: FOR LEFT_PAREN IDENTIFIER IN INTEGER_NUMBER (DOUBLE_DOT | IN | TRIPLE_DOT) INTEGER_NUMBER RIGHT_PAREN;
+forExpression: LEFT_PAREN IDENTIFIER IN expression DOUBLE_DOT expression RIGHT_PAREN;
 
 expression:
     functionCall #functionCallExpression //TODO pridat
     | valueExpr #valueExpression
     | IDENTIFIER #identifierExpression
+    | IDENTIFIER INSTANCE_OF legalDataTypes #instanceOfExpression
     // operace pro deleni nasobeni a modulo maji stejnou vahu a chceme resolve jako prvni
     | expression operation = (DIV | MOD | MULT) expression #multiplicationExpression // / * %
     | expression operation = (PLUS | MINUS) expression #additionExpression // + -

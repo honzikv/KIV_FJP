@@ -40,16 +40,17 @@ public class GeneratorContext {
     @Getter
     private final int stackLevel;
 
+    /**
+     * Instrukce jsou "globalni" - protoze jinak by bylo slozite slucovani kontextu
+     */
+    @Getter
+    private final static List<PL0Instruction> instructions = new ArrayList<>();
     @Getter
     @Setter
-    private long stackPointerAddress;
-
+    private static long stackPointerAddress = 0;
     @Getter
     @Setter
-    private long instructionNumber;
-
-    @Getter
-    private final List<PL0Instruction> instructions = new ArrayList<>();
+    private static long instructionNumber = 0;
 
     public boolean functionExists(String identifier) {
         return functions.containsKey(identifier);
@@ -61,15 +62,11 @@ public class GeneratorContext {
 
     public GeneratorContext() {
         this.stackLevel = 0;
-        this.stackPointerAddress = 0;
-        this.instructionNumber = 0;
         this.variables = new HashMap<>();
     }
 
-    public GeneratorContext(int stackLevel, long stackPointerAddress, long currentInstruction) {
+    public GeneratorContext(int stackLevel) {
         this.stackLevel = stackLevel;
-        this.stackPointerAddress = stackPointerAddress;
-        this.instructionNumber = currentInstruction;
         this.variables = new HashMap<>();
     }
 
@@ -90,8 +87,23 @@ public class GeneratorContext {
     }
 
     public GeneratorContext(int stackLevel, GeneratorContext parent) {
-        this(stackLevel, parent.stackPointerAddress, parent.instructionNumber);
+        this(stackLevel);
         this.parentContext = parent;
+    }
+
+    /**
+     * Specialni konstruktor pro funkci, ktery se k rodicovi nepripoji pokud je attachToParent false
+     * Timto zabranime referencim na "globalni" promenne z funkci, takze funkce budou "pure"
+     *
+     * @param stackLevel
+     * @param parent
+     * @param attachToParent
+     */
+    public GeneratorContext(int stackLevel, GeneratorContext parent, boolean attachToParent) {
+        this(stackLevel);
+        if (attachToParent) {
+            this.parentContext = parent;
+        }
     }
 
     public boolean variableDeclaredInCurrentScope(String identifier) {
@@ -148,7 +160,24 @@ public class GeneratorContext {
         return instructions.get(idx);
     }
 
+
     public void allocateVariable(String identifier, DataType dataType) throws CompileException {
+        allocateVariable(identifier, dataType, false);
+    }
+
+    /**
+     * Alokuje danou promennou na stacku
+     *
+     * @param identifier   identifikator
+     * @param dataType     datovy typ
+     * @param ignoreExists zda-li ma vyhodit vyjimku pokud promenna uz existuje - true se pouziva pro for cykly, aby
+     *                     slo pouzit stejnou iteracni promennou vicekrat
+     * @throws CompileException
+     */
+    public void allocateVariable(String identifier, DataType dataType, boolean ignoreExists) throws CompileException {
+        if (!ignoreExists && variables.containsKey(identifier)) {
+            throw new CompileException("Error, reallocation of existing variable in the same scope!");
+        }
         switch (dataType) {
             case Int -> allocateVariable(identifier, 0);
             case Float -> allocateVariable(identifier, 0.0f);
@@ -157,30 +186,22 @@ public class GeneratorContext {
         }
     }
 
-    public void allocateVariable(String identifier, Integer value) throws CompileException {
-        if (variables.containsKey(identifier)) {
-            throw new CompileException("Error, reallocation of existing variable in the same scope!");
-        }
+
+    public void allocateVariable(String identifier, Integer value) {
         var variable = new Variable(identifier, stackPointerAddress, DataType.Int);
         IntegerUtils.addOnStack(this, value);
         variable.setStackLevel(stackLevel);
         variables.put(identifier, variable);
     }
 
-    public void allocateVariable(String identifier, Float value) throws CompileException {
-        if (variables.containsKey(identifier)) {
-            throw new CompileException("Error, reallocation of existing variable in the same scope!");
-        }
+    public void allocateVariable(String identifier, Float value) {
         var variable = new Variable(identifier, stackPointerAddress, DataType.Float);
         FloatUtils.addOnStack(this, value);
         variable.setStackLevel(stackLevel);
         variables.put(identifier, variable);
     }
 
-    public void allocateVariable(String identifier, Boolean value) throws CompileException {
-        if (variables.containsKey(identifier)) {
-            throw new CompileException("Error, reallocation of existing variable in the same scope!");
-        }
+    public void allocateVariable(String identifier, Boolean value) {
         var variable = new Variable(identifier, stackPointerAddress, DataType.Boolean);
         BooleanUtils.addOnStack(this, value);
         variable.setStackLevel(stackLevel);
@@ -189,18 +210,5 @@ public class GeneratorContext {
 
     public FunctionDefinition getFunction(String identifier) {
         return functions.get(identifier);
-    }
-
-    /**
-     * Provede pohlceni daneho kontextu - vezme si jeho instrukce a nastavi si jeho parametry krome
-     * tabulky promennych, kterou zahodi. Timto muze mit kazdy scope promenne se stejnym jmenem
-     * a nedojde k chybe
-     *
-     * @param context kontext, ktery se pohlti. Tento kontext se musi zahodit po zavolani teto metody
-     */
-    public void devourChildContext(GeneratorContext context) {
-        instructions.addAll(context.instructions);
-        stackPointerAddress = context.stackPointerAddress;
-        instructionNumber = context.instructionNumber;
     }
 }

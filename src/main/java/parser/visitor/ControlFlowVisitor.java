@@ -30,10 +30,14 @@ public class ControlFlowVisitor extends CMMLevelAwareVisitor<Statement> {
 
     @Override
     public Statement visitForStatement(CMMParser.ForStatementContext ctx) {
-        var expression = new ExpressionVisitor(depth).visit(ctx.forExpression());
         var blockScope = new BlockScopeVisitor(depth).visit(ctx.blockScope());
 
-        return new ForLoopStatement(depth, expression, blockScope);
+        var identifier = ctx.forExpression().IDENTIFIER().getText();
+        var expressionVisitor = new ExpressionVisitor(depth);
+        var from = expressionVisitor.visit(ctx.forExpression().expression(0));
+        var to = expressionVisitor.visit(ctx.forExpression().expression(1));
+
+        return new ForLoopStatement(depth, from, to, blockScope, identifier);
     }
 
     @Override

@@ -36,7 +36,7 @@ public class Variable {
     /**
      * Zda-li je promenna inicializovana
      */
-    private boolean isInitalized = false;
+    private boolean isInitialized = false;
 
     /**
      * Zda-li se promenna v kodu deklarovala

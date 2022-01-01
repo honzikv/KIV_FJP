@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class FunctionDefinitionProcessor implements IProcessor {
 
-    private static final int FunctionSize = 3;
+    private static final int FunctionSize = 3; // SB, DB a PC
 
     @Setter
     private FunctionDefinition functionDefinition;
@@ -33,17 +33,18 @@ public class FunctionDefinitionProcessor implements IProcessor {
     }
 
     @Override
-    public void process(GeneratorContext context) throws CompileException {
+    public void process(GeneratorContext parentContext) throws CompileException {
         var functionIdentifier = functionDefinition.getIdentifier();
-        if (context.functionExists(functionIdentifier)) {
+        if (parentContext.functionExists(functionIdentifier)) {
             throw new CompileException("Error, redefinition of function with identifier: " + functionIdentifier);
         }
 
         var totalSize = FunctionSize + getParamsSize();
 
+        // Vytvorime kontext pro funkci
+        var context = new GeneratorContext(1, parentContext, false);
+        GeneratorContext.setStackPointerAddress(0); // Reset stack pointeru protoze jsme ve funkci
         // Vytvorime misto pro argumenty a funkci samotnou
-        context.addInstruction(PL0InstructionType.INT, 0, 3);
-
-
+        context.addInstruction(PL0InstructionType.INT, 0, totalSize);
     }
 }

@@ -14,34 +14,31 @@ import lombok.ToString;
 @Getter
 public class ForLoopStatement extends Statement {
 
-    private final Expression expression;
+    private final Expression start;
+
+    private final Expression end;
 
     private final BlockScope blockScope;
+
+    /**
+     * Identifikator k iteracni promenne
+     */
+    private final String identifier;
 
     /**
      * Konstruktor pro for cyklus
      *
      * @param depth      hloubka zanoreni
-     * @param expression vyraz ve for cyklu
+     * @param start      zacatek
+     * @param end        konec
      * @param blockScope scope s vykonnym kodem
      */
-    public ForLoopStatement(long depth, Expression expression, BlockScope blockScope) {
+    public ForLoopStatement(long depth, Expression start, Expression end, BlockScope blockScope, String identifier) {
         super(StatementType.ForLoop, depth);
-        this.expression = expression;
+        this.start = start;
+        this.end = end;
         this.blockScope = blockScope;
+        this.identifier = identifier;
     }
 
-    /**
-     * Pro While a Do While cykly
-     *
-     * @param statementType typ statementu
-     * @param depth         hloubka
-     * @param expression    vyraz
-     * @param blockScope    scope s kodem
-     */
-    protected ForLoopStatement(StatementType statementType, long depth, Expression expression, BlockScope blockScope) {
-        super(statementType, depth);
-        this.expression = expression;
-        this.blockScope = blockScope;
-    }
 }
