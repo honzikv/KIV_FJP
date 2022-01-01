@@ -5,7 +5,7 @@ virtuálního stroje PL/0.
 
 ## Quickstart
 
-- Ke překladu aplikace je potřeba SDK Javy 17 a nejnovější verze Mavenu
+- Ke překladu aplikace je potřeba SDK Javy 17+ a Maven 3.8+
 - Přeložíme pomocí `mvn package`
 
 ## Bonusové body:
