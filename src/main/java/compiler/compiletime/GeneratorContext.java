@@ -16,7 +16,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Kontext compileru - kazdy scope ma svuj vlastni
+ * Kontext compileru - kazdy blok kodu ma svuj vlastni.
+ * Kontexty sdileji seznam, kam ukladaji instrukce + adresu na stack pointer a cislo aktualni instrukce
  */
 public class GeneratorContext {
 
@@ -33,7 +34,7 @@ public class GeneratorContext {
     private GeneratorContext parentContext;
 
     /**
-     * Lokalni promenne (nebo globalni v zavislosti na urovni zanoreni)
+     * Lokalni promenne
      */
     private final Map<String, Variable> variables;
 
@@ -45,9 +46,11 @@ public class GeneratorContext {
      */
     @Getter
     private final static List<PL0Instruction> instructions = new ArrayList<>();
+
     @Getter
     @Setter
     private static long stackPointerAddress = 0;
+
     @Getter
     @Setter
     private static long instructionNumber = 0;
@@ -211,4 +214,5 @@ public class GeneratorContext {
     public FunctionDefinition getFunction(String identifier) {
         return functions.get(identifier);
     }
+
 }

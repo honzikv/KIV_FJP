@@ -39,13 +39,9 @@ public class StatementProcessor implements IProcessor {
                     .process(context);
             case VariableDeclaration -> new VariableDeclarationProcessor((VariableDeclarationStatement) statement)
                     .process(context);
-            case BlockScope -> {
-                var blockScopeProcessor = new BlockScopeProcessor((BlockScope) statement, true,
-                        context.getStackLevel(), context);
-                blockScopeProcessor.allocateSpace();
-                blockScopeProcessor.process(context);
-            }
-
+            case BlockScope -> // Pro blok musime navic alokovat nove misto na stacku aby bylo kam ukladat promenne
+                    new BlockScopeProcessor((BlockScope) statement, true, context.getStackLevel())
+                            .process(context);
             case WhileLoop, DoWhileLoop -> new WhileLoopProcessor((WhileLoopStatement) statement)
                     .process(context);
             case ForLoop -> new ForLoopProcessor((ForLoopStatement) statement)

@@ -45,7 +45,7 @@ public class VariableAssignmentProcessor implements IProcessor {
         // Pokud je promenna konstantni a inicializovana vyhodime exception
         // Neinicializovana je pouze v pripade, ze jsme ji prave vytvorili
         if (variable.isConst() && variable.isInitialized()) {
-            throw new CompileException("Error, trying to reassign constant value!");
+            throw new CompileException("Error, trying to reassign constant variable!");
         }
     }
 

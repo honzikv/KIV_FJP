@@ -32,10 +32,6 @@ public class WhileLoopProcessor implements IProcessor {
      * @throws CompileException
      */
     private void processWhileLoop(GeneratorContext context) throws CompileException {
-        var blockScopeProcessor = new BlockScopeProcessor(whileLoopStatement.getBlockScope(), true,
-                context.getStackLevel(), context);
-        blockScopeProcessor.allocateSpace();
-
         var whileLoopStartIdx = context.getNextInstructionNumber(); // index pro start
 
         var whileExpression = whileLoopStatement.getExpression();
@@ -52,6 +48,8 @@ public class WhileLoopProcessor implements IProcessor {
         var whileLoopExitIdx = context.getNextInstructionNumber();
         context.addInstruction(PL0InstructionType.JMC, 0, Long.MIN_VALUE);
 
+        var blockScopeProcessor = new BlockScopeProcessor(whileLoopStatement.getBlockScope(), true,
+                context.getStackLevel());
         blockScopeProcessor.process(context);
 
         // Pridame podminku pro skok na zacatek
@@ -68,12 +66,11 @@ public class WhileLoopProcessor implements IProcessor {
      * @throws CompileException
      */
     private void processDoWhileLoop(GeneratorContext context) throws CompileException {
-        // Zpracujeme blockScope
-        var blockScopeProcessor = new BlockScopeProcessor(whileLoopStatement.getBlockScope(), true,
-                context.getStackLevel(), context);
-        blockScopeProcessor.allocateSpace();
         var whileLoopStartIdx = context.getNextInstructionNumber();
 
+        // Zpracujeme blockScope
+        var blockScopeProcessor = new BlockScopeProcessor(whileLoopStatement.getBlockScope(), true,
+                context.getStackLevel());
         blockScopeProcessor.process(context);
 
         var whileExpression = whileLoopStatement.getExpression();

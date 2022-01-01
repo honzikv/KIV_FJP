@@ -22,10 +22,6 @@ public class ForLoopProcessor implements IProcessor {
 
     @Override
     public void process(GeneratorContext context) throws CompileException {
-        // Pamet pro blok v cyklu musime alokovat pred behem
-        var blockScopeProcessor = new BlockScopeProcessor(forLoopStatement.getBlockScope(), true,
-                context.getStackLevel(), context);
-        blockScopeProcessor.allocateSpace();
 
         // Pro for cyklus mame kontrolni promennou uz nastavenou od BlockScope processoru, takze staci vypsat kod
         // s kontrolou
@@ -74,6 +70,8 @@ public class ForLoopProcessor implements IProcessor {
         context.addInstruction(PL0InstructionType.JMC, 0, Long.MIN_VALUE);
 
         // Zpracujeme blok
+        var blockScopeProcessor = new BlockScopeProcessor(forLoopStatement.getBlockScope(), true,
+                context.getStackLevel());
         blockScopeProcessor.process(context);
 
         // Inkrementace o 1

@@ -66,4 +66,14 @@ public class VariableUtils {
                     "variable from stack during expression assignment");
         }
     }
+
+    public static int getSizeOf(DataType dataType) throws CompileException {
+        return switch (dataType) {
+            case Int -> IntegerUtils.sizeOf();
+            case Boolean -> BooleanUtils.sizeOf();
+            case Float -> FloatUtils.sizeOf();
+            default -> throw new CompileException("Error while reading " +
+                    "variable from stack during expression assignment");
+        };
+    }
 }

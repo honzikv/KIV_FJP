@@ -32,7 +32,7 @@ public class EntrypointProcessor implements IProcessor {
         // Trochu osklive, ale vytvorime processor pro blockScope a zavolame funkci pro alokaci promennych
         var blockScope = new BlockScope(0);
         entrypoint.getStatements().forEach(blockScope::addStatement);
-        var blockScopeProcessor = new BlockScopeProcessor(blockScope, true, 0, context);
+        var blockScopeProcessor = new BlockScopeProcessor(blockScope, true, 0);
         blockScopeProcessor.allocateSpace(context);
 
         // Zpracujeme funkce (pokud jsou)
@@ -50,6 +50,7 @@ public class EntrypointProcessor implements IProcessor {
         }
 
         // instrukce na ukonceni
+        blockScopeProcessor.deallocateSpace(context);
         context.addInstruction(PL0InstructionType.RET, 0, 0);
     }
 }
