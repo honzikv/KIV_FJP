@@ -22,9 +22,9 @@ public class BlockScopeProcessor implements IProcessor {
 
     private final BlockScope blockScope;
 
-    private final int stackLevel;
     private boolean useParentContext;
 
+    private final int stackLevel;
     /**
      * Overload pro Entrypoint
      *
