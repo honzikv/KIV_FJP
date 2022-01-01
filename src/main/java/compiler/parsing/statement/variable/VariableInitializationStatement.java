@@ -1,20 +1,32 @@
 package compiler.parsing.statement.variable;
 
-import compiler.parsing.expression.Expression;
-import compiler.parsing.statement.StatementType;
 import compiler.parsing.DataType;
-import java.util.List;
+import compiler.parsing.expression.Expression;
+import compiler.parsing.statement.Statement;
+import compiler.parsing.statement.StatementType;
 import lombok.Getter;
 import lombok.ToString;
 
-/**
- * Inicializace promenne - tzn. napr. string str = "hello world";
- * Trida zaroven uklada info i pro konstanty - const string str = "hello world";
- *
- */
 @Getter
 @ToString(callSuper = true)
-public class VariableInitializationStatement extends VariableAssignmentStatement {
+public class VariableInitializationStatement extends Statement {
+
+    /**
+     * Identifikator
+     */
+    private final String identifier;
+
+    private final boolean isLiteralValue;
+
+    /**
+     * Prirazeni hodnotou
+     */
+    private final String literalValue;
+
+    /**
+     * Prirazeni vyrazem
+     */
+    private final Expression expression;
 
     /**
      * Datovy typ promenne
@@ -31,26 +43,30 @@ public class VariableInitializationStatement extends VariableAssignmentStatement
     public VariableInitializationStatement(long depthLevel,
                                            DataType dataType,
                                            String identifier,
-                                           List<String> chainedIdentifiers,
                                            String literalValue,
                                            boolean isConst) {
-        super(StatementType.VariableInitialization, depthLevel, identifier, chainedIdentifiers,
-                literalValue);
+        super(StatementType.VariableInitialization, depthLevel);
+        this.identifier = identifier;
+        this.literalValue = literalValue;
         this.dataType = dataType;
         this.isConst = isConst;
+        this.isLiteralValue = true;
+        this.expression = null;
     }
 
 
     public VariableInitializationStatement(long depthLevel,
                                            DataType dataType,
                                            String identifier,
-                                           List<String> chainedIdentifiers,
-                                           Expression expressionValue,
+                                           Expression expression,
                                            boolean isConst) {
-        super(StatementType.VariableInitialization, depthLevel, identifier, chainedIdentifiers,
-                expressionValue);
+        super(StatementType.VariableInitialization, depthLevel);
         this.dataType = dataType;
         this.isConst = isConst;
+        this.identifier = identifier;
+        this.expression = expression;
+        this.isLiteralValue = false;
+        this.literalValue = null;
     }
 
 

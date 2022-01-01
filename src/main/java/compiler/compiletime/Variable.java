@@ -21,12 +21,12 @@ public class Variable {
     /**
      * Uroven zanoreni v zasobniku
      */
-    private Long stackLevel;
+    private Integer stackLevel;
 
     /**
      * Adresa
      */
-    private Long address;
+    private long address;
 
     /**
      * Typ promenne
@@ -39,31 +39,22 @@ public class Variable {
     private boolean isInitalized = false;
 
     /**
+     * Zda-li se promenna v kodu deklarovala
+     */
+    private boolean isDeclared = false;
+
+    /**
      * Zda-li je promenna const
      */
     private boolean isConst = false;
 
-    private Variable() { }
-
-    public static Variable createVariableDeclaration(String identifier, DataType dataType) {
-        var result = new Variable();
-        result.identifier = identifier;
-        result.isInitalized = false;
-        result.address = null;
-        result.stackLevel = null;
-        result.dataType = dataType;
-        return result;
+    /**
+     * Konstruktor, ktery slouzi pro vytvoreni neinicializovane a nedeklarovane promenne
+     */
+    public Variable(String identifier, long address, DataType dataType) {
+        this.identifier = identifier;
+        this.address = address;
+        this.dataType = dataType;
     }
 
-    public static Variable createVariableInitialization(String identifier, DataType dataType, long address,
-                                                        long stackLevel, boolean isConst) {
-        var result = new Variable();
-        result.identifier = identifier;
-        result.isInitalized = true;
-        result.address = address;
-        result.stackLevel = stackLevel;
-        result.dataType = dataType;
-        result.isConst = isConst;
-        return result;
-    }
 }

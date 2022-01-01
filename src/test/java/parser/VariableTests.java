@@ -25,7 +25,7 @@ public class VariableTests {
         var parser = createParser(input);
         var entryPoint = new EntrypointVisitor().visit(parser.entrypoint());
 
-        var variables = entryPoint.getChildStatements();
+        var variables = entryPoint.getStatements();
 
         for (var variable : variables) {
             Assert.assertEquals((((VariableInitializationStatement) variable).getLiteralValue()), "false");

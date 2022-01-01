@@ -3,7 +3,6 @@ package compiler.compiletime;
 import compiler.compiletime.utils.BooleanUtils;
 import compiler.compiletime.utils.FloatUtils;
 import compiler.compiletime.utils.IntegerUtils;
-import compiler.compiletime.utils.StringUtils;
 import compiler.parsing.DataType;
 import compiler.parsing.FunctionDefinition;
 import compiler.pl0.PL0Instruction;
@@ -17,12 +16,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Kontext compileru
+ * Kontext compileru - kazdy scope ma svuj vlastni
  */
 public class GeneratorContext {
 
     /**
-     * Deklararace funkci - toto je staticke, protoze nelze definovat funkci ve funkci
+     * Deklararace funkci - toto je staticke, protoze funkce lze definovat pouze na levelu 0 a
+     * nechceme mit funkci ve funkci
      */
     private static final Map<String, FunctionDefinition> functions = new HashMap<>();
 
@@ -33,12 +33,12 @@ public class GeneratorContext {
     private GeneratorContext parentContext;
 
     /**
-     * Lokalni promenne
+     * Lokalni promenne (nebo globalni v zavislosti na urovni zanoreni)
      */
     private final Map<String, Variable> variables;
 
     @Getter
-    private final long stackLevel;
+    private final int stackLevel;
 
     @Getter
     @Setter
@@ -59,17 +59,18 @@ public class GeneratorContext {
         functions.put(function.getIdentifier(), function);
     }
 
-    public boolean variableExistsInCurrentScope(String identifier) {
-        return variables.containsKey(identifier);
+    public GeneratorContext() {
+        this.stackLevel = 0;
+        this.stackPointerAddress = 0;
+        this.instructionNumber = 0;
+        this.variables = new HashMap<>();
     }
 
-    /**
-     * Prida promennou do lookup tabulky, ale neprida ji na stack
-     *
-     * @param variable
-     */
-    public void addVariableToLookupTable(Variable variable) {
-        variables.put(variable.getIdentifier(), variable);
+    public GeneratorContext(int stackLevel, long stackPointerAddress, long currentInstruction) {
+        this.stackLevel = stackLevel;
+        this.stackPointerAddress = stackPointerAddress;
+        this.instructionNumber = currentInstruction;
+        this.variables = new HashMap<>();
     }
 
     public int getNextInstructionNumber() { return instructions.size(); }
@@ -88,16 +89,32 @@ public class GeneratorContext {
         return parentContext == null ? null : parentContext.getVariableOrDefault(identifier);
     }
 
-    public GeneratorContext(long stackLevel, long stackPointerAddress, long currentInstruction) {
-        this.stackLevel = stackLevel;
-        this.stackPointerAddress = stackPointerAddress;
-        this.instructionNumber = currentInstruction;
-        this.variables = new HashMap<>();
+    public GeneratorContext(int stackLevel, GeneratorContext parent) {
+        this(stackLevel, parent.stackPointerAddress, parent.instructionNumber);
+        this.parentContext = parent;
     }
 
-    public GeneratorContext(long stackLevel, long stackPointerAddress, long currentInstruction, GeneratorContext parent) {
-        this(stackLevel, stackPointerAddress, currentInstruction);
-        this.parentContext = parent;
+    public boolean variableDeclaredInCurrentScope(String identifier) {
+        if (!variables.containsKey(identifier)) {
+            return false;
+        }
+
+        // Ziskame promennou a vratime, zda-li je deklarovana
+        return variables.get(identifier).isDeclared();
+    }
+
+    /**
+     * Deklaruje promennou v danem kontextu
+     *
+     * @param identifier identifikator promenne
+     * @throws CompileException pokud promenna neni v danem kontextu
+     */
+    public void declareVariable(String identifier) throws CompileException {
+        if (!variables.containsKey(identifier)) {
+            throw new CompileException("Error, variable with identifier: " + identifier + " was not found");
+        }
+        var variable = variables.get(identifier);
+        variable.setDeclared(true);
     }
 
     /**
@@ -124,64 +141,66 @@ public class GeneratorContext {
     /**
      * Ziska danou instrukci
      *
-     * @param idx
-     * @return
+     * @param idx index instrukce
+     * @return danou instrukci nebo vyhodi IndexOutOfBounds pokud je index mimo
      */
     public PL0Instruction getInstruction(int idx) {
         return instructions.get(idx);
     }
 
-    public void allocateVariable(Variable variable) throws CompileException {
-        switch (variable.getDataType()) {
-            case Int -> allocateVariable(variable, 0);
-            case Float -> allocateVariable(variable, 0.0f);
-            case Boolean -> allocateVariable(variable, false);
+    public void allocateVariable(String identifier, DataType dataType) throws CompileException {
+        switch (dataType) {
+            case Int -> allocateVariable(identifier, 0);
+            case Float -> allocateVariable(identifier, 0.0f);
+            case Boolean -> allocateVariable(identifier, false);
             default -> throw new CompileException("Error, invalid data type present");
         }
     }
 
-    public void allocateVariable(Variable variable, Integer value) throws CompileException {
-        if (variable.getDataType() != DataType.Int) {
-            throw new CompileException("Error, trying to allocate integer to a non-integer variable");
+    public void allocateVariable(String identifier, Integer value) throws CompileException {
+        if (variables.containsKey(identifier)) {
+            throw new CompileException("Error, reallocation of existing variable in the same scope!");
         }
-
+        var variable = new Variable(identifier, stackPointerAddress, DataType.Int);
         IntegerUtils.addOnStack(this, value);
-        variable.setAddress(stackPointerAddress);
         variable.setStackLevel(stackLevel);
+        variables.put(identifier, variable);
     }
 
-    public void allocateVariable(Variable variable, Float value) throws CompileException {
-        if (variable.getDataType() != DataType.Float) {
-            throw new CompileException("Error, trying to allocate float to a non-float variable");
+    public void allocateVariable(String identifier, Float value) throws CompileException {
+        if (variables.containsKey(identifier)) {
+            throw new CompileException("Error, reallocation of existing variable in the same scope!");
         }
-
+        var variable = new Variable(identifier, stackPointerAddress, DataType.Float);
         FloatUtils.addOnStack(this, value);
-        variable.setAddress(stackPointerAddress);
         variable.setStackLevel(stackLevel);
+        variables.put(identifier, variable);
     }
 
-    public void allocateVariable(Variable variable, Boolean value) throws CompileException {
-        if (variable.getDataType() != DataType.Boolean) {
-            throw new CompileException("Error, trying to allocate boolean to a non-boolean variable");
+    public void allocateVariable(String identifier, Boolean value) throws CompileException {
+        if (variables.containsKey(identifier)) {
+            throw new CompileException("Error, reallocation of existing variable in the same scope!");
         }
-
+        var variable = new Variable(identifier, stackPointerAddress, DataType.Boolean);
         BooleanUtils.addOnStack(this, value);
-        variable.setAddress(stackPointerAddress);
         variable.setStackLevel(stackLevel);
-    }
-
-    public void allocateVariable(Variable variable, String value) throws CompileException {
-        if (variable.getDataType() != DataType.String) {
-            throw new CompileException("Error, trying to allocate string to a non-string variable");
-        }
-
-        StringUtils.addOnStack(this, value);
-        variable.setAddress(stackPointerAddress);
-        variable.setStackLevel(stackLevel);
+        variables.put(identifier, variable);
     }
 
     public FunctionDefinition getFunction(String identifier) {
         return functions.get(identifier);
     }
 
+    /**
+     * Provede pohlceni daneho kontextu - vezme si jeho instrukce a nastavi si jeho parametry krome
+     * tabulky promennych, kterou zahodi. Timto muze mit kazdy scope promenne se stejnym jmenem
+     * a nedojde k chybe
+     *
+     * @param context kontext, ktery se pohlti. Tento kontext se musi zahodit po zavolani teto metody
+     */
+    public void devourChildContext(GeneratorContext context) {
+        instructions.addAll(context.instructions);
+        stackPointerAddress = context.stackPointerAddress;
+        instructionNumber = context.instructionNumber;
+    }
 }

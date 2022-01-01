@@ -28,7 +28,7 @@ public class VariableAssignmentStatement extends Statement {
     /**
      * Zda-li se jedna o prirazeni primo a nebo vyrazem
      */
-    protected final boolean isLiteralExpression;
+    protected final boolean isLiteralValue;
 
     /**
      * Prirazeni primo
@@ -48,20 +48,7 @@ public class VariableAssignmentStatement extends Statement {
         super(StatementType.VariableAssignment, depthLevel);
         this.identifier = identifier;
         this.chainedIdentifiers = chainedIdentifiers;
-        this.isLiteralExpression = false;
-        this.literalValue = null;
-        this.expression = expression;
-    }
-
-    protected VariableAssignmentStatement(StatementType statementType,
-                                          long depthLevel,
-                                          String identifier,
-                                          List<String> chainedIdentifiers,
-                                          Expression expression) {
-        super(statementType, depthLevel);
-        this.identifier = identifier;
-        this.chainedIdentifiers = chainedIdentifiers;
-        this.isLiteralExpression = false;
+        this.isLiteralValue = false;
         this.literalValue = null;
         this.expression = expression;
     }
@@ -70,24 +57,12 @@ public class VariableAssignmentStatement extends Statement {
                                        String identifier,
                                        List<String> chainedIdentifiers,
                                        String literalValue) {
-        super(StatementType.VariableInitialization, depthLevel);
+        super(StatementType.VariableAssignment, depthLevel);
         this.identifier = identifier;
         this.literalValue = literalValue;
         this.expression = null;
-        this.isLiteralExpression = true;
+        this.isLiteralValue = true;
         this.chainedIdentifiers = chainedIdentifiers;
     }
 
-    protected VariableAssignmentStatement(StatementType statementType,
-                                          long depthLevel,
-                                          String identifier,
-                                          List<String> chainedIdentifiers,
-                                          String literalValue) {
-        super(statementType, depthLevel);
-        this.identifier = identifier;
-        this.literalValue = literalValue;
-        this.expression = null;
-        this.isLiteralExpression = true;
-        this.chainedIdentifiers = chainedIdentifiers;
-    }
 }

@@ -1,6 +1,7 @@
 package compiler;
 
-import compiler.compiletime.InstructionGenerator;
+import compiler.compiletime.GeneratorContext;
+import compiler.compiletime.processor.EntrypointProcessor;
 import compiler.utils.CompileException;
 import compiler.utils.IOProvider;
 import main.antlr4.grammar.CMMLexer;
@@ -40,7 +41,10 @@ public class Compiler {
 //        entrypoint.getChildStatements().forEach(System.out::println);
 //        entrypoint.getFunctionDefinitions().forEach(System.out::println);
 
-        var instructionGenerator = new InstructionGenerator(entrypoint);
-        var instructions = instructionGenerator.generate();
+        var context = new GeneratorContext();
+        var entrypointProcessor = new EntrypointProcessor(entrypoint);
+        entrypointProcessor.process(context);
+
+        context.getInstructions().forEach(System.out::println);
     }
 }

@@ -1,9 +1,8 @@
 package parser.visitor.variable;
 
 
-import compiler.parsing.statement.variable.VariableInitializationStatement;
 import compiler.parsing.DataType;
-import java.util.ArrayList;
+import compiler.parsing.statement.variable.VariableInitializationStatement;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.CMMLevelAwareVisitor;
 import parser.visitor.ExpressionVisitor;
@@ -30,22 +29,14 @@ public class VariableInitializationVisitor extends CMMLevelAwareVisitor<Variable
     public VariableInitializationStatement visitVariableInitialization(CMMParser.VariableInitializationContext ctx) {
         var dataType = DataType.convertStringTypeToDataType(ctx.legalDataTypes().getText());
         var identifier = ctx.IDENTIFIER().getText();
-
-        var chainedIdentifiers = new ArrayList<String>();
-        if (ctx.chainAssignment() != null) {
-            var chainAssignmentVisitor = new ChainAssignmentVisitor();
-            ctx.chainAssignment().forEach(chainAssignmentContext ->
-                    chainedIdentifiers.add(chainAssignmentVisitor.visit(chainAssignmentContext)));
-        }
-
         if (ctx.expression() != null) {
             // mame expression tzn musime ho resolvovat
             var expression = new ExpressionVisitor(depth).visit(ctx.expression());
-            return new VariableInitializationStatement(depth, dataType, identifier, chainedIdentifiers, expression,
+            return new VariableInitializationStatement(depth, dataType, identifier, expression,
                     useConst);
         }
 
-        return new VariableInitializationStatement(depth, dataType, identifier, chainedIdentifiers,
+        return new VariableInitializationStatement(depth, dataType, identifier,
                 ctx.legalVariableLiterals().getText(), useConst);
     }
 

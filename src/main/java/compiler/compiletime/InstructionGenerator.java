@@ -4,7 +4,6 @@ import compiler.compiletime.processor.statement.StatementProcessor;
 import compiler.parsing.Entrypoint;
 import compiler.parsing.statement.Statement;
 import compiler.pl0.PL0Instruction;
-import compiler.pl0.PL0InstructionType;
 import compiler.utils.CompileException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +23,12 @@ public class InstructionGenerator {
         var result = new ArrayList<PL0Instruction>();
 
         // Pridame prvni instrukci
-        rootContext.addInstruction(PL0InstructionType.INT, 0, 3);
 
-        for (Statement statement : entrypoint.getChildStatements()) {
+
+        for (Statement statement : entrypoint.getStatements()) {
             new StatementProcessor(statement).process(rootContext);
         }
 
-        rootContext.addInstruction(PL0InstructionType.RET, 0, 0);
 
         rootContext.getInstructions().forEach(System.out::println);
 

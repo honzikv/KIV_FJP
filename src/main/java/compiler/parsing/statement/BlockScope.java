@@ -16,7 +16,7 @@ public class BlockScope extends Statement {
     /**
      * Vsechny statementy v bloku
      */
-    protected final List<Statement> childStatements = new ArrayList<>();
+    protected final List<Statement> statements = new ArrayList<>();
 
     /**
      * Konstruktor
@@ -31,6 +31,6 @@ public class BlockScope extends Statement {
      * @param statement statement, ktery se ma pridat
      */
     public void addStatement(Statement statement) {
-        childStatements.add(statement);
+        statements.add(statement);
     }
 }

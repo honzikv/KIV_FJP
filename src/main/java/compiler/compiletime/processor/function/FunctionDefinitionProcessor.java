@@ -8,13 +8,16 @@ import compiler.compiletime.utils.IntegerUtils;
 import compiler.parsing.FunctionDefinition;
 import compiler.pl0.PL0InstructionType;
 import compiler.utils.CompileException;
-import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@AllArgsConstructor
+@NoArgsConstructor
 public class FunctionDefinitionProcessor implements IProcessor {
 
     private static final int FunctionSize = 3;
-    private final FunctionDefinition functionDefinition;
+
+    @Setter
+    private FunctionDefinition functionDefinition;
 
     private int getParamsSize() throws CompileException {
         var size = 0;

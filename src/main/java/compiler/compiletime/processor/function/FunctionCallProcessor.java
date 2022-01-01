@@ -3,7 +3,7 @@ package compiler.compiletime.processor.function;
 import compiler.compiletime.GeneratorContext;
 import compiler.compiletime.IProcessor;
 import compiler.compiletime.processor.expression.ExpressionProcessor;
-import compiler.compiletime.utils.DataTypeUtils;
+import compiler.compiletime.utils.VariableUtils;
 import compiler.parsing.DataType;
 import compiler.parsing.statement.function.FunctionCall;
 import compiler.pl0.PL0InstructionType;
@@ -36,7 +36,7 @@ public class FunctionCallProcessor implements IProcessor {
         // Pro vraceni dane hodnoty musime na stacku vytvorit prazdne misto, kam se hodnota pozdeji zapise
         if (function.getReturnType() != DataType.Void) {
             returnAddress = context.getStackPointerAddress();
-            DataTypeUtils.addSpaceOnStack(context, function.getReturnType());
+            VariableUtils.addSpaceOnStack(context, function.getReturnType());
         }
 
         // Zpracujeme parametry

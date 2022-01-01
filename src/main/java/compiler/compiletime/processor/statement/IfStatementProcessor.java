@@ -31,7 +31,8 @@ public class IfStatementProcessor implements IProcessor {
         context.addInstruction(PL0InstructionType.JMC, 0, Long.MIN_VALUE);
 
         // Generujeme kod v ifu
-        var blockScopeProcessor = new BlockScopeProcessor(ifStatement.getIfBlockScope());
+        var blockScopeProcessor = new BlockScopeProcessor(ifStatement.getIfBlockScope(), false,
+                context.getStackLevel());
         blockScopeProcessor.process(context);
 
         // Pokud kod navic obsahuje else udelame to same pro else
@@ -43,7 +44,8 @@ public class IfStatementProcessor implements IProcessor {
             context.getInstruction(ifIdx).setInstructionAddress(context.getNextInstructionNumber());
 
             // Zpracujeme co je v else bloku
-            var elseBlockScopeProcessor = new BlockScopeProcessor(ifStatement.getElseBlockScope());
+            var elseBlockScopeProcessor = new BlockScopeProcessor(ifStatement.getElseBlockScope(), false,
+                    context.getStackLevel());
             elseBlockScopeProcessor.process(context);
 
             // A nastavime instrukci

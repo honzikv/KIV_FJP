@@ -67,7 +67,7 @@ legalVariableLiterals: INTEGER_NUMBER | TRUE | FALSE | (INTEGER_NUMBER? DOT INTE
 chainAssignment: EQUALS IDENTIFIER;
 variableAssignment: IDENTIFIER chainAssignment* EQUALS (legalVariableLiterals | expression) SEMICOLON;
 variableDeclaration: legalDataTypes IDENTIFIER SEMICOLON;
-variableInitialization: legalDataTypes IDENTIFIER chainAssignment* EQUALS (legalVariableLiterals | expression) SEMICOLON;
+variableInitialization: legalDataTypes IDENTIFIER EQUALS (legalVariableLiterals | expression) SEMICOLON;
 constVariableInitialization: CONST variableInitialization;
 
 

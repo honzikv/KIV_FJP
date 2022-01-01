@@ -1,8 +1,7 @@
-package compiler.compiletime.processor.statement;
+package compiler.compiletime.processor.statement.variable;
 
 import compiler.compiletime.GeneratorContext;
 import compiler.compiletime.IProcessor;
-import compiler.compiletime.Variable;
 import compiler.parsing.statement.variable.VariableDeclarationStatement;
 import compiler.utils.CompileException;
 import lombok.AllArgsConstructor;
@@ -15,12 +14,11 @@ public class VariableDeclarationProcessor implements IProcessor {
     @Override
     public void process(GeneratorContext context) throws CompileException {
         var identifier = variableDeclarationStatement.getIdentifier();
-        if (context.variableExistsInCurrentScope(identifier)) {
-            throw new CompileException("Error, variable with identifier: " + identifier + " was redeclared in the same scope!");
+        if (context.variableDeclaredInCurrentScope(identifier)) {
+            throw new CompileException("Error, variable with identifier: " + identifier
+                    + " was redeclared in the same scope!");
         }
 
-        // Pridame deklaraci do kontextu
-        context.addVariableToLookupTable(Variable.createVariableDeclaration(variableDeclarationStatement.getIdentifier(),
-                variableDeclarationStatement.getDataType()));
+        context.declareVariable(identifier);
     }
 }
