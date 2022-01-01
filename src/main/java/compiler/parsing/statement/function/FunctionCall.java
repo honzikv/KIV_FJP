@@ -1,5 +1,6 @@
 package compiler.parsing.statement.function;
 
+import compiler.parsing.expression.Expression;
 import compiler.parsing.statement.Statement;
 import compiler.parsing.statement.StatementType;
 import java.util.List;
@@ -12,11 +13,15 @@ public class FunctionCall extends Statement {
 
     private final String identifier;
 
-    private final List<String> paramIdentifiers;
+    /**
+     * Parametry funkce - obecne to muze byt jakykoliv vyraz
+     */
+    private final List<Expression> parameters;
 
-    public FunctionCall(long depthLevel, String identifier, List<String> paramIdentifiers) {
+
+    public FunctionCall(long depthLevel, String identifier, List<Expression> parameters) {
         super(StatementType.FunctionCall, depthLevel);
         this.identifier = identifier;
-        this.paramIdentifiers = paramIdentifiers;
+        this.parameters = parameters;
     }
 }

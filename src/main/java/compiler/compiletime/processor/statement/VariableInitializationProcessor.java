@@ -4,10 +4,10 @@ import compiler.compiletime.DataTypeParseUtils;
 import compiler.compiletime.GeneratorContext;
 import compiler.compiletime.IProcessor;
 import compiler.compiletime.Variable;
-import compiler.compiletime.libs.BooleanLib;
-import compiler.compiletime.libs.FloatLib;
-import compiler.compiletime.libs.IntegerLib;
 import compiler.compiletime.processor.expression.ExpressionProcessor;
+import compiler.compiletime.utils.BooleanUtils;
+import compiler.compiletime.utils.FloatUtils;
+import compiler.compiletime.utils.IntegerUtils;
 import compiler.parsing.DataType;
 import compiler.parsing.statement.variable.VariableAssignmentStatement;
 import compiler.parsing.statement.variable.VariableInitializationStatement;
@@ -150,8 +150,8 @@ public class VariableInitializationProcessor implements IProcessor {
             }
 
             // Jinak pridame hodnotu na stack a nacteme do dane adresy
-            IntegerLib.addOnStack(context, intValue);
-            IntegerLib.loadToVariable(context, variable.getAddress());
+            IntegerUtils.addOnStack(context, intValue);
+            IntegerUtils.loadToVariable(context, variable.getAddress());
         }
     }
 
@@ -169,8 +169,8 @@ public class VariableInitializationProcessor implements IProcessor {
                 continue;
             }
 
-            FloatLib.addOnStack(context, floatValue);
-            FloatLib.loadToVariable(context, variable.getAddress());
+            FloatUtils.addOnStack(context, floatValue);
+            FloatUtils.loadToVariable(context, variable.getAddress());
         }
     }
 
@@ -188,8 +188,8 @@ public class VariableInitializationProcessor implements IProcessor {
                 continue;
             }
 
-            BooleanLib.addOnStack(context, boolValue);
-            BooleanLib.loadToVariable(context, variable.getAddress());
+            BooleanUtils.addOnStack(context, boolValue);
+            BooleanUtils.loadToVariable(context, variable.getAddress());
         }
     }
 
@@ -241,10 +241,10 @@ public class VariableInitializationProcessor implements IProcessor {
         switch (variable.getDataType()) {
             case Int -> {
                 if (!variable.isInitalized())
-                    IntegerLib.loadToVariable(context, variable.getAddress());
+                    IntegerUtils.loadToVariable(context, variable.getAddress());
             }
-            case Boolean -> BooleanLib.loadToVariable(context, variable.getAddress());
-            case Float -> FloatLib.loadToVariable(context, variable.getAddress());
+            case Boolean -> BooleanUtils.loadToVariable(context, variable.getAddress());
+            case Float -> FloatUtils.loadToVariable(context, variable.getAddress());
             default -> throw new CompileException("Error while reading variable from stack during expression assignment");
         }
         variable.setInitalized(true);
@@ -257,16 +257,16 @@ public class VariableInitializationProcessor implements IProcessor {
 
             switch (variable.getDataType()) {
                 case Int -> {
-                    IntegerLib.loadFromVariable(context, variable.getAddress());
-                    IntegerLib.loadToVariable(context, chainedVariable.getAddress());
+                    IntegerUtils.loadFromVariable(context, variable.getAddress());
+                    IntegerUtils.loadToVariable(context, chainedVariable.getAddress());
                 }
                 case Boolean -> {
-                    BooleanLib.loadFromVariable(context, variable.getAddress());
-                    BooleanLib.loadToVariable(context, chainedVariable.getAddress());
+                    BooleanUtils.loadFromVariable(context, variable.getAddress());
+                    BooleanUtils.loadToVariable(context, chainedVariable.getAddress());
                 }
                 case Float -> {
-                    FloatLib.loadFromVariable(context, variable.getAddress());
-                    FloatLib.loadToVariable(context, chainedVariable.getAddress());
+                    FloatUtils.loadFromVariable(context, variable.getAddress());
+                    FloatUtils.loadToVariable(context, chainedVariable.getAddress());
                 }
                 default -> throw new CompileException("Error while reading " +
                         "variable from stack during expression assignment");

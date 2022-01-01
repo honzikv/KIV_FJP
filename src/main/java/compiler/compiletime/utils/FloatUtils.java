@@ -1,4 +1,4 @@
-package compiler.compiletime.libs;
+package compiler.compiletime.utils;
 
 import compiler.compiletime.GeneratorContext;
 import compiler.pl0.PL0InstructionType;
@@ -7,7 +7,7 @@ import org.apache.commons.lang3.NotImplementedException;
 /**
  * TODO struktura floatu?
  */
-public class FloatLib {
+public class FloatUtils {
     public static void addOnStack(GeneratorContext context, Float value) {
         throw new NotImplementedException("TODO implement this feature");
     }

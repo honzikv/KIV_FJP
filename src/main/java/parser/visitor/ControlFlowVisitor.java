@@ -1,10 +1,10 @@
 package parser.visitor;
 
-import compiler.parsing.statement.DoWhileStatement;
-import compiler.parsing.statement.ForStatement;
 import compiler.parsing.statement.IfStatement;
 import compiler.parsing.statement.Statement;
-import compiler.parsing.statement.WhileStatement;
+import compiler.parsing.statement.loop.DoWhileLoopStatement;
+import compiler.parsing.statement.loop.ForLoopStatement;
+import compiler.parsing.statement.loop.WhileLoopStatement;
 import main.antlr4.grammar.CMMParser;
 
 /**
@@ -33,7 +33,7 @@ public class ControlFlowVisitor extends CMMLevelAwareVisitor<Statement> {
         var expression = new ExpressionVisitor(depth).visit(ctx.forExpression());
         var blockScope = new BlockScopeVisitor(depth).visit(ctx.blockScope());
 
-        return new ForStatement(depth, expression, blockScope);
+        return new ForLoopStatement(depth, expression, blockScope);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class ControlFlowVisitor extends CMMLevelAwareVisitor<Statement> {
         var expression = new ExpressionVisitor(depth).visit(ctx.parenthesesExpression());
         var blockScope = new BlockScopeVisitor(depth).visit(ctx.blockScope());
 
-        return new WhileStatement(depth, expression, blockScope);
+        return new WhileLoopStatement(depth, expression, blockScope);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ControlFlowVisitor extends CMMLevelAwareVisitor<Statement> {
         var expression = new ExpressionVisitor(depth).visit(ctx.parenthesesExpression());
         var blockScope = new BlockScopeVisitor(depth).visit(ctx.blockScope());
 
-        return new DoWhileStatement(depth, expression, blockScope);
+        return new DoWhileLoopStatement(depth, expression, blockScope);
     }
 
 }

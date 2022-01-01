@@ -85,9 +85,10 @@ functionParameter: legalDataTypes IDENTIFIER;
 // skupina funkcnich parametru
 functionParameters: functionParameter | functionParameter COMMA functionParameters;
 
-identifierChain: IDENTIFIER | IDENTIFIER COMMA identifierChain; // (x1) (x1, x2, ... )
+// Ve volani funkce muze byt jakykoliv vyraz
+expressionChain: IDENTIFIER | expression COMMA expressionChain; // (x1) (x1, x2, ... )
 
-functionCall: IDENTIFIER LEFT_PAREN identifierChain? RIGHT_PAREN; // x(); nebo x(identifier_chain)
+functionCall: IDENTIFIER LEFT_PAREN expressionChain? RIGHT_PAREN; // x(); nebo x(identifier_chain)
 
 ///
 ///     CONTROL FLOW + obecna pravidla

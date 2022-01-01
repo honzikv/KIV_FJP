@@ -1,11 +1,11 @@
-package compiler.compiletime.libs;
+package compiler.compiletime.utils;
 
 import compiler.compiletime.GeneratorContext;
 import compiler.pl0.PL0InstructionType;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class IntegerLib {
+public class IntegerUtils {
 
     public static void addOnStack(GeneratorContext context, int value) {
         context.addInstruction(PL0InstructionType.LIT, 0, value);

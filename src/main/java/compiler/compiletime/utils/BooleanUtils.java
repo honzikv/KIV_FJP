@@ -1,9 +1,9 @@
-package compiler.compiletime.libs;
+package compiler.compiletime.utils;
 
 import compiler.compiletime.GeneratorContext;
 import compiler.pl0.PL0InstructionType;
 
-public class BooleanLib {
+public class BooleanUtils {
 
     /**
      * Boolean -> true === 0, false !== 0

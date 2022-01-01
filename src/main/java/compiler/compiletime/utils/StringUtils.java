@@ -1,4 +1,4 @@
-package compiler.compiletime.libs;
+package compiler.compiletime.utils;
 
 import compiler.compiletime.GeneratorContext;
 import compiler.pl0.PL0InstructionType;
@@ -7,7 +7,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * Knihovna pro praci s retezci. Retezce jsou implementovane stejne jako v C - terminovane pomoci \0
  */
-public class StringLib {
+public class StringUtils {
 
     private static final byte StringTermination = '\0';
 

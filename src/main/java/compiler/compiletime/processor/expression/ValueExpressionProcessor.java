@@ -3,10 +3,10 @@ package compiler.compiletime.processor.expression;
 import compiler.compiletime.DataTypeParseUtils;
 import compiler.compiletime.GeneratorContext;
 import compiler.compiletime.IProcessor;
-import compiler.compiletime.libs.BooleanLib;
-import compiler.compiletime.libs.FloatLib;
-import compiler.compiletime.libs.IntegerLib;
-import compiler.compiletime.libs.StringLib;
+import compiler.compiletime.utils.BooleanUtils;
+import compiler.compiletime.utils.FloatUtils;
+import compiler.compiletime.utils.IntegerUtils;
+import compiler.compiletime.utils.StringUtils;
 import compiler.parsing.DataType;
 import compiler.parsing.expression.ValueExpression;
 import compiler.utils.CompileException;
@@ -24,27 +24,27 @@ public class ValueExpressionProcessor implements IProcessor {
         var valueAsInt = DataTypeParseUtils.getIntegerOrDefault(value);
         if (valueAsInt != null) {
             expression.setDataType(DataType.Int);
-            IntegerLib.addOnStack(context, valueAsInt);
+            IntegerUtils.addOnStack(context, valueAsInt);
             return;
         }
 
         var valueAsFloat = DataTypeParseUtils.getFloatOrDefault(value);
         if (valueAsFloat != null) {
             expression.setDataType(DataType.Float);
-            FloatLib.addOnStack(context, valueAsFloat);
+            FloatUtils.addOnStack(context, valueAsFloat);
             return;
         }
 
         var valueAsBool = DataTypeParseUtils.getBooleanOrDefault(value);
         if (valueAsBool != null) {
             expression.setDataType(DataType.Boolean);
-            BooleanLib.addOnStack(context, valueAsBool);
+            BooleanUtils.addOnStack(context, valueAsBool);
             return;
         }
 
         // String je cokoliv jineho co proslo parserem
         expression.setDataType(DataType.String);
-        StringLib.addOnStack(context, value);
+        StringUtils.addOnStack(context, value);
     }
 
 }

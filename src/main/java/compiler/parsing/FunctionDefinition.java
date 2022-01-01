@@ -1,10 +1,10 @@
 package compiler.parsing;
 
-import compiler.parsing.DataType;
 import compiler.parsing.statement.BlockScope;
 import compiler.parsing.statement.function.FunctionParameter;
 import java.util.List;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -21,6 +21,12 @@ public class FunctionDefinition {
     private final List<FunctionParameter> functionParameters;
 
     private final BlockScope blockScope; // bude typu FunctionBlockScope
+
+    /**
+     * Adresa na stacku
+     */
+    @Setter
+    private long address;
 
     public FunctionDefinition(DataType returnType,
                               String identifier,

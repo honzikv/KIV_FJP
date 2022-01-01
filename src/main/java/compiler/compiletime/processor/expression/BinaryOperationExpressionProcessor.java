@@ -26,6 +26,17 @@ public class BinaryOperationExpressionProcessor implements IProcessor {
      */
     private static final Map<DataType, Set<OperationType>> supportedOperations = createSupportedOperationsMap();
 
+    /**
+     * Operace, po kterych bude na vrcholu stacku booleovska hodnota
+     */
+    private static final Set<OperationType> booleanOperations = Set.of(
+            OperationType.Equal,
+            OperationType.GreaterThan,
+            OperationType.GreaterOrEqual,
+            OperationType.Lesser,
+            OperationType.LesserOrEqual,
+            OperationType.NotEqual);
+
     private static Map<DataType, Set<OperationType>> createSupportedOperationsMap() {
         var result = new HashMap<DataType, Set<OperationType>>();
         result.put(DataType.String, Set.of(OperationType.Equal, OperationType.NotEqual, OperationType.Addition));
@@ -36,6 +47,8 @@ public class BinaryOperationExpressionProcessor implements IProcessor {
                         OperationType.Division,
                         OperationType.Modulo,
                         OperationType.Equal,
+                        OperationType.GreaterThan,
+                        OperationType.GreaterOrEqual,
                         OperationType.Lesser,
                         OperationType.LesserOrEqual,
                         OperationType.NotEqual);
@@ -45,6 +58,22 @@ public class BinaryOperationExpressionProcessor implements IProcessor {
         result.put(DataType.Boolean, Set.of(OperationType.BooleanAnd, OperationType.BooleanOr));
 
         return result;
+    }
+
+
+    private void validate(Expression leftSide, Expression rightSide) throws CompileException {
+        if (leftSide.getDataType() != rightSide.getDataType()) {
+            throw new CompileException("Error, different operand types present in binary expression. Left side is "
+                    + leftSide.getDataType().getStringValue() + getValueIfValueExpression(leftSide)
+                    + " while right side is " + rightSide.getDataType().getStringValue()
+                    + getValueIfValueExpression(rightSide));
+        }
+
+        var dataType = leftSide.getDataType();
+        if (!supportedOperations.get(dataType).contains(expression.getOperation())) {
+            throw new CompileException("Error, operation " + expression.getOperation().getStringValue()
+                    + " is not supported with type " + dataType.getStringValue());
+        }
     }
 
     @Override
@@ -65,21 +94,49 @@ public class BinaryOperationExpressionProcessor implements IProcessor {
 
         if (expression.getLeftSide().getDataType() == DataType.Int) {
             processIntegerOperation(context);
-            expression.setDataType(DataType.Int);
             return;
         }
 
-        throw new NotImplementedException("TODO implement boolean, float and string operations");
+        if (expression.getLeftSide().getDataType() == DataType.Boolean) {
+            processBooleanOperation(context);
+            return;
+        }
+
+        // TODO
+        processFloatOperation(context);
     }
+
 
     /**
      * Ulozi na zasobnik kod operace pro integer
+     *
      * @param context kontext, kam se kod uklada
      * @throws CompileException vyhazuje metoda getOperationFromOperationType
      */
     private void processIntegerOperation(GeneratorContext context) throws CompileException {
         var operationCode = PL0Utils.getOperationNumberFromOperationType(expression.getOperation());
         context.addInstruction(PL0InstructionType.OPR, context.getStackLevel(), operationCode);
+
+        // Pokud je operace porovnani (<, >, ==, !=, >=, <=, ...) bude vysledek typu boolean
+        if (booleanOperations.contains(expression.getOperation())) {
+            expression.setDataType(DataType.Boolean);
+            return;
+        }
+
+        // Pro ostatni operace bude datovy typ int
+        expression.setDataType(DataType.Int);
+    }
+
+    private void processBooleanOperation(GeneratorContext context) throws CompileException {
+        var operationCode = PL0Utils.getOperationNumberFromOperationType(expression.getOperation());
+        context.addInstruction(PL0InstructionType.OPR, context.getStackLevel(), operationCode);
+
+        // Zde bude datovy typ vzdy boolean
+        expression.setDataType(DataType.Boolean);
+    }
+
+    private void processFloatOperation(GeneratorContext context) {
+        throw new NotImplementedException("TODO implement this feature");
     }
 
     /**
@@ -93,19 +150,5 @@ public class BinaryOperationExpressionProcessor implements IProcessor {
         return "";
     }
 
-    private void validate(Expression leftSide, Expression rightSide) throws CompileException {
-        if (leftSide.getDataType() != rightSide.getDataType()) {
-            throw new CompileException("Error, different operand types present in binary expression. Left side is "
-                    + leftSide.getDataType().getStringValue() + getValueIfValueExpression(leftSide)
-                    + " while right side is " + rightSide.getDataType().getStringValue()
-                    + getValueIfValueExpression(rightSide));
-        }
-
-        var dataType = leftSide.getDataType();
-        if (!supportedOperations.get(dataType).contains(expression.getOperation())) {
-            throw new CompileException("Error, operation " + expression.getOperation().getStringValue()
-                    + " is not supported with type" + dataType.getStringValue());
-        }
-    }
 
 }

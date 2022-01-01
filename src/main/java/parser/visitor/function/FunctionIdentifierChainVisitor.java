@@ -1,27 +1,30 @@
 package parser.visitor.function;
 
+import compiler.parsing.expression.Expression;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.CMMLevelAwareVisitor;
+import parser.visitor.ExpressionVisitor;
 
-public class FunctionIdentifierChainVisitor extends CMMLevelAwareVisitor<List<String>> {
+public class FunctionIdentifierChainVisitor extends CMMLevelAwareVisitor<List<Expression>> {
     public FunctionIdentifierChainVisitor(long depth) {
         super(depth);
     }
 
-
     @Override
-    public List<String> visitIdentifierChain(CMMParser.IdentifierChainContext ctx) {
-        var result = new ArrayList<>(List.of(ctx.IDENTIFIER().getText()));
+    public List<Expression> visitExpressionChain(CMMParser.ExpressionChainContext ctx) {
+        var result = new ArrayList<Expression>();
 
-        if (ctx.identifierChain() != null) {
-            result.addAll(visitIdentifierChain(ctx.identifierChain()));
+        // Navstivime expression
+        var expression = new ExpressionVisitor(depth).visit(ctx.expression());
+        result.add(expression);
+
+        // Pokud neni chain null navstivime i ten
+        if (ctx.expressionChain() != null) {
+            result.addAll(visitExpressionChain(ctx.expressionChain()));
         }
 
         return result;
     }
-
-
 }
