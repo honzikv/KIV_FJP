@@ -11,8 +11,5 @@ public class Main {
      *
      * @param args
      */
-    public static void main(String[] args) throws CompileException {
-        new Compiler()
-                .run();
-    }
+    public static void main(String[] args) throws CompileException { new Compiler().run(); }
 }

@@ -17,18 +17,20 @@ public class InstructionGenerator {
 
     public InstructionGenerator(Entrypoint entrypoint) {
         this.entrypoint = entrypoint;
-        this.rootContext = new GeneratorContext(0, 0, 1);
+        this.rootContext = new GeneratorContext(0, 0, 0);
     }
 
     public List<PL0Instruction> generate() throws CompileException {
         var result = new ArrayList<PL0Instruction>();
 
         // Pridame prvni instrukci
-        rootContext.addInstruction(PL0InstructionType.JMP, 0, 1);
+        rootContext.addInstruction(PL0InstructionType.INT, 0, 3);
 
         for (Statement statement : entrypoint.getChildStatements()) {
             new StatementProcessor(statement).process(rootContext);
         }
+
+        rootContext.addInstruction(PL0InstructionType.RET, 0, 0);
 
         rootContext.getInstructions().forEach(System.out::println);
 

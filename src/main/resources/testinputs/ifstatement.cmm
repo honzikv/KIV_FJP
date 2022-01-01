@@ -1,0 +1,2 @@
+int x = 2;
+if (x > 2) { int z = 654; } else { int def = 543; }

@@ -38,7 +38,9 @@ public class IfStatementProcessor implements IProcessor {
         var elseIdx = context.getInstructions().size();
         if (ifStatement.getElseBlockScope() != null) {
             context.addInstruction(PL0InstructionType.JMP, 0, Long.MIN_VALUE);
-            context.getInstruction(ifIdx).setInstructionAddress(elseIdx);
+
+            // Nyni z bloku ifu chceme skocit za instrukci JMP - tzn. na adresu dalsi instrukce
+            context.getInstruction(ifIdx).setInstructionAddress(context.getNextInstructionNumber());
 
             // Zpracujeme co je v else bloku
             var elseBlockScopeProcessor = new BlockScopeProcessor(ifStatement.getElseBlockScope());
@@ -47,6 +49,9 @@ public class IfStatementProcessor implements IProcessor {
             // A nastavime instrukci
             var currentInstruction = context.getNextInstructionNumber();
             context.getInstruction(elseIdx).setInstructionAddress(currentInstruction);
+        } else {
+            // else neni, takze chceme skocit za aktualni instrukci - tzn. na adresu dalsi instrukce
+            context.getInstruction(ifIdx).setInstructionAddress(context.getNextInstructionNumber());
         }
     }
 }
