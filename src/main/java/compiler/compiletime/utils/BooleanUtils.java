@@ -6,13 +6,13 @@ import compiler.pl0.PL0InstructionType;
 public class BooleanUtils {
 
     /**
-     * Boolean -> true === 0, false !== 0
+     * Boolean -> true === cokoliv krome 0, false === 0
      *
      * @param context kontext pro pridani instrukce
      * @param value   boolean hodnota
      */
     public static void addOnStack(GeneratorContext context, Boolean value) {
-        context.addInstruction(PL0InstructionType.LIT, 0, value ? 0 : 1);
+        context.addInstruction(PL0InstructionType.LIT, 0, value ? 1 : 0);
     }
 
     public static int sizeOf() {

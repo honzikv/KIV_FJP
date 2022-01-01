@@ -145,8 +145,9 @@ public class GeneratorContext {
             throw new CompileException("Error, trying to allocate integer to a non-integer variable");
         }
 
-        variable.setAddress(stackPointerAddress);
         IntegerUtils.addOnStack(this, value);
+        variable.setAddress(stackPointerAddress);
+        variable.setStackLevel(stackLevel);
     }
 
     public void allocateVariable(Variable variable, Float value) throws CompileException {
@@ -154,8 +155,9 @@ public class GeneratorContext {
             throw new CompileException("Error, trying to allocate float to a non-float variable");
         }
 
-        variable.setAddress(stackPointerAddress);
         FloatUtils.addOnStack(this, value);
+        variable.setAddress(stackPointerAddress);
+        variable.setStackLevel(stackLevel);
     }
 
     public void allocateVariable(Variable variable, Boolean value) throws CompileException {
@@ -163,8 +165,9 @@ public class GeneratorContext {
             throw new CompileException("Error, trying to allocate boolean to a non-boolean variable");
         }
 
-        variable.setAddress(stackPointerAddress);
         BooleanUtils.addOnStack(this, value);
+        variable.setAddress(stackPointerAddress);
+        variable.setStackLevel(stackLevel);
     }
 
     public void allocateVariable(Variable variable, String value) throws CompileException {
@@ -172,8 +175,9 @@ public class GeneratorContext {
             throw new CompileException("Error, trying to allocate string to a non-string variable");
         }
 
-        variable.setAddress(stackPointerAddress);
         StringUtils.addOnStack(this, value);
+        variable.setAddress(stackPointerAddress);
+        variable.setStackLevel(stackLevel);
     }
 
     public FunctionDefinition getFunction(String identifier) {

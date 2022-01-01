@@ -1,0 +1,4 @@
+bool jump = true && false;
+if (jump) {
+	int x = 3000;
+}

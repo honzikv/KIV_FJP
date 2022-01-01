@@ -3,12 +3,14 @@ package compiler.compiletime;
 import compiler.parsing.DataType;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Reprezentuje promennou
  */
 @Getter
 @Setter
+@ToString
 public class Variable {
 
     /**

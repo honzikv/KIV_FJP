@@ -11,9 +11,9 @@ public class PL0Utils {
     public static int getOperationNumberFromOperationType(OperationType operationType) throws CompileException {
         return switch (operationType) {
             case UnaryMinus -> 1;
-            case Addition -> 2;
+            case Addition, BooleanOr -> 2; // OR == Logicky soucet
             case Subtraction -> 3;
-            case Multiplication -> 4;
+            case Multiplication, BooleanAnd -> 4; // AND == Logicky soucin
             case Division -> 5;
             case Modulo -> 6;
             case Equal -> 8;
