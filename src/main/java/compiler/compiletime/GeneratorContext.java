@@ -45,15 +45,30 @@ public class GeneratorContext {
      * Instrukce jsou "globalni" - protoze jinak by bylo slozite slucovani kontextu
      */
     @Getter
-    private final static List<PL0Instruction> instructions = new ArrayList<>();
-
+    private static final List<PL0Instruction> instructions = new ArrayList<>();
+    /**
+     * Index adresy s parametry - ta je staticky od indexu 4 az do 4 + functionParametersSize
+     */
     @Getter
-    @Setter
-    private long stackPointerAddress = 0;
+    private static final int ParamsAddressIdx = 4;
 
     @Getter
     @Setter
     private static long instructionNumber = 0;
+    /**
+     * Index instrukce pro inicializaci mista pro parametry a navratovou hodnotu
+     */
+    @Getter
+    private static Integer paramsInstructionIdx = null;
+
+    @Getter
+    private static Integer paramsSize = null;
+    /**
+     * Index adresy vrcholu zasobniku
+     */
+    @Getter
+    @Setter
+    private long stackPointerAddress = 0;
 
     public boolean functionExists(String identifier) {
         return functions.containsKey(identifier);
@@ -62,6 +77,21 @@ public class GeneratorContext {
     public void addFunction(FunctionDefinition function) {
         functions.put(function.getIdentifier(), function);
     }
+
+    public void initializeParamSpace(int size) {
+        if (paramsInstructionIdx == null) {
+            paramsInstructionIdx = getNextInstructionNumber();
+            addInstruction(PL0InstructionType.INT, 0, size);
+            paramsSize = size;
+        }
+
+        // Pokud parametry existuji a pozadujeme vetsi velikost, prepiseme je
+        if (paramsSize != null && paramsSize < size) {
+            var instruction = getInstruction(paramsInstructionIdx);
+            instruction.setInstructionAddress(size);
+        }
+    }
+
 
     public GeneratorContext() {
         this.stackLevel = 0;
@@ -141,7 +171,7 @@ public class GeneratorContext {
      */
     public void addInstruction(PL0InstructionType instructionType,
                                long stackLevel, long instructionParam) {
-        var instruction = new PL0Instruction(instructionType, stackLevel, instructionNumber, instructionParam);
+        var instruction = new PL0Instruction(instructionType, stackLevel, instructionParam);
         instructions.add(instruction);
         instructionNumber += 1;
 

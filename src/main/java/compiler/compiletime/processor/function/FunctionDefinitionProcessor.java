@@ -48,11 +48,11 @@ public class FunctionDefinitionProcessor implements IProcessor {
                 : VariableUtils.getSizeOf(functionDefinition.getReturnType()));
 
         // Vytvorime misto pro argumenty a navratovou hodnotu
-        var paramsAddress = parentContext.getStackPointerAddress(); // adresa s parametry na stacku
-        parentContext.addInstruction(PL0InstructionType.INT, 0, totalSize);
+        parentContext.initializeParamSpace(totalSize);
 
         // Adresa funkce pro volani
         var functionAddress = parentContext.getNextInstructionNumber();
+        var paramsAddress = GeneratorContext.getParamsAddressIdx();
         functionDefinition.setAddress(functionAddress);
         functionDefinition.setParamsAddress(paramsAddress);
 
@@ -62,6 +62,7 @@ public class FunctionDefinitionProcessor implements IProcessor {
         // vnejsim stavu
         var context = new GeneratorContext(1, parentContext, false);
         context.setStackPointerAddress(0); // Reset stack pointeru protoze jsme ve funkci
+        context.addInstruction(PL0InstructionType.INT, 0, 4);
 
         // Registrujeme identifikatory argumentu do noveho kontextu
         for (var functionParameter : functionDefinition.getFunctionParameters()) {
@@ -76,8 +77,6 @@ public class FunctionDefinitionProcessor implements IProcessor {
             VariableUtils.storeToVariable(context, paramVariable, 0, paramsAddress);
             paramsAddress += VariableUtils.getSizeOf(paramVariable.getDataType()); // pricteme velikost datoveho typu
         }
-
-        context.addInstruction(PL0InstructionType.INT, 0, 4);
 
         // Nyni staci pouze zpracovat statementy ve funkci
         // Generujeme samotny kod funkce

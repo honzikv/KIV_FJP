@@ -29,16 +29,15 @@ public class EntrypointProcessor implements IProcessor {
     public void process(GeneratorContext context) throws CompileException {
         // Inicializujeme misto pro SB, DB, PC a jeste "return pointer" kam se uklada pri function callu adresa navratu
         context.addInstruction(PL0InstructionType.INT, 0, 4);
+        var jumpIndexBeforeFunctionInitialization = context.getNextInstructionNumber();
 
-        // Trochu osklive, ale vytvorime processor pro blockScope a zavolame funkci pro alokaci promennych
-        var blockScope = new BlockScope(0);
-        entrypoint.getStatements().forEach(blockScope::addStatement);
-        var blockScopeProcessor = new BlockScopeProcessor(blockScope, true, 0);
-        blockScopeProcessor.allocateSpace(context);
+        // Krome inicializace zakladniho mista musime jeste vytvorit misto pro parametry a navratove hodnoty funkci
+        // Protoze zatim nevime jak velke bude, nastavime ho na 0 a pri prekladu funkci se tam nastavi nejvetsi hodnota
+        context.initializeParamSpace(0);
 
-        // Nasledne chceme jeste pridat instrukci na skok za funkce
-        var functionsJumpIdx = context.getNextInstructionNumber();
-        context.addInstruction(PL0InstructionType.JMP, 0, Long.MIN_VALUE);
+        // Nasledne se provede skok, ktery skoci na vykonny kod programu, aby se nevolali funkce
+        var jumpIdx = context.getNextInstructionNumber();
+        context.addInstruction(PL0InstructionType.JMP, 0, Integer.MIN_VALUE);
 
         // Zpracujeme funkce (pokud jsou)
         var functionProcessor = new FunctionDefinitionProcessor();
@@ -47,17 +46,33 @@ public class EntrypointProcessor implements IProcessor {
             functionProcessor.process(context);
         }
 
-        context.getInstruction(functionsJumpIdx).setInstructionAddress(context.getNextInstructionNumber());
-        // Zpracujeme statementy - jazyk podporuje top-level statementy
+        // Musime skocit sem
+        var nextInstructionIdx = context.getNextInstructionNumber();
+        context.getInstruction(jumpIdx).setInstructionAddress(nextInstructionIdx);
+
+        // Alokujeme misto pro beh programu
+        var blockScope = new BlockScope(0);
+        entrypoint.getStatements().forEach(blockScope::addStatement);
+        var blockScopeProcessor = new BlockScopeProcessor(blockScope, true, 0);
+        blockScopeProcessor.allocateSpace(context);
+
+        // Zpracujeme statementy
         var statementProcessor = new StatementProcessor();
         for (var statement : entrypoint.getStatements()) {
             statementProcessor.setStatement(statement);
             statementProcessor.process(context);
         }
 
-
-        // instrukce na ukonceni
+        // instrukce na dealokaci
         blockScopeProcessor.deallocateSpace(context);
+
+        // dealokace parametru a navratovych hodnot
+        var paramsSize = GeneratorContext.getParamsSize();
+        if (paramsSize != null) {
+            context.addInstruction(PL0InstructionType.INT, 0, -paramsSize);
+        }
+
+        // Navrat z programu
         context.addInstruction(PL0InstructionType.RET, 0, 0);
     }
 }

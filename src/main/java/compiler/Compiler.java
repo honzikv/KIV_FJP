@@ -38,13 +38,16 @@ public class Compiler {
         var entrypointVisitor = new EntrypointVisitor();
         var entrypoint = entrypointVisitor.visit(parser.entrypoint());
 
-//        entrypoint.getChildStatements().forEach(System.out::println);
-//        entrypoint.getFunctionDefinitions().forEach(System.out::println);
 
         var context = new GeneratorContext();
         var entrypointProcessor = new EntrypointProcessor(entrypoint);
         entrypointProcessor.process(context);
 
-        GeneratorContext.getInstructions().forEach(System.out::println);
+        // Ziskame instrukce a vypiseme je do stdoutu
+        var instructions = GeneratorContext.getInstructions();
+        for (var i = 0; i < instructions.size(); i += 1) {
+            var instruction = instructions.get(i);
+            System.out.println(i + " " + instruction);
+        }
     }
 }
