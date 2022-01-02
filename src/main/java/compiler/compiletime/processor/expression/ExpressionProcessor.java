@@ -4,6 +4,7 @@ import compiler.compiletime.GeneratorContext;
 import compiler.compiletime.IProcessor;
 import compiler.parsing.expression.BinaryOperationExpression;
 import compiler.parsing.expression.Expression;
+import compiler.parsing.expression.FunctionCallExpression;
 import compiler.parsing.expression.IdentifierExpression;
 import compiler.parsing.expression.UnaryOperationExpression;
 import compiler.parsing.expression.ValueExpression;
@@ -33,6 +34,8 @@ public class ExpressionProcessor implements IProcessor {
                     .process(context);
 
             case Unary -> new UnaryOperationExpressionProcessor((UnaryOperationExpression) expression)
+                    .process(context);
+            case FunctionCall -> new FunctionCallExpressionProcessor((FunctionCallExpression) expression)
                     .process(context);
         }
     }

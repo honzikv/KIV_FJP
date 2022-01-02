@@ -97,5 +97,8 @@ public class FunctionDefinitionProcessor implements IProcessor {
 
         // Zavolame return
         context.addInstruction(PL0InstructionType.RET, 0, 0);
+
+        // Pridame funkci do seznamu
+        context.addFunction(functionDefinition);
     }
 }

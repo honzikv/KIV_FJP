@@ -1,13 +1,15 @@
 package parser.visitor;
 
+import compiler.parsing.DataType;
 import compiler.parsing.expression.BinaryOperationExpression;
 import compiler.parsing.expression.Expression;
+import compiler.parsing.expression.FunctionCallExpression;
 import compiler.parsing.expression.IdentifierExpression;
 import compiler.parsing.expression.OperationType;
 import compiler.parsing.expression.UnaryOperationExpression;
 import compiler.parsing.expression.ValueExpression;
-import compiler.parsing.DataType;
 import main.antlr4.grammar.CMMParser;
+import parser.visitor.function.FunctionCallVisitor;
 
 /**
  * Visitor pro expression
@@ -94,5 +96,11 @@ public class ExpressionVisitor extends CMMLevelAwareVisitor<Expression> {
     @Override
     public Expression visitIdentifierExpression(CMMParser.IdentifierExpressionContext ctx) {
         return new IdentifierExpression(ctx.IDENTIFIER().getText());
+    }
+
+    @Override
+    public Expression visitFunctionCallExpression(CMMParser.FunctionCallExpressionContext ctx) {
+        var functionCall = new FunctionCallVisitor(depth).visit(ctx.functionCall());
+        return new FunctionCallExpression(functionCall);
     }
 }

@@ -36,6 +36,10 @@ public class EntrypointProcessor implements IProcessor {
         var blockScopeProcessor = new BlockScopeProcessor(blockScope, true, 0);
         blockScopeProcessor.allocateSpace(context);
 
+        // Nasledne chceme jeste pridat instrukci na skok za funkce
+        var functionsJumpIdx = context.getNextInstructionNumber();
+        context.addInstruction(PL0InstructionType.JMP, 0, Long.MIN_VALUE);
+
         // Zpracujeme funkce (pokud jsou)
         var functionProcessor = new FunctionDefinitionProcessor();
         for (var functionDefinition : entrypoint.getFunctionDefinitions()) {
@@ -43,12 +47,14 @@ public class EntrypointProcessor implements IProcessor {
             functionProcessor.process(context);
         }
 
+        context.getInstruction(functionsJumpIdx).setInstructionAddress(context.getNextInstructionNumber());
         // Zpracujeme statementy - jazyk podporuje top-level statementy
         var statementProcessor = new StatementProcessor();
         for (var statement : entrypoint.getStatements()) {
             statementProcessor.setStatement(statement);
             statementProcessor.process(context);
         }
+
 
         // instrukce na ukonceni
         blockScopeProcessor.deallocateSpace(context);
