@@ -6,7 +6,6 @@ import compiler.compiletime.processor.statement.BlockScopeProcessor;
 import compiler.compiletime.processor.statement.StatementProcessor;
 import compiler.parsing.DataType;
 import compiler.parsing.FunctionDefinition;
-import compiler.parsing.expression.ValueExpression;
 import compiler.parsing.statement.function.FunctionBlockScope;
 import compiler.utils.CompileException;
 
@@ -42,8 +41,7 @@ public class FunctionBlockScopeProcessor extends BlockScopeProcessor {
         var returnStatement = functionBlockScope.getReturnStatement();
         // Pokud je navratova hodnota void smazeme obsah scopu a vratime se
         if (functionDefinition.getReturnType() == DataType.Void) {
-            if (returnStatement != null
-                    && (returnStatement.getExpression() != null || returnStatement.getValue() != null)) {
+            if (returnStatement != null && returnStatement.getExpression() != null) {
                 throw new CompileException("Error, return statement cannot return a value or an expression " +
                         "in a void function!");
             }
@@ -55,9 +53,7 @@ public class FunctionBlockScopeProcessor extends BlockScopeProcessor {
             throw new CompileException("Error, missing return statement!");
         }
 
-        var expression = returnStatement.isLiteralValue()
-                ? new ValueExpression(functionDefinition.getReturnType(), returnStatement.getValue())
-                : returnStatement.getExpression();
+        var expression = returnStatement.getExpression();
 
         // Vyraz nechame zpracovat a bude na vrcholu zasobniku
         var expressionProcessor = new ExpressionProcessor(expression);
