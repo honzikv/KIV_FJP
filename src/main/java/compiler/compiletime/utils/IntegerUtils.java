@@ -24,7 +24,7 @@ public class IntegerUtils {
     }
 
     public static void storeToStackAddress(GeneratorContext context, long level, long address) {
-        context.addInstruction(PL0InstructionType.LOD, level, address);
+        context.addInstruction(PL0InstructionType.STO, level, address);
     }
 
     public static int sizeOf() {
