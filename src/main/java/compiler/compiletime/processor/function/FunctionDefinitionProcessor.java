@@ -77,6 +77,8 @@ public class FunctionDefinitionProcessor implements IProcessor {
             paramsAddress += VariableUtils.getSizeOf(paramVariable.getDataType()); // pricteme velikost datoveho typu
         }
 
+        context.addInstruction(PL0InstructionType.INT, 0, 4);
+
         // Nyni staci pouze zpracovat statementy ve funkci
         // Generujeme samotny kod funkce
         var blockScopeProcessor = new FunctionBlockScopeProcessor(functionDefinition.getBlockScope(), true,
