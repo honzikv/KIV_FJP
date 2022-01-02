@@ -1,6 +1,7 @@
 package parser.visitor.function;
 
 import compiler.parsing.expression.Expression;
+import compiler.parsing.expression.IdentifierExpression;
 import java.util.ArrayList;
 import java.util.List;
 import main.antlr4.grammar.CMMParser;
@@ -16,8 +17,10 @@ public class FunctionIdentifierChainVisitor extends CMMLevelAwareVisitor<List<Ex
     public List<Expression> visitExpressionChain(CMMParser.ExpressionChainContext ctx) {
         var result = new ArrayList<Expression>();
 
-        // Navstivime expression
-        var expression = new ExpressionVisitor(depth).visit(ctx.expression());
+        var expression = ctx.IDENTIFIER() == null
+                ? new ExpressionVisitor(depth).visit(ctx.expression())
+                : new IdentifierExpression(ctx.IDENTIFIER().getText());
+
         result.add(expression);
 
         // Pokud neni chain null navstivime i ten

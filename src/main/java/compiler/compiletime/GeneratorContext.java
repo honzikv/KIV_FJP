@@ -50,7 +50,7 @@ public class GeneratorContext {
      * Index adresy s parametry - ta je staticky od indexu 4 az do 4 + functionParametersSize
      */
     @Getter
-    private static final int ParamsAddressIdx = 4;
+    private static final int ParamsAddressIdx = 3;
 
     @Getter
     @Setter

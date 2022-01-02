@@ -16,7 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class FunctionDefinitionProcessor implements IProcessor {
 
-    private static final int FunctionSize = 3; // SB, DB, PC a SP
+    private static final int FunctionSize = 3; // SB, DB, PC
 
     @Setter
     private FunctionDefinition functionDefinition;
@@ -62,7 +62,7 @@ public class FunctionDefinitionProcessor implements IProcessor {
         // vnejsim stavu
         var context = new GeneratorContext(1, parentContext, false);
         context.setStackPointerAddress(0); // Reset stack pointeru protoze jsme ve funkci
-        context.addInstruction(PL0InstructionType.INT, 0, 4);
+        context.addInstruction(PL0InstructionType.INT, 0, 3);
 
         // Registrujeme identifikatory argumentu do noveho kontextu
         for (var functionParameter : functionDefinition.getFunctionParameters()) {
@@ -89,12 +89,6 @@ public class FunctionDefinitionProcessor implements IProcessor {
             VariableUtils.storeToAddress(context, functionDefinition.getReturnType(), 1,
                     paramsAddress);
         }
-
-        // Nacteme adresu, kam se mame vratit z predchoziho stacku - ta je vzdy ulozena na tretim indexu
-        context.addInstruction(PL0InstructionType.LOD, 1, 3);
-
-        // A ulozime ji na program counter
-        context.addInstruction(PL0InstructionType.STO, 0, 2);
 
         // Zavolame return
         context.addInstruction(PL0InstructionType.RET, 0, 0);

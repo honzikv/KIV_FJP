@@ -28,7 +28,7 @@ public class EntrypointProcessor implements IProcessor {
     @Override
     public void process(GeneratorContext context) throws CompileException {
         // Inicializujeme misto pro SB, DB, PC a jeste "return pointer" kam se uklada pri function callu adresa navratu
-        context.addInstruction(PL0InstructionType.INT, 0, 4);
+        context.addInstruction(PL0InstructionType.INT, 0, 3);
 
         // Krome inicializace zakladniho mista musime jeste vytvorit misto pro parametry a navratove hodnoty funkci
         // Protoze zatim nevime jak velke bude, nastavime ho na 0 a pri prekladu funkci se tam nastavi nejvetsi hodnota
