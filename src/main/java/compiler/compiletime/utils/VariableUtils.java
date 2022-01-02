@@ -23,6 +23,16 @@ public class VariableUtils {
         }
     }
 
+    public static void storeToAddress(GeneratorContext context, DataType dataType, long level, long address)
+            throws CompileException {
+        switch (dataType) {
+            case Int -> IntegerUtils.storeToStackAddress(context, level, address);
+            case Boolean -> BooleanUtils.storeToStackAddress(context, level, address);
+            case Float -> FloatUtils.storeToStackAddress(context, level, address);
+            default -> throw new CompileException("Error cannot store unknown type to given level and address on stack!");
+        }
+    }
+
     /**
      * Nacte data ulozena na stacku do promenne
      *
@@ -30,12 +40,37 @@ public class VariableUtils {
      * @param variable promenna, kam se data ulozi
      * @throws CompileException chyba datoveho typu
      */
-    public static void loadToVariable(GeneratorContext context, Variable variable) throws CompileException {
+    public static void storeToVariable(GeneratorContext context, Variable variable) throws CompileException {
         switch (variable.getDataType()) {
-            case Int -> IntegerUtils.loadToVariable(context, variable.getAddress());
-            case Boolean -> BooleanUtils.loadToVariable(context, variable.getAddress());
-            case Float -> FloatUtils.loadToVariable(context, variable.getAddress());
+            case Int -> IntegerUtils.storeToStackAddress(context, variable.getAddress());
+            case Boolean -> BooleanUtils.storeToStackAddress(context, variable.getAddress());
+            case Float -> FloatUtils.storeToStackAddress(context, variable.getAddress());
             default -> throw new CompileException("Error while reading variable from stack during expression assignment");
+        }
+    }
+
+    /**
+     * Nacte data do promenne z daneho levelu a adresy - zkratka pro instrukce LOD a STO
+     *
+     * @param context  kontext
+     * @param variable promenna, do ktere se hodnoty nactou
+     * @param level    uroven stacku
+     * @param address  adresa ve stacku
+     */
+    public static void storeToVariable(GeneratorContext context, Variable variable, long level, long address) {
+        switch (variable.getDataType()) {
+            case Int -> {
+                IntegerUtils.loadFromStackAddress(context, level, address);
+                IntegerUtils.storeToStackAddress(context, variable.getStackLevel(), variable.getAddress());
+            }
+            case Float -> {
+                FloatUtils.loadFromStackAddress(context, level, address);
+                FloatUtils.storeToStackAddress(context, variable.getStackLevel(), variable.getAddress());
+            }
+            case Boolean -> {
+                BooleanUtils.loadFromStackAddress(context, level, address);
+                BooleanUtils.storeToStackAddress(context, variable.getStackLevel(), variable.getAddress());
+            }
         }
     }
 
@@ -47,20 +82,20 @@ public class VariableUtils {
      * @param to      promenna, do ktere se maji data ulozit
      * @throws CompileException chyba datoveho typu
      */
-    public static void loadToVariable(GeneratorContext context, Variable from, Variable to)
+    public static void storeToVariable(GeneratorContext context, Variable from, Variable to)
             throws CompileException {
         switch (to.getDataType()) {
             case Int -> {
-                IntegerUtils.loadFromVariable(context, from.getAddress());
-                IntegerUtils.loadToVariable(context, to.getAddress());
+                IntegerUtils.loadFromStackAddress(context, from.getAddress());
+                IntegerUtils.storeToStackAddress(context, to.getAddress());
             }
             case Boolean -> {
-                BooleanUtils.loadFromVariable(context, from.getAddress());
-                BooleanUtils.loadToVariable(context, to.getAddress());
+                BooleanUtils.loadFromStackAddress(context, from.getAddress());
+                BooleanUtils.storeToStackAddress(context, to.getAddress());
             }
             case Float -> {
-                FloatUtils.loadFromVariable(context, from.getAddress());
-                FloatUtils.loadToVariable(context, to.getAddress());
+                FloatUtils.loadFromStackAddress(context, from.getAddress());
+                FloatUtils.storeToStackAddress(context, to.getAddress());
             }
             default -> throw new CompileException("Error while reading " +
                     "variable from stack during expression assignment");

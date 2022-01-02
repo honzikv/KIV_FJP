@@ -45,6 +45,6 @@ public class Compiler {
         var entrypointProcessor = new EntrypointProcessor(entrypoint);
         entrypointProcessor.process(context);
 
-        context.getInstructions().forEach(System.out::println);
+        GeneratorContext.getInstructions().forEach(System.out::println);
     }
 }

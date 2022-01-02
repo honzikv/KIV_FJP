@@ -58,7 +58,7 @@ public class VariableAssignmentProcessor implements IProcessor {
         // Validujeme zda-li je typ platny a nastavime hodnotu
         validateVariable(variable, DataType.Int);
         IntegerUtils.addOnStack(context, intValue);
-        IntegerUtils.loadToVariable(context, variable.getAddress());
+        IntegerUtils.storeToStackAddress(context, variable.getAddress());
     }
 
     // Tyto funkce by asi sli udelat chytreji genericky
@@ -72,7 +72,7 @@ public class VariableAssignmentProcessor implements IProcessor {
 
         validateVariable(variable, DataType.Float);
         FloatUtils.addOnStack(context, floatValue);
-        FloatUtils.loadToVariable(context, variable.getAddress());
+        FloatUtils.storeToStackAddress(context, variable.getAddress());
     }
 
     private static void processBooleanVariable(GeneratorContext context, Variable variable, String value)
@@ -84,7 +84,7 @@ public class VariableAssignmentProcessor implements IProcessor {
 
         validateVariable(variable, DataType.Boolean);
         BooleanUtils.addOnStack(context, boolValue);
-        BooleanUtils.loadToVariable(context, variable.getAddress());
+        BooleanUtils.storeToStackAddress(context, variable.getAddress());
     }
 
     @Override
@@ -149,14 +149,14 @@ public class VariableAssignmentProcessor implements IProcessor {
         VariableAssignmentProcessor.validateVariable(variable, expression.getDataType());
 
         // Nacteme dana data do promenne
-        VariableUtils.loadToVariable(context, variable);
+        VariableUtils.storeToVariable(context, variable);
         variable.setInitialized(true);
 
         // Pro zbytek nacteme vysledek z promenne na stack a ze stacku na jejich adresu
         for (var i = 1; i < variables.size(); i += 1) {
             var chainedVariable = variables.get(i);
             VariableAssignmentProcessor.validateVariable(chainedVariable, expression.getDataType());
-            VariableUtils.loadToVariable(context, variable, chainedVariable);
+            VariableUtils.storeToVariable(context, variable, chainedVariable);
             chainedVariable.setInitialized(true);
         }
     }

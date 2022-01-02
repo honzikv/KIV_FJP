@@ -20,5 +20,4 @@ public class ValueExpression extends Expression {
         this.value = value;
     }
 
-
 }

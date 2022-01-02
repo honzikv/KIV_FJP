@@ -22,7 +22,6 @@ public class ForLoopProcessor implements IProcessor {
 
     @Override
     public void process(GeneratorContext context) throws CompileException {
-
         // Pro for cyklus mame kontrolni promennou uz nastavenou od BlockScope processoru, takze staci vypsat kod
         // s kontrolou
         var expressionProcessor = new ExpressionProcessor();
@@ -32,6 +31,7 @@ public class ForLoopProcessor implements IProcessor {
             throw new CompileException("Error, iteration variable for for loop was not declared!");
         }
         var iterationVariable = context.getVariableOrDefault(forLoopStatement.getIdentifier());
+        iterationVariable.setInitialized(true);
 
         // Nacteme from a ulozime do iteracni promenne
         var from = forLoopStatement.getStart();
@@ -43,7 +43,7 @@ public class ForLoopProcessor implements IProcessor {
         }
 
         // Nacteme vyraz do promenne
-        IntegerUtils.loadToVariable(context, iterationVariable.getAddress());
+        IntegerUtils.storeToStackAddress(context, iterationVariable.getAddress());
 
         // TODO zkontrolovat jestli funguje
         var forLoopStartInstructionIdx = context.getNextInstructionNumber();
@@ -65,7 +65,7 @@ public class ForLoopProcessor implements IProcessor {
                 PL0Utils.getOperationNumberFromOperationType(OperationType.Equal));
 
         // Index instrukce, ktera skoci pri rovnosti
-        var forLoopExitInstructionIdx = GeneratorContext.getInstructionNumber();
+        var forLoopExitInstructionIdx = context.getNextInstructionNumber();
         // Skocime nekam
         context.addInstruction(PL0InstructionType.JMC, 0, Long.MIN_VALUE);
 
@@ -88,7 +88,7 @@ public class ForLoopProcessor implements IProcessor {
 
         // Nyni muzeme upravit instrukci JMC
         var nextInstructionIdx = context.getNextInstructionNumber();
-        context.getInstruction(forLoopStartInstructionIdx).setInstructionAddress(nextInstructionIdx);
+        context.getInstruction(forLoopExitInstructionIdx).setInstructionAddress(nextInstructionIdx);
 
     }
 

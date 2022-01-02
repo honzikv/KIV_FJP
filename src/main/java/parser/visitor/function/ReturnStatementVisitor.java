@@ -1,8 +1,8 @@
 package parser.visitor.function;
 
+import compiler.parsing.DataType;
 import compiler.parsing.expression.ValueExpression;
 import compiler.parsing.statement.function.ReturnStatement;
-import compiler.parsing.DataType;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.CMMLevelAwareVisitor;
 import parser.visitor.ExpressionVisitor;
@@ -15,6 +15,10 @@ public class ReturnStatementVisitor extends CMMLevelAwareVisitor<ReturnStatement
 
     @Override
     public ReturnStatement visitReturnStatement(CMMParser.ReturnStatementContext ctx) {
+
+        if (ctx == null) {
+            return null;
+        }
 
         if (ctx.IDENTIFIER() != null) {
             return new ReturnStatement(depth, ctx.IDENTIFIER().getText());

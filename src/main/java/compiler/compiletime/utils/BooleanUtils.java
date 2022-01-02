@@ -19,11 +19,19 @@ public class BooleanUtils {
         return 1;
     }
 
-    public static void loadToVariable(GeneratorContext context, long variableAddress) {
-        context.addInstruction(PL0InstructionType.STO, 0, variableAddress);
+    public static void storeToStackAddress(GeneratorContext context, long address) {
+        context.addInstruction(PL0InstructionType.STO, 0, address);
     }
 
-    public static void loadFromVariable(GeneratorContext context, long variableAddress) {
-        context.addInstruction(PL0InstructionType.LOD, 0, variableAddress);
+    public static void loadFromStackAddress(GeneratorContext context, long address) {
+        context.addInstruction(PL0InstructionType.LOD, 0, address);
+    }
+
+    public static void loadFromStackAddress(GeneratorContext context, long level, long address) {
+        context.addInstruction(PL0InstructionType.LOD, level, address);
+    }
+
+    public static void storeToStackAddress(GeneratorContext context, long level, long address) {
+        context.addInstruction(PL0InstructionType.LOD, level, address);
     }
 }

@@ -14,7 +14,9 @@ public enum PL0InstructionType {
     LOD("LOD"),
     STO("STO"),
     CAL("CAL"),
-    RET("RET");
+    RET("RET"),
+    PLD("PLD"),
+    STA("STA");
 
     @Getter()
     private final String value;

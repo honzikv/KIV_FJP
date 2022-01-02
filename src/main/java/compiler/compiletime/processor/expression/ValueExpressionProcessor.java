@@ -6,7 +6,6 @@ import compiler.compiletime.IProcessor;
 import compiler.compiletime.utils.BooleanUtils;
 import compiler.compiletime.utils.FloatUtils;
 import compiler.compiletime.utils.IntegerUtils;
-import compiler.compiletime.utils.StringUtils;
 import compiler.parsing.DataType;
 import compiler.parsing.expression.ValueExpression;
 import compiler.utils.CompileException;
@@ -42,9 +41,7 @@ public class ValueExpressionProcessor implements IProcessor {
             return;
         }
 
-        // String je cokoliv jineho co proslo parserem
-        expression.setDataType(DataType.String);
-        StringUtils.addOnStack(context, value);
+        throw new CompileException("Error, unsupported value!");
     }
 
 }

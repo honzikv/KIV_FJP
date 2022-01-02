@@ -30,7 +30,7 @@ public class IdentifierExpressionProcessor implements IProcessor {
         // Pokud promenna existuje, ale neni inicializovana vyhodime vyjimku
         if (!variable.isInitialized()) {
             throw new CompileException("Error, trying to perform operation on uninitialized variable (" +
-                    variable.getIdentifier() + " )!");
+                    variable.getIdentifier() + ")!");
         }
 
         // A umistime ji do kontextu

@@ -6,6 +6,7 @@ import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * TODO struktura floatu?
+ * +-, cela cast, desetinna cast ?
  */
 public class FloatUtils {
     public static void addOnStack(GeneratorContext context, Float value) {
@@ -13,21 +14,31 @@ public class FloatUtils {
     }
 
     public static int sizeOf() {
-        return 4;
+        return 3;
     }
 
-    public static void loadToVariable(GeneratorContext context, long variableAddress) {
+    public static void storeToStackAddress(GeneratorContext context, long address) {
         for (var i = 0; i < sizeOf(); i += 1) {
-            context.addInstruction(PL0InstructionType.STO, 0, variableAddress + i);
+            context.addInstruction(PL0InstructionType.STO, 0, address + i);
         }
-
     }
 
-    public static void loadFromVariable(GeneratorContext context, long variableAddress) {
+    public static void storeToStackAddress(GeneratorContext context, long level, long address) {
         for (var i = 0; i < sizeOf(); i += 1) {
-            context.addInstruction(PL0InstructionType.LOD, 0, variableAddress + i);
+            context.addInstruction(PL0InstructionType.LOD, level, address);
         }
+    }
 
+    public static void loadFromStackAddress(GeneratorContext context, long address) {
+        for (var i = 0; i < sizeOf(); i += 1) {
+            context.addInstruction(PL0InstructionType.LOD, 0, address + i);
+        }
+    }
+
+    public static void loadFromStackAddress(GeneratorContext context, long level, long address) {
+        for (var i = 0; i < sizeOf(); i += 1) {
+            context.addInstruction(PL0InstructionType.LOD, level, address + i);
+        }
     }
 
 }

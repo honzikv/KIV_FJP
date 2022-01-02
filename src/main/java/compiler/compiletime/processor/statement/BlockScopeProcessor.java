@@ -54,6 +54,8 @@ public class BlockScopeProcessor implements IProcessor {
         // Dealokujeme prostor
         deallocateSpace(context);
 
+        // Nastavime parent contextu patricny stack pointer
+        parentContext.consumeContext(context);
     }
 
     private Set<ImmutablePair<String, DataType>> getIdentifiersWithDataType() {

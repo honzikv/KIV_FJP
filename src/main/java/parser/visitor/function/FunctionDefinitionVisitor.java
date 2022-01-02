@@ -2,6 +2,7 @@ package parser.visitor.function;
 
 import compiler.parsing.DataType;
 import compiler.parsing.FunctionDefinition;
+import compiler.parsing.statement.function.FunctionBlockScope;
 import compiler.parsing.statement.function.FunctionParameter;
 import java.util.ArrayList;
 import main.antlr4.grammar.CMMParser;
@@ -24,6 +25,6 @@ public class FunctionDefinitionVisitor extends CMMLevelAwareVisitor<FunctionDefi
 
         var blockScope = new BlockScopeVisitor(depth + 1).visit(ctx.functionBlockScope());
 
-        return new FunctionDefinition(returnType, identifier, functionParameters, blockScope);
+        return new FunctionDefinition(returnType, identifier, functionParameters, (FunctionBlockScope) blockScope);
     }
 }

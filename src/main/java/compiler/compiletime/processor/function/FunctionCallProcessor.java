@@ -15,6 +15,8 @@ public class FunctionCallProcessor implements IProcessor {
 
     private final FunctionCall functionCall;
 
+    private static final int ReturnAddressPosition = 3;
+
     @Override
     public void process(GeneratorContext context) throws CompileException {
         var identifier = functionCall.getIdentifier();
@@ -32,15 +34,9 @@ public class FunctionCallProcessor implements IProcessor {
                     "definition and function call " + "( " + function.getIdentifier() + " )");
         }
 
-        var returnAddress = Long.MIN_VALUE;
-        // Pro vraceni dane hodnoty musime na stacku vytvorit prazdne misto, kam se hodnota pozdeji zapise
-        if (function.getReturnType() != DataType.Void) {
-            returnAddress = context.getStackPointerAddress();
-            VariableUtils.addSpaceOnStack(context, function.getReturnType());
-        }
-
         // Zpracujeme parametry
         var expressionProcessor = new ExpressionProcessor(); // pro zpracovani expressionu
+        var paramsAddress = function.getParamsAddress();
         for (var i = 0; i < functionCall.getParameters().size(); i += 1) {
             // Expression bude mit automaticky nastaveny typ, takze muzeme rovnou validovat proti funkci
             var expression = functionCall.getParameters().get(i);
@@ -52,13 +48,24 @@ public class FunctionCallProcessor implements IProcessor {
                         + " expected " + formalParam.getDataType().getStringValue() + " got "
                         + expression.getDataType().getStringValue() + " )");
             }
+
+            // Ulozime parametr
+            VariableUtils.storeToAddress(context, formalParam.getDataType(), 0, paramsAddress);
+            paramsAddress += VariableUtils.getSizeOf(formalParam.getDataType()); // posuneme se
         }
+
+        // Vypocteme cislo instrukce pro navrat a ulozime ho na index 3 (4. prvek) ve stacku
+        var returnInstructionNumber = context.getNextInstructionNumber() + 1;
+        context.addInstruction(PL0InstructionType.LIT, 0, returnInstructionNumber);
+        context.addInstruction(PL0InstructionType.STO, 0, ReturnAddressPosition);
 
         // Nyni mame na stacku vsechny parametry, takze muzeme zavolat funkci
         context.addInstruction(PL0InstructionType.CAL, context.getStackLevel(), function.getAddress());
 
+        // Pokud funkce neco vracela nacteme to na stack
         if (function.getReturnType() != DataType.Void) {
-            context.addInstruction(PL0InstructionType.LOD, context.getStackLevel(), returnAddress);
+            // Po iteraci pres zapis vsech parametru je nyni adresa nastavena na adresu vystupu funkce
+            context.addInstruction(PL0InstructionType.LOD, context.getStackLevel(), paramsAddress);
         }
     }
 }

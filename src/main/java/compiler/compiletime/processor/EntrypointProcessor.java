@@ -27,7 +27,8 @@ public class EntrypointProcessor implements IProcessor {
      */
     @Override
     public void process(GeneratorContext context) throws CompileException {
-        context.addInstruction(PL0InstructionType.INT, 0, 3);
+        // Inicializujeme misto pro SB, DB, PC a jeste "return pointer" kam se uklada pri function callu adresa navratu
+        context.addInstruction(PL0InstructionType.INT, 0, 4);
 
         // Trochu osklive, ale vytvorime processor pro blockScope a zavolame funkci pro alokaci promennych
         var blockScope = new BlockScope(0);

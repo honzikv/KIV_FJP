@@ -11,32 +11,33 @@ import lombok.ToString;
  */
 @Getter
 @ToString
-public class ReturnStatement  extends Statement {
+public class ReturnStatement extends Statement {
 
-    private final boolean isVoid;
 
     private final Expression expression;
 
     private final String value;
 
+    private final boolean isLiteralValue;
+
     public ReturnStatement(long depthLevel) {
         super(StatementType.ReturnStatement, depthLevel);
-        this.isVoid = true;
         this.expression = null;
         this.value = null;
+        this.isLiteralValue = false;
     }
 
     public ReturnStatement(long depthLevel, Expression expression) {
         super(StatementType.ReturnStatement, depthLevel);
-        this.isVoid = false;
         this.expression = expression;
         this.value = null;
+        this.isLiteralValue = false;
     }
 
     public ReturnStatement(long depthLevel, String value) {
         super(StatementType.ReturnStatement, depthLevel);
-        this.isVoid = false;
         this.expression = null;
         this.value = value;
+        this.isLiteralValue = true;
     }
 }

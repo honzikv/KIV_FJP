@@ -1,6 +1,6 @@
 package compiler.parsing;
 
-import compiler.parsing.statement.BlockScope;
+import compiler.parsing.statement.function.FunctionBlockScope;
 import compiler.parsing.statement.function.FunctionParameter;
 import java.util.List;
 import lombok.Getter;
@@ -20,7 +20,8 @@ public class FunctionDefinition {
 
     private final List<FunctionParameter> functionParameters;
 
-    private final BlockScope blockScope; // bude typu FunctionBlockScope
+    private final FunctionBlockScope blockScope; // bude typu FunctionBlockScope
+
 
     /**
      * Adresa na stacku
@@ -28,10 +29,28 @@ public class FunctionDefinition {
     @Setter
     private long address;
 
+    /**
+     * Adresa parametru
+     */
+    @Setter
+    private long paramsAddress;
+
+    /**
+     * Adresa navratove hodnoty
+     */
+    @Setter
+    private long returnValueAddress;
+
+    /**
+     * Jmeno promenne pro navratovou hodnotu
+     */
+    @Setter
+    private String returnIdentifier;
+
     public FunctionDefinition(DataType returnType,
                               String identifier,
                               List<FunctionParameter> functionParameters,
-                              BlockScope blockScope) {
+                              FunctionBlockScope blockScope) {
         this.returnType = returnType;
         this.identifier = identifier;
         this.functionParameters = functionParameters;

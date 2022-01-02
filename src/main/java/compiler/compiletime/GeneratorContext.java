@@ -49,7 +49,7 @@ public class GeneratorContext {
 
     @Getter
     @Setter
-    private static long stackPointerAddress = 0;
+    private long stackPointerAddress = 0;
 
     @Getter
     @Setter
@@ -163,6 +163,19 @@ public class GeneratorContext {
         return instructions.get(idx);
     }
 
+    /**
+     * Prida promennou do kontextu
+     *
+     * @param variable
+     */
+    public void addVariable(Variable variable) throws CompileException {
+        if (variables.containsKey(variable.getIdentifier())) { // debug
+            throw new CompileException("Error, this context already contains variable with an identifier: "
+                    + variable.getIdentifier());
+        }
+
+        variables.put(variable.getIdentifier(), variable);
+    }
 
     public void allocateVariable(String identifier, DataType dataType) throws CompileException {
         allocateVariable(identifier, dataType, false);
@@ -215,4 +228,13 @@ public class GeneratorContext {
         return functions.get(identifier);
     }
 
+    /**
+     * Pohlti dany kontext - vola se jako posledni metoda dane instance kontextu, aby se spravne nastavil
+     * stack pointer - napr. pri zpracovavani funkci
+     *
+     * @param context kontext, ktery se pohlti touto instanci
+     */
+    public void consumeContext(GeneratorContext context) {
+        this.stackPointerAddress = context.stackPointerAddress;
+    }
 }

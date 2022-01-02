@@ -54,15 +54,7 @@ INTEGER_NUMBER: DIGIT+;
 // preskakovani whitespaces
 WHITESPACE: [\r\t \n] -> skip;
 
-// TODO check
-
-//IDENTIFIER: (UPPERCASE_LETTER | LOWERCASE_LETTER | '_')+ (UPPERCASE_LETTER | LOWERCASE_LETTER | '_' | DIGIT)*;
-
-
-//legalVariableLiterals: DIGIT+ | STRING_TEXT+ | TRUE | FALSE | (DIGIT* DOT DIGIT+)| (DIGIT+ DOT);
-//stringLiteral: (SINGLE_QUOTE STRING_TEXT SINGLE_QUOTE) | (DOUBLE_QUOTE STRING_TEXT DOUBLE_QUOTE);
 legalVariableLiterals: INTEGER_NUMBER | TRUE | FALSE | (INTEGER_NUMBER? DOT INTEGER_NUMBER) | (INTEGER_NUMBER DOT);
-
 
 chainAssignment: EQUALS IDENTIFIER;
 variableAssignment: IDENTIFIER chainAssignment* EQUALS (legalVariableLiterals | expression) SEMICOLON;
