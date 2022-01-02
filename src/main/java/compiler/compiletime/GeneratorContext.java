@@ -193,20 +193,6 @@ public class GeneratorContext {
         return instructions.get(idx);
     }
 
-    /**
-     * Prida promennou do kontextu
-     *
-     * @param variable
-     */
-    public void addVariable(Variable variable) throws CompileException {
-        if (variables.containsKey(variable.getIdentifier())) { // debug
-            throw new CompileException("Error, this context already contains variable with an identifier: "
-                    + variable.getIdentifier());
-        }
-
-        variables.put(variable.getIdentifier(), variable);
-    }
-
     public void allocateVariable(String identifier, DataType dataType) throws CompileException {
         allocateVariable(identifier, dataType, false);
     }
@@ -236,21 +222,18 @@ public class GeneratorContext {
     public void allocateVariable(String identifier, Integer value) {
         var variable = new Variable(identifier, stackPointerAddress, DataType.Int);
         IntegerUtils.addOnStack(this, value);
-        variable.setStackLevel(stackLevel);
         variables.put(identifier, variable);
     }
 
     public void allocateVariable(String identifier, Float value) {
         var variable = new Variable(identifier, stackPointerAddress, DataType.Float);
         FloatUtils.addOnStack(this, value);
-        variable.setStackLevel(stackLevel);
         variables.put(identifier, variable);
     }
 
     public void allocateVariable(String identifier, Boolean value) {
         var variable = new Variable(identifier, stackPointerAddress, DataType.Boolean);
         BooleanUtils.addOnStack(this, value);
-        variable.setStackLevel(stackLevel);
         variables.put(identifier, variable);
     }
 

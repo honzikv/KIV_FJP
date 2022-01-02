@@ -57,19 +57,19 @@ public class VariableUtils {
      * @param level    uroven stacku
      * @param address  adresa ve stacku
      */
-    public static void storeToVariable(GeneratorContext context, Variable variable, long level, long address) {
+    public static void storeToParam(GeneratorContext context, Variable variable, long level, long address) {
         switch (variable.getDataType()) {
             case Int -> {
                 IntegerUtils.loadFromStackAddress(context, level, address);
-                IntegerUtils.storeToStackAddress(context, variable.getStackLevel(), variable.getAddress());
+                IntegerUtils.storeToStackAddress(context, 0, variable.getAddress());
             }
             case Float -> {
                 FloatUtils.loadFromStackAddress(context, level, address);
-                FloatUtils.storeToStackAddress(context, variable.getStackLevel(), variable.getAddress());
+                FloatUtils.storeToStackAddress(context, 0, variable.getAddress());
             }
             case Boolean -> {
                 BooleanUtils.loadFromStackAddress(context, level, address);
-                BooleanUtils.storeToStackAddress(context, variable.getStackLevel(), variable.getAddress());
+                BooleanUtils.storeToStackAddress(context, 0, variable.getAddress());
             }
         }
     }

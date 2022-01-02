@@ -24,10 +24,16 @@ public class VariableInitializationProcessor implements IProcessor {
             throw new CompileException("Error, variable with identifier " + variable.getIdentifier() + " does not exist");
         }
 
-        // Pokud nebyla promena jeste deklarovana nastavime flag na true
-        if (!variable.isDeclared()) {
+        if (variable.isDeclared()) {
+            throw new CompileException("Error, cannot redeclare already declared variable! (" + variable.getIdentifier() + ")");
+        } else {
             variable.setDeclared(true);
         }
+
+//        // Pokud nebyla promena jeste deklarovana nastavime flag na true
+//        if (!variable.isDeclared()) {
+//            variable.setDeclared(true);
+//        }
 
         // Pokud je statement konstatni nastavime na true
         if (variableStatement.isConst()) {

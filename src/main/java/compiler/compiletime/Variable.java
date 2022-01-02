@@ -18,10 +18,6 @@ public class Variable {
      */
     private String identifier;
 
-    /**
-     * Uroven zanoreni v zasobniku
-     */
-    private Integer stackLevel;
 
     /**
      * Adresa
@@ -56,7 +52,7 @@ public class Variable {
     /**
      * Uroven na stacku vuci aktualnimu stack framu
      */
-    private final long level;
+//    private final long level;
 
     /**
      * Konstruktor, ktery slouzi pro vytvoreni neinicializovane a nedeklarovane promenne
@@ -65,7 +61,7 @@ public class Variable {
         this.identifier = identifier;
         this.address = address;
         this.dataType = dataType;
-        this.level = 0;
+//        this.level = 0;
         this.isParamPointer = false;
     }
 

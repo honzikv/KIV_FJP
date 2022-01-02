@@ -115,7 +115,7 @@ public class BinaryOperationExpressionProcessor implements IProcessor {
      */
     private void processIntegerOperation(GeneratorContext context) throws CompileException {
         var operationCode = PL0Utils.getOperationNumberFromOperationType(expression.getOperation());
-        context.addInstruction(PL0InstructionType.OPR, context.getStackLevel(), operationCode);
+        context.addInstruction(PL0InstructionType.OPR, 0, operationCode);
 
         // Pokud je operace porovnani (<, >, ==, !=, >=, <=, ...) bude vysledek typu boolean
         if (booleanOperations.contains(expression.getOperation())) {
@@ -129,7 +129,7 @@ public class BinaryOperationExpressionProcessor implements IProcessor {
 
     private void processBooleanOperation(GeneratorContext context) throws CompileException {
         var operationCode = PL0Utils.getOperationNumberFromOperationType(expression.getOperation());
-        context.addInstruction(PL0InstructionType.OPR, context.getStackLevel(), operationCode);
+        context.addInstruction(PL0InstructionType.OPR, 0, operationCode);
 
         // Zde bude datovy typ vzdy boolean
         expression.setDataType(DataType.Boolean);

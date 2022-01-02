@@ -50,10 +50,10 @@ public class FunctionDefinitionProcessor implements IProcessor {
         // Vytvorime misto pro argumenty a navratovou hodnotu
         parentContext.initializeParamSpace(totalSize);
 
-        // Adresa funkce pro volani
-        var functionAddress = parentContext.getNextInstructionNumber();
+        // Cislo instrukce
+        var functionInstruction = parentContext.getNextInstructionNumber();
         var paramsAddress = GeneratorContext.getParamsAddressIdx();
-        functionDefinition.setAddress(functionAddress);
+        functionDefinition.setAddress(functionInstruction);
         functionDefinition.setParamsAddress(paramsAddress);
 
         // Vytvorime kontext pro funkci
@@ -74,7 +74,7 @@ public class FunctionDefinitionProcessor implements IProcessor {
             paramVariable.setInitialized(true);
 
             // Nacteme hodnoty parametru do promennych
-            VariableUtils.storeToVariable(context, paramVariable, 0, paramsAddress);
+            VariableUtils.storeToParam(context, paramVariable, 0, paramsAddress);
             paramsAddress += VariableUtils.getSizeOf(paramVariable.getDataType()); // pricteme velikost datoveho typu
         }
 
