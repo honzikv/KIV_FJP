@@ -78,7 +78,7 @@ functionParameter: legalDataTypes IDENTIFIER;
 functionParameters: functionParameter | functionParameter COMMA functionParameters;
 
 // Ve volani funkce muze byt jakykoliv vyraz
-expressionChain: IDENTIFIER | expression COMMA expressionChain; // (x1) (x1, x2, ... )
+expressionChain: (IDENTIFIER | expression) (COMMA expressionChain)?; // (x1) (x1, x2, ... )
 
 functionCall: IDENTIFIER LEFT_PAREN expressionChain? RIGHT_PAREN; // x(); nebo x(identifier_chain)
 
@@ -101,7 +101,6 @@ statement:
     | variableInitialization #variableInitializationStatement
     | constVariableInitialization #constVariableInitializationStatement
     | variableAssignment #variableAssignmentStatement
-//    | functionDeclaration #functionDeclarationStatement
     | functionCall SEMICOLON #functionCallStatement
 ;
 
@@ -113,7 +112,7 @@ parenthesesExpression: LEFT_PAREN expression RIGHT_PAREN;
 forExpression: LEFT_PAREN IDENTIFIER IN expression DOUBLE_DOT expression RIGHT_PAREN;
 
 expression:
-    functionCall #functionCallExpression //TODO pridat
+    functionCall #functionCallExpression
     | valueExpr #valueExpression
     | IDENTIFIER #identifierExpression
     | IDENTIFIER INSTANCE_OF legalDataTypes #instanceOfExpression

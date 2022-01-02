@@ -87,7 +87,7 @@ public class FunctionDefinitionProcessor implements IProcessor {
         // Pokud je navratova hodnota je ulozena na stacku - takze ji staci zkopirovat zpet na misto
         if (functionDefinition.getReturnType() != DataType.Void) {
             VariableUtils.storeToAddress(context, functionDefinition.getReturnType(), 1,
-                    paramsAddress + getParamsSize());
+                    paramsAddress);
         }
 
         // Nacteme adresu, kam se mame vratit z predchoziho stacku - ta je vzdy ulozena na tretim indexu

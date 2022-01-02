@@ -78,18 +78,20 @@ public class GeneratorContext {
         functions.put(function.getIdentifier(), function);
     }
 
-    public void initializeParamSpace(int size) {
-        if (paramsInstructionIdx == null) {
-            paramsInstructionIdx = getNextInstructionNumber();
-            addInstruction(PL0InstructionType.INT, 0, size);
-            paramsSize = size;
+    /**
+     * Specialni konstruktor pro funkci, ktery se k rodicovi nepripoji pokud je attachToParent false
+     * Timto zabranime referencim na "globalni" promenne z funkci, takze funkce budou "pure"
+     *
+     * @param stackLevel
+     * @param parent
+     * @param attachToParent
+     */
+    public GeneratorContext(int stackLevel, GeneratorContext parent, boolean attachToParent) {
+        this(stackLevel);
+        if (attachToParent) {
+            this.parentContext = parent;
         }
-
-        // Pokud parametry existuji a pozadujeme vetsi velikost, prepiseme je
-        if (paramsSize != null && paramsSize < size) {
-            var instruction = getInstruction(paramsInstructionIdx);
-            instruction.setInstructionAddress(size);
-        }
+        this.stackPointerAddress = parent.stackPointerAddress;
     }
 
 
@@ -124,18 +126,19 @@ public class GeneratorContext {
         this.parentContext = parent;
     }
 
-    /**
-     * Specialni konstruktor pro funkci, ktery se k rodicovi nepripoji pokud je attachToParent false
-     * Timto zabranime referencim na "globalni" promenne z funkci, takze funkce budou "pure"
-     *
-     * @param stackLevel
-     * @param parent
-     * @param attachToParent
-     */
-    public GeneratorContext(int stackLevel, GeneratorContext parent, boolean attachToParent) {
-        this(stackLevel);
-        if (attachToParent) {
-            this.parentContext = parent;
+    public void initializeParamSpace(int size) {
+        if (paramsInstructionIdx == null) {
+            paramsInstructionIdx = getNextInstructionNumber();
+            addInstruction(PL0InstructionType.INT, 0, size);
+            paramsSize = size;
+        }
+
+        // Pokud parametry existuji a pozadujeme vetsi velikost, prepiseme je
+        if (paramsSize != null && paramsSize < size) {
+            var stackPointerDiff = size - paramsSize;
+            var instruction = getInstruction(paramsInstructionIdx);
+            instruction.setInstructionAddress(size);
+            stackPointerAddress += stackPointerDiff;
         }
     }
 
