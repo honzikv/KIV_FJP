@@ -1,0 +1,12 @@
+int fun1(int param1) {
+	return param1 * 220;
+}
+
+int fun2(int param2) {
+	int result = fun1(10);
+	return result;
+}
+
+
+int result = fun2(200);
+
