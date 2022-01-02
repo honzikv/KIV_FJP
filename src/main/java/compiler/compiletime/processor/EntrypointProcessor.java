@@ -32,7 +32,7 @@ public class EntrypointProcessor implements IProcessor {
 
         // Krome inicializace zakladniho mista musime jeste vytvorit misto pro parametry a navratove hodnoty funkci
         // Protoze zatim nevime jak velke bude, nastavime ho na 0 a pri prekladu funkci se tam nastavi nejvetsi hodnota
-        context.initializeParamSpace(0);
+        context.updateParamSpaceRequirements(0);
 
         // Nasledne se provede skok, ktery skoci na vykonny kod programu, aby se nevolali funkce
         var jumpIdx = context.getNextInstructionNumber();
@@ -45,6 +45,9 @@ public class EntrypointProcessor implements IProcessor {
             functionProcessor.process(context);
         }
 
+        // Ke stack pointeru pridame alokovane misto pro parametry
+        context.setStackPointerAddress(context.getStackPointerAddress() + GeneratorContext.getParamsSize());
+
         // Musime skocit sem
         var nextInstructionIdx = context.getNextInstructionNumber();
         context.getInstruction(jumpIdx).setInstructionAddress(nextInstructionIdx);
@@ -54,6 +57,8 @@ public class EntrypointProcessor implements IProcessor {
         entrypoint.getStatements().forEach(blockScope::addStatement);
         var blockScopeProcessor = new BlockScopeProcessor(blockScope, true, 0);
         blockScopeProcessor.allocateSpace(context);
+
+//        context.debugLog();
 
         // Zpracujeme statementy
         var statementProcessor = new StatementProcessor();

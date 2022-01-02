@@ -62,7 +62,7 @@ public class GeneratorContext {
     private static Integer paramsInstructionIdx = null;
 
     @Getter
-    private static Integer paramsSize = null;
+    private static Integer paramsSize = 0;
     /**
      * Index adresy vrcholu zasobniku
      */
@@ -126,7 +126,7 @@ public class GeneratorContext {
         this.parentContext = parent;
     }
 
-    public void initializeParamSpace(int size) {
+    public void updateParamSpaceRequirements(int size) {
         if (paramsInstructionIdx == null) {
             paramsInstructionIdx = getNextInstructionNumber();
             addInstruction(PL0InstructionType.INT, 0, size);
@@ -135,12 +135,12 @@ public class GeneratorContext {
 
         // Pokud parametry existuji a pozadujeme vetsi velikost, prepiseme je
         if (paramsSize != null && paramsSize < size) {
-            var stackPointerDiff = size - paramsSize;
+            paramsSize = size;
             var instruction = getInstruction(paramsInstructionIdx);
             instruction.setInstructionAddress(size);
-            stackPointerAddress += stackPointerDiff;
         }
     }
+
 
     public boolean variableDeclaredInCurrentScope(String identifier) {
         if (!variables.containsKey(identifier)) {
@@ -252,5 +252,11 @@ public class GeneratorContext {
      */
     public void consumeContext(GeneratorContext context) {
         this.stackPointerAddress = context.stackPointerAddress;
+    }
+
+    public void debugLog() {
+        variables.forEach((__, variable) -> {
+            System.out.println(variable);
+        });
     }
 }

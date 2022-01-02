@@ -48,7 +48,7 @@ public class FunctionDefinitionProcessor implements IProcessor {
                 : VariableUtils.getSizeOf(functionDefinition.getReturnType()));
 
         // Vytvorime misto pro argumenty a navratovou hodnotu
-        parentContext.initializeParamSpace(totalSize);
+        parentContext.updateParamSpaceRequirements(totalSize);
 
         // Cislo instrukce
         var functionInstruction = parentContext.getNextInstructionNumber();

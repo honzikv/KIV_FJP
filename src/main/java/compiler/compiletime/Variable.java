@@ -44,15 +44,6 @@ public class Variable {
      */
     private boolean isConst = false;
 
-    /**
-     * Zda-li je promenna pointer na param - v takovem pripade se nemaze a ani nealokuje
-     */
-    private final boolean isParamPointer;
-
-    /**
-     * Uroven na stacku vuci aktualnimu stack framu
-     */
-//    private final long level;
 
     /**
      * Konstruktor, ktery slouzi pro vytvoreni neinicializovane a nedeklarovane promenne
@@ -61,8 +52,7 @@ public class Variable {
         this.identifier = identifier;
         this.address = address;
         this.dataType = dataType;
-//        this.level = 0;
-        this.isParamPointer = false;
     }
+
 
 }
