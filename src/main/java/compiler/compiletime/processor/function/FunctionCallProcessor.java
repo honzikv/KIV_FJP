@@ -54,19 +54,14 @@ public class FunctionCallProcessor implements IProcessor {
             paramsAddress += VariableUtils.getSizeOf(formalParam.getDataType()); // posuneme se
         }
 
-//        // Vypocteme cislo instrukce pro navrat a ulozime ho na index 3 (4. prvek) ve stacku
-//        var returnInstructionIdx = context.getNextInstructionNumber();
-//        context.addInstruction(PL0InstructionType.LIT, 0, Long.MIN_VALUE);
-//        context.addInstruction(PL0InstructionType.STO, 0, ReturnAddressPosition);
-
         // Nyni mame na stacku vsechny parametry, takze muzeme zavolat funkci
-        context.addInstruction(PL0InstructionType.CAL, context.getStackLevel(), function.getAddress());
+        context.addInstruction(PL0InstructionType.CAL, 0, function.getAddress());
 
 //        context.getInstruction(returnInstructionIdx).setInstructionAddress(context.getNextInstructionNumber());
         // Pokud funkce neco vracela nacteme to na stack
         if (function.getReturnType() != DataType.Void) {
             // Po iteraci pres zapis vsech parametru je nyni adresa nastavena na adresu vystupu funkce
-            context.addInstruction(PL0InstructionType.LOD, context.getStackLevel(), paramsAddress);
+            context.addInstruction(PL0InstructionType.LOD, 0, paramsAddress); // TODO co tady ma bejt
         }
 
     }

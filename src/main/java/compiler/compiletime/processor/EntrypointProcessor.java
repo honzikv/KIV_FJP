@@ -58,7 +58,7 @@ public class EntrypointProcessor implements IProcessor {
         var blockScopeProcessor = new BlockScopeProcessor(blockScope, true, 0);
         blockScopeProcessor.allocateSpace(context);
 
-//        context.debugLog();
+        context.debugLog();
 
         // Zpracujeme statementy
         var statementProcessor = new StatementProcessor();

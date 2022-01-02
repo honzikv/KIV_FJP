@@ -4,7 +4,7 @@ int foo(int bar, int bar2) {
 }
 
 int boo(int bar, int bar2) {
-    return foo(bar, bar2);
+    return 1024 + foo(bar, bar2);
 }
 
 int integer = foo(200, 56);
