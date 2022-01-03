@@ -2,6 +2,7 @@ package compiler;
 
 import compiler.compiletime.GeneratorContext;
 import compiler.compiletime.processor.EntrypointProcessor;
+import compiler.utils.AntlrErrListener;
 import compiler.utils.CompileException;
 import compiler.utils.IOProvider;
 import main.antlr4.grammar.CMMLexer;
@@ -37,6 +38,14 @@ public class Compiler {
         // Entrypoint je vstup cele gramatiky, takze staci navstivit ten a rekurzivne resolvujeme zbytek
         var entrypointVisitor = new EntrypointVisitor();
         var entrypoint = entrypointVisitor.visit(parser.entrypoint());
+
+
+        // Vytvorime listener pro odchytavani chyb
+        var errorListener = new AntlrErrListener();
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(errorListener);
+        parser.removeErrorListeners();
+        parser.addErrorListener(errorListener);
 
 
         var context = new GeneratorContext();

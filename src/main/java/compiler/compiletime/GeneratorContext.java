@@ -128,7 +128,6 @@ public class GeneratorContext {
         }
     }
 
-
     public boolean variableDeclaredInCurrentScope(String identifier) {
         if (!variables.containsKey(identifier)) {
             return false;

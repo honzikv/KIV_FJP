@@ -11,5 +11,15 @@ public class Main {
      *
      * @param args
      */
-    public static void main(String[] args) throws CompileException { new Compiler().run(); }
+    public static void main(String[] args) {
+        try {
+            // Debugovani vypisu
+//            Debug.UseDebug = args.length > 0 && args[0].equals("--debug-mode");
+            var compiler = new Compiler();
+            compiler.run();
+        } catch (CompileException ex) {
+            System.err.println("There was an error during compilation: ");
+            System.err.println(ex.getMessage());
+        }
+    }
 }
