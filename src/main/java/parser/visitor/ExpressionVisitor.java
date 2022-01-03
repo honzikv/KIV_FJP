@@ -5,6 +5,7 @@ import compiler.parsing.expression.BinaryOperationExpression;
 import compiler.parsing.expression.Expression;
 import compiler.parsing.expression.FunctionCallExpression;
 import compiler.parsing.expression.IdentifierExpression;
+import compiler.parsing.expression.InstanceOfExpression;
 import compiler.parsing.expression.OperationType;
 import compiler.parsing.expression.UnaryOperationExpression;
 import compiler.parsing.expression.ValueExpression;
@@ -102,5 +103,18 @@ public class ExpressionVisitor extends CMMLevelAwareVisitor<Expression> {
     public Expression visitFunctionCallExpression(CMMParser.FunctionCallExpressionContext ctx) {
         var functionCall = new FunctionCallVisitor(depth).visit(ctx.functionCall());
         return new FunctionCallExpression(functionCall);
+    }
+
+    @Override
+    public Expression visitInstanceOfExpression(CMMParser.InstanceOfExpressionContext ctx) {
+        var identifier = ctx.IDENTIFIER() == null
+                ? ctx.legalDataTypes(0).getText()
+                : ctx.IDENTIFIER().getText();
+        var dataTypeCtx = ctx.IDENTIFIER() == null
+                ? ctx.legalDataTypes(1)
+                : ctx.legalDataTypes(0);
+        var dataType = DataType.convertStringTypeToDataType(dataTypeCtx.getText());
+
+        return new InstanceOfExpression(identifier, dataType);
     }
 }

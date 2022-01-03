@@ -113,9 +113,9 @@ forExpression: LEFT_PAREN IDENTIFIER IN expression DOUBLE_DOT expression RIGHT_P
 
 expression:
     functionCall #functionCallExpression
+    | (IDENTIFIER | legalDataTypes) INSTANCE_OF legalDataTypes #instanceOfExpression
     | valueExpr #valueExpression
     | IDENTIFIER #identifierExpression
-    | IDENTIFIER INSTANCE_OF legalDataTypes #instanceOfExpression
     // operace pro deleni nasobeni a modulo maji stejnou vahu a chceme resolve jako prvni
     | expression operation = (DIV | MOD | MULT) expression #multiplicationExpression // / * %
     | expression operation = (PLUS | MINUS) expression #additionExpression // + -

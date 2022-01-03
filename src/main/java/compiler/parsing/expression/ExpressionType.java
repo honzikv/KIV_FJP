@@ -5,5 +5,6 @@ public enum ExpressionType {
     Value,
     Binary,
     Unary,
-    FunctionCall
+    FunctionCall,
+    InstanceOf
 }

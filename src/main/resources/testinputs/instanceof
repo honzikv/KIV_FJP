@@ -1,0 +1,5 @@
+int j = 0;
+
+if (j is int) {
+	j = 200;
+}

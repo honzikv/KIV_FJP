@@ -6,6 +6,7 @@ import compiler.parsing.expression.BinaryOperationExpression;
 import compiler.parsing.expression.Expression;
 import compiler.parsing.expression.FunctionCallExpression;
 import compiler.parsing.expression.IdentifierExpression;
+import compiler.parsing.expression.InstanceOfExpression;
 import compiler.parsing.expression.UnaryOperationExpression;
 import compiler.parsing.expression.ValueExpression;
 import compiler.utils.CompileException;
@@ -26,16 +27,15 @@ public class ExpressionProcessor implements IProcessor {
         switch (expression.getExpressionType()) {
             case Identifier -> new IdentifierExpressionProcessor((IdentifierExpression) expression)
                     .process(context);
-
             case Binary -> new BinaryOperationExpressionProcessor((BinaryOperationExpression) expression)
                     .process(context);
-
             case Value -> new ValueExpressionProcessor((ValueExpression) expression)
                     .process(context);
-
             case Unary -> new UnaryOperationExpressionProcessor((UnaryOperationExpression) expression)
                     .process(context);
             case FunctionCall -> new FunctionCallExpressionProcessor((FunctionCallExpression) expression)
+                    .process(context);
+            case InstanceOf -> new InstanceOfExpressionProcessor((InstanceOfExpression) expression)
                     .process(context);
         }
     }
