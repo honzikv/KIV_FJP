@@ -55,7 +55,8 @@ public class BinaryOperationExpressionProcessor implements IProcessor {
         result.put(DataType.Float, supportedFloatOperations);
         result.put(DataType.Int, supportedFloatOperations);
 
-        result.put(DataType.Boolean, Set.of(OperationType.BooleanAnd, OperationType.BooleanOr));
+        result.put(DataType.Boolean, Set.of(OperationType.BooleanAnd, OperationType.BooleanOr, OperationType.Equal,
+                OperationType.NotEqual));
 
         return result;
     }

@@ -1,0 +1,25 @@
+
+bool function(bool param1) {
+    bool returnValue;
+    if (param1 == true) {
+        returnValue = false;
+    }
+    else {
+        returnValue = true;
+    }
+
+    return returnValue;
+}
+
+int multiplier(int number) {
+    int help = 20;
+    return number * 20 + 5 + help;
+}
+
+int nested(int number) {
+    int help = multiplier(1) + multiplier(10);
+    int help2 = multiplier(20);
+    return help + help2 + number;
+}
+
+int sum = nested(10);

@@ -7,6 +7,11 @@ int fun2(int param2) {
 	return result;
 }
 
+int fun3(int param) {
+    int result = fun1(fun1(2));
+    return fun2(result) - result;
+}
+
 
 int result = fun2(200);
 

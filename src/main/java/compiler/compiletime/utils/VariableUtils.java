@@ -52,23 +52,23 @@ public class VariableUtils {
     /**
      * Nacte data do promenne z daneho levelu a adresy - zkratka pro instrukce LOD a STO
      *
-     * @param context  kontext
-     * @param variable promenna, do ktere se hodnoty nactou
-     * @param level    uroven stacku
-     * @param address  adresa ve stacku
+     * @param context     kontext
+     * @param variable    promenna, do ktere se hodnoty nactou
+     * @param loadLevel   uroven stacku, ze ktere se bude cist
+     * @param loadAddress adresa ve stacku, ze ktere se bude cist
      */
-    public static void storeToParam(GeneratorContext context, Variable variable, long level, long address) {
+    public static void storeToParam(GeneratorContext context, Variable variable, long loadLevel, long loadAddress) {
         switch (variable.getDataType()) {
             case Int -> {
-                IntegerUtils.loadFromStackAddress(context, level, address);
+                IntegerUtils.loadFromStackAddress(context, loadLevel, loadAddress);
                 IntegerUtils.storeToStackAddress(context, 0, variable.getAddress());
             }
             case Float -> {
-                FloatUtils.loadFromStackAddress(context, level, address);
+                FloatUtils.loadFromStackAddress(context, loadLevel, loadAddress);
                 FloatUtils.storeToStackAddress(context, 0, variable.getAddress());
             }
             case Boolean -> {
-                BooleanUtils.loadFromStackAddress(context, level, address);
+                BooleanUtils.loadFromStackAddress(context, loadLevel, loadAddress);
                 BooleanUtils.storeToStackAddress(context, 0, variable.getAddress());
             }
         }

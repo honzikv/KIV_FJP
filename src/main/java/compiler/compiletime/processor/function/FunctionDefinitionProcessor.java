@@ -74,7 +74,7 @@ public class FunctionDefinitionProcessor implements IProcessor {
             paramVariable.setInitialized(true);
 
             // Nacteme hodnoty parametru do promennych
-            VariableUtils.storeToParam(context, paramVariable, 0, paramsAddress);
+            VariableUtils.storeToParam(context, paramVariable, 1, paramsAddress);
             paramsAddress += VariableUtils.getSizeOf(paramVariable.getDataType()); // pricteme velikost datoveho typu
         }
 

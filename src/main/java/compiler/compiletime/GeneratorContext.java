@@ -8,6 +8,7 @@ import compiler.parsing.FunctionDefinition;
 import compiler.pl0.PL0Instruction;
 import compiler.pl0.PL0InstructionType;
 import compiler.utils.CompileException;
+import compiler.utils.Debug;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -175,6 +176,9 @@ public class GeneratorContext {
     public void addInstruction(PL0InstructionType instructionType,
                                long stackLevel, long instructionParam) {
         var instruction = new PL0Instruction(instructionType, stackLevel, instructionParam);
+        if (Debug.UseDebug) {
+            System.out.println("Adding new instruction (" + instruction + ") " + instruction);
+        }
         instructions.add(instruction);
         instructionNumber += 1;
 

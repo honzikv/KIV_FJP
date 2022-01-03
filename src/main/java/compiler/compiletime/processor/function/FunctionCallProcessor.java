@@ -15,8 +15,6 @@ public class FunctionCallProcessor implements IProcessor {
 
     private final FunctionCall functionCall;
 
-    private static final int ReturnAddressPosition = 3;
-
     @Override
     public void process(GeneratorContext context) throws CompileException {
         var identifier = functionCall.getIdentifier();
@@ -57,7 +55,6 @@ public class FunctionCallProcessor implements IProcessor {
         // Nyni mame na stacku vsechny parametry, takze muzeme zavolat funkci
         context.addInstruction(PL0InstructionType.CAL, 0, function.getAddress());
 
-//        context.getInstruction(returnInstructionIdx).setInstructionAddress(context.getNextInstructionNumber());
         // Pokud funkce neco vracela nacteme to na stack
         if (function.getReturnType() != DataType.Void) {
             // Po iteraci pres zapis vsech parametru je nyni adresa nastavena na adresu vystupu funkce
