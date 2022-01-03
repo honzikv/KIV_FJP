@@ -3,3 +3,7 @@ int j = 0;
 if (j is int) {
 	j = 200;
 }
+
+if (int is int) {
+    int j = 400;
+}

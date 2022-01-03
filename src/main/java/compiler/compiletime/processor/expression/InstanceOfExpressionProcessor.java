@@ -24,6 +24,7 @@ public class InstanceOfExpressionProcessor implements IProcessor {
     @Override
     public void process(GeneratorContext context) throws CompileException {
         var identifier = instanceOfExpression.getIdentifier();
+        instanceOfExpression.setDataType(DataType.Boolean);
 
         if (legalDataTypes.contains(identifier)) {
             printDataType(context, DataType.convertStringTypeToDataType(identifier));
@@ -36,6 +37,5 @@ public class InstanceOfExpressionProcessor implements IProcessor {
         }
 
         printDataType(context, variable.getDataType());
-        instanceOfExpression.setDataType(DataType.Boolean);
     }
 }
