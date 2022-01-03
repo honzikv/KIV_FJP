@@ -52,9 +52,6 @@ public class EntrypointProcessor implements IProcessor {
             functionProcessor.process(context);
         }
 
-        // Ke stack pointeru pridame alokovane misto pro parametry
-        context.setStackPointerAddress(context.getStackPointerAddress() + GeneratorContext.getParamsMaxSize());
-
         // Musime skocit sem
         var nextInstructionIdx = context.getNextInstructionNumber();
         context.getInstruction(jumpIdx).setInstructionAddress(nextInstructionIdx);

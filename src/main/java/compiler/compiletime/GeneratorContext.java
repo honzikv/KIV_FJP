@@ -56,11 +56,6 @@ public class GeneratorContext {
     @Getter
     @Setter
     private static long instructionNumber = 0;
-    /**
-     * Index instrukce pro inicializaci mista pro parametry a navratovou hodnotu
-     */
-    @Getter
-    private static Integer paramsInstructionIdx = null;
 
     @Getter
     private static Integer paramsMaxSize = 0;
@@ -128,17 +123,8 @@ public class GeneratorContext {
     }
 
     public void updateParamSpaceRequirements(int size) {
-        if (paramsInstructionIdx == null) {
-            paramsInstructionIdx = getNextInstructionNumber();
-            addInstruction(PL0InstructionType.INT, 0, size);
+        if (paramsMaxSize < size) {
             paramsMaxSize = size;
-        }
-
-        // Pokud parametry existuji a pozadujeme vetsi velikost, prepiseme je
-        if (paramsMaxSize != null && paramsMaxSize < size) {
-            paramsMaxSize = size;
-            var instruction = getInstruction(paramsInstructionIdx);
-            instruction.setInstructionAddress(size);
         }
     }
 
