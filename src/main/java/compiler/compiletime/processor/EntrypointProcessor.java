@@ -29,13 +29,6 @@ public class EntrypointProcessor implements IProcessor {
      */
     @Override
     public void process(GeneratorContext context) throws CompileException {
-        // Inicializujeme misto pro SB, DB, PC a jeste "return pointer" kam se uklada pri function callu adresa navratu
-        context.addInstruction(PL0InstructionType.INT, 0, 3);
-
-        // Nasledne se provede skok, ktery skoci na vykonny kod programu, aby se nevolali funkce
-        var jumpIdx = context.getNextInstructionNumber();
-        context.addInstruction(PL0InstructionType.JMP, 0, Integer.MIN_VALUE);
-
         // Protoze jazyk ma podporovat funkci ve funkci potrebujeme ve funkci nejakym zpusobem ulozit misto na
         // parametry, aby se mohli ulozit na spravne misto a nacist
         // Metoda najde maximalni pocet parametru s return hodnotou a nastavi je do kontextu, takze se vzdy pri danem
@@ -43,6 +36,14 @@ public class EntrypointProcessor implements IProcessor {
         // v kazde funkci co se jak vola abychom ziskali mensi pocet parametru a tento zpusob by mel pro semestralni
         // praci stacit
         preprocessFunctions(context);
+
+        // Inicializujeme misto pro SB, DB, PC + parametry
+        context.addInstruction(PL0InstructionType.INT, 0, 3 + GeneratorContext.getParamsMaxSize());
+
+        // Nasledne se provede skok, ktery skoci na vykonny kod programu, aby se nevolali funkce
+        var jumpIdx = context.getNextInstructionNumber();
+        context.addInstruction(PL0InstructionType.JMP, 0, Integer.MIN_VALUE);
+
 
         // Zpracujeme funkce (pokud jsou)
         var functionProcessor = new FunctionDefinitionProcessor();

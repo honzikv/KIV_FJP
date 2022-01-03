@@ -2,12 +2,14 @@ package compiler.compiletime.processor.statement;
 
 import compiler.compiletime.GeneratorContext;
 import compiler.compiletime.IProcessor;
+import compiler.compiletime.processor.function.FunctionCallProcessor;
 import compiler.compiletime.processor.statement.variable.VariableAssignmentProcessor;
 import compiler.compiletime.processor.statement.variable.VariableDeclarationProcessor;
 import compiler.compiletime.processor.statement.variable.VariableInitializationProcessor;
 import compiler.parsing.statement.BlockScope;
 import compiler.parsing.statement.IfStatement;
 import compiler.parsing.statement.Statement;
+import compiler.parsing.statement.function.FunctionCall;
 import compiler.parsing.statement.loop.ForLoopStatement;
 import compiler.parsing.statement.loop.WhileLoopStatement;
 import compiler.parsing.statement.variable.VariableAssignmentStatement;
@@ -48,10 +50,8 @@ public class StatementProcessor implements IProcessor {
                     .process(context);
             case IfStatement -> new IfStatementProcessor((IfStatement) statement)
                     .process(context);
-//            case FunctionCall -> new FunctionCallProcessor((FunctionCall) statement)
-//                    .process(context);
-//            case FunctionParameter -> new FunctionParameterProcessor((FunctionParameter) statement)
-//                    .process(context);
+            case FunctionCall -> new FunctionCallProcessor((FunctionCall) statement)
+                    .process(context);
         }
     }
 

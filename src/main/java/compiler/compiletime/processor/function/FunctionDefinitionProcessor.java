@@ -87,11 +87,15 @@ public class FunctionDefinitionProcessor implements IProcessor {
                 parentContext.getStackLevel(), functionDefinition);
         blockScopeProcessor.process(context);
 
+
         // Pokud je navratova hodnota je ulozena na stacku - takze ji staci zkopirovat zpet na misto
         if (functionDefinition.getReturnType() != DataType.Void) {
             VariableUtils.storeToAddress(context, functionDefinition.getReturnType(), 1,
                     paramsAddress);
         }
+
+        // Dealokovat misto musime az po tom co zapiseme return hodnotu
+        blockScopeProcessor.deallocateSpace(context);
 
         // Zavolame return
         context.addInstruction(PL0InstructionType.RET, 0, 0);

@@ -63,8 +63,5 @@ public class FunctionBlockScopeProcessor extends BlockScopeProcessor {
         if (expression.getDataType() != functionDefinition.getReturnType()) {
             throw new CompileException("Error, returned value / expression type differs from expected return type!");
         }
-
-        // Dealokujeme misto na stacku
-        deallocateSpace(context);
     }
 }
