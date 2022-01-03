@@ -13,7 +13,7 @@ public class FunctionCallVisitor extends CMMLevelAwareVisitor<FunctionCall> {
 
     @Override
     public FunctionCall visitFunctionCallStatement(CMMParser.FunctionCallStatementContext ctx) {
-        return super.visitFunctionCall(ctx.functionCall());
+        return visitFunctionCall(ctx.functionCall());
     }
 
     @Override

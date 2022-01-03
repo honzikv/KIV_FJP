@@ -1,0 +1,12 @@
+void fun() {
+	bool result;
+	if (true) {
+		result = false;
+	}
+	else {
+		result = true;
+	}
+    return;
+}
+
+fun();
