@@ -111,4 +111,21 @@ public class VariableUtils {
                     "variable from stack during expression assignment");
         };
     }
+
+    /**
+     * Diky jave musime do hlavicky pridavat to co funkce vyhazuje, takze toto vyhazovat nic nebude a pak
+     * se jenom zkontroluje pri preprocessingu funkci, zda-li to nema nejaky nesmysl. Velmi dobry napad nutit
+     * programatora definovat co funkce vyhazuje :)
+     *
+     * @param dataType
+     * @return
+     */
+    public static int getSizeOfNonThrow(DataType dataType) {
+        return switch (dataType) {
+            case Int -> IntegerUtils.sizeOf();
+            case Boolean -> BooleanUtils.sizeOf();
+            case Float -> FloatUtils.sizeOf();
+            default -> Integer.MAX_VALUE;
+        };
+    }
 }

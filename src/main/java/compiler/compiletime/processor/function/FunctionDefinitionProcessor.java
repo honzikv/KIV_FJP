@@ -16,8 +16,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class FunctionDefinitionProcessor implements IProcessor {
 
-    private static final int FunctionSize = 3; // SB, DB, PC
-
     @Setter
     private FunctionDefinition functionDefinition;
 
@@ -62,7 +60,12 @@ public class FunctionDefinitionProcessor implements IProcessor {
         // vnejsim stavu
         var context = new GeneratorContext(1, parentContext, false);
         context.setStackPointerAddress(0); // Reset stack pointeru protoze jsme ve funkci
-        context.addInstruction(PL0InstructionType.INT, 0, 3);
+
+        // Alokujeme 3 mista pro SB, DB, PC a pak jeste extra misto pro ukladani parametru pri volani funkci ve funkci
+        // Toto by slo jeste optimalizovat, napr. kdybychom prosli vsechny statementy ve funkci a zjistili, co se vola
+        // nicmene by to vyzadovalo velkou cast kodu navic, protoze aktualne tridy i rovnou vypisuji kod pri pruchodu,
+        // takze to nechame takto a bude to omezeni jazyka
+        context.addInstruction(PL0InstructionType.INT, 0, 3 + GeneratorContext.getParamsMaxSize());
 
         // Registrujeme identifikatory argumentu do noveho kontextu
         for (var functionParameter : functionDefinition.getFunctionParameters()) {

@@ -63,7 +63,7 @@ public class GeneratorContext {
     private static Integer paramsInstructionIdx = null;
 
     @Getter
-    private static Integer paramsSize = 0;
+    private static Integer paramsMaxSize = 0;
     /**
      * Index adresy vrcholu zasobniku
      */
@@ -131,12 +131,12 @@ public class GeneratorContext {
         if (paramsInstructionIdx == null) {
             paramsInstructionIdx = getNextInstructionNumber();
             addInstruction(PL0InstructionType.INT, 0, size);
-            paramsSize = size;
+            paramsMaxSize = size;
         }
 
         // Pokud parametry existuji a pozadujeme vetsi velikost, prepiseme je
-        if (paramsSize != null && paramsSize < size) {
-            paramsSize = size;
+        if (paramsMaxSize != null && paramsMaxSize < size) {
+            paramsMaxSize = size;
             var instruction = getInstruction(paramsInstructionIdx);
             instruction.setInstructionAddress(size);
         }
