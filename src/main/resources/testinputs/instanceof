@@ -7,3 +7,4 @@ if (j is int) {
 if (int is int) {
     int j = 400;
 }
+

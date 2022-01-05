@@ -53,12 +53,19 @@ public class GeneratorContext {
     @Getter
     private static final int ParamsAddressIdx = 3;
 
+    /**
+     * Cislo nasledujici instrukce
+     */
     @Getter
     @Setter
     private static long instructionNumber = 0;
 
+    /**
+     * Maximalni velikost parametru
+     */
     @Getter
     private static Integer paramsMaxSize = 0;
+
     /**
      * Index adresy vrcholu zasobniku
      */
@@ -66,8 +73,12 @@ public class GeneratorContext {
     @Setter
     private long stackPointerAddress = 0;
 
-    public boolean functionExists(String identifier) {
-        return functions.containsKey(identifier);
+    /**
+     * NoArgs konstruktor, ktery se pouziva v EntrypointProcessoru
+     */
+    public GeneratorContext() {
+        this.stackLevel = 0;
+        this.variables = new HashMap<>();
     }
 
     public void addFunction(FunctionDefinition function) {
@@ -90,10 +101,14 @@ public class GeneratorContext {
         this.stackPointerAddress = parent.stackPointerAddress;
     }
 
-
-    public GeneratorContext() {
-        this.stackLevel = 0;
-        this.variables = new HashMap<>();
+    /**
+     * Vrati true, pokud funkce existuje, jinak false
+     *
+     * @param identifier identifikator funkce
+     * @return true, pokud fce existuje
+     */
+    public boolean functionExists(String identifier) {
+        return functions.containsKey(identifier);
     }
 
     public GeneratorContext(int stackLevel) {

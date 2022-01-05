@@ -40,9 +40,7 @@ TRIPLE_DOT: '...';
 CONST: 'const';
 
 // identifikator pro promennou nebo jmeno funkce
-//identifier: (ALPHABET_LETTER | UNDERLINE)+ (ALPHABET_LETTER | UNDERLINE | DIGIT)* ;
 IDENTIFIER: (UPPERCASE_LETTER | LOWERCASE_LETTER | '_')+ (UPPERCASE_LETTER | LOWERCASE_LETTER | '_' | DIGIT)*;
-//STRING_TEXT: [A-Z a-z()0-9!#%&`*+,_\-.\\;[\]^{}~|]; // TODO fixnout - vubec nefunguje pri parsovani
 
 ALPHABET_LETTER: [A-Za-z];
 fragment LOWERCASE_LETTER: [a-z];
@@ -96,7 +94,6 @@ statement:
     | FOR forExpression blockScope #forStatement
     | WHILE parenthesesExpression blockScope #whileStatement
     | DO blockScope WHILE parenthesesExpression #doWhileStatement
-//    | SWITCH parenthesesExpression switchBlock #switchStatement // TODO doimplementovat
     | variableDeclaration #variableDeclarationStatement
     | variableInitialization #variableInitializationStatement
     | constVariableInitialization #constVariableInitializationStatement
