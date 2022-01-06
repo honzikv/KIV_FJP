@@ -1,10 +1,14 @@
 package compiler.utils;
 
+import lombok.Getter;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 
-public class AntlrErrListener extends BaseErrorListener {
+public class AntlrErrorListener extends BaseErrorListener {
+
+    @Getter
+    private static final AntlrErrorListener Instance = new AntlrErrorListener();
 
     @Override
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line,

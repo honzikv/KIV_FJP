@@ -52,6 +52,7 @@ INTEGER_NUMBER: DIGIT+;
 // preskakovani whitespaces
 WHITESPACE: [\r\t \n] -> skip;
 
+// Legalni symboly pro prirazeni hodnoty promenne
 legalVariableLiterals: INTEGER_NUMBER | TRUE | FALSE | (INTEGER_NUMBER? DOT INTEGER_NUMBER) | (INTEGER_NUMBER DOT);
 
 chainAssignment: EQUALS IDENTIFIER;
@@ -61,9 +62,9 @@ variableInitialization: legalDataTypes IDENTIFIER EQUALS (legalVariableLiterals 
 constVariableInitialization: CONST variableInitialization;
 
 
-functionDataTypes: (VOID | legalDataTypes);
+functionDataTypes: (VOID | legalDataTypes); // navratove hodnoty funkci
 blockScope: LEFT_CURLY (statement)* RIGHT_CURLY; // { } nebo { var x = 1; } nebo { int x() {} ...}
-returnStatement: RETURN (expression)? SEMICOLON;
+returnStatement: RETURN (expression)? SEMICOLON; // return;
 functionBlockScope: LEFT_CURLY (statement)* returnStatement RIGHT_CURLY;
 
 // definice funkce
