@@ -14,14 +14,23 @@ import parser.visitor.EntrypointVisitor;
 /**
  * Objekt prekladace, ktery se vola z mainu a provede preklad ze vstupu
  */
-public class Compiler {
-
-    /**
+public class Compiler
+{
+	/**
      * Metoda pro spusteni prekladu
      */
-    public void run() throws CompileException {
-        // Ziskame vstup do compileru
-        var input = IOProvider.read();
+    public void run() throws CompileException
+    {
+        //Ziskame vstup do compileru
+    	String input;
+    	if(Arguments.isInputType())
+    	{
+    		input = IOProvider.readFile(Arguments.getInputFileName()); 
+    	}
+    	else
+    	{
+    		input = IOProvider.read();
+    	}
         compile(input);
     }
 
@@ -54,9 +63,16 @@ public class Compiler {
 
         // Ziskame instrukce a vypiseme je do stdoutu
         var instructions = GeneratorContext.getInstructions();
-        for (var i = 0; i < instructions.size(); i += 1) {
-            var instruction = instructions.get(i);
-            System.out.println(i + " " + instruction);
+        if(Arguments.isOutputType())
+        {
+        	IOProvider.writeToFile(Arguments.getOutputFileName(), instructions);
+        }
+        else
+        {
+        	for (var i = 0; i < instructions.size(); i += 1) {
+        		var instruction = instructions.get(i);
+        		System.out.println(i + " " + instruction);
+        	}        	
         }
     }
 }
