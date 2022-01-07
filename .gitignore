@@ -2,7 +2,7 @@
 /target/
 
 # Ignore Eclipse project files
-/target/.classpath
-/target/.project
-/target/.settings/org.eclipse.jdt.core.prefs
-/target/.settings/org.eclipse.m2e.core.prefs
+.classpath
+.project
+.settings/org.eclipse.jdt.core.prefs
+.settings/org.eclipse.m2e.core.prefs
