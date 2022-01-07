@@ -5,7 +5,7 @@ package compiler.utils;
  */
 public class Debug {
 
-    public static boolean UseDebug = true;
+    public static boolean UseDebug = false;
 
     public static void Log(String message) {
         System.out.println("DEBUG: " + message);

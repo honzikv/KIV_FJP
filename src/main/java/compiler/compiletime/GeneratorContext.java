@@ -259,8 +259,11 @@ public class GeneratorContext {
     }
 
     public void debugLog() {
-        variables.forEach((__, variable) -> {
-            System.out.println(variable);
-        });
+        if(Debug.UseDebug)
+        {
+        	variables.forEach((__, variable) -> {
+        		System.out.println(variable);
+        	});        	
+        }
     }
 }

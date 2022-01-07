@@ -42,7 +42,7 @@ public class Arguments
 	{
 		if(index+1 >= length)
 		{
-			System.out.println("Missing parameter for subsequant information!");
+			//System.out.println("Missing parameter for subsequant information!");
 			return 1;
 		}
 		return 0;
@@ -59,7 +59,7 @@ public class Arguments
 	{
 		if(fileName!= null && !fileName.endsWith(".txt"))
 		{
-			System.out.println("File is not in .txt format!");
+			//System.out.println("File is not in .txt format!");
 			return 2;
 		}
 		return 0;
@@ -73,12 +73,12 @@ public class Arguments
 		System.out.println("------------------------------------------------");
 		System.out.println("List of valid arguments that program recognizes:");
 		System.out.println("------------------------------------------------");
-		System.out.println("-h,-H						Prints out list of all valid arguments for the program.");
-		System.out.println("-p,-P						Sets the program for runnig PL0 interpreter at the end in the console.");
+		System.out.println("-h,-H				Prints out list of all valid arguments for the program.");
+		System.out.println("-p,-P				Sets the program for runnig PL0 interpreter at the end in the console.");
 		System.out.println("-i,-I <inputfilename.txt>	Sets the TXT file for the input of the program.");
 		System.out.println("-o,-O <outputfilename.txt>	Sets the program for puting the output to the desired file instead of the console.");
-		System.out.println("							Output file is optional. If not described as a argument, default file name will be used.");
-		System.out.println("-d,-D						Enabling Debug mode.");
+		System.out.println("				Output file is optional. If not described as a argument, default file name will be used.");
+		System.out.println("-d,-D				Enabling Debug mode.");
 		System.out.println("------------------------------------------------");
 	}
 	
@@ -113,18 +113,22 @@ public class Arguments
     					}
     					else
     					{
+    						System.out.println("Input file does not exist!");
     						return 3;
     					}
     				}
     				else
     				{
+    					System.out.println("Input file is not in TXT format!");
     					return 2;
     				}
     			}
     			else
     			{
+    				System.out.println("Argument for input file is missing!");
     				return 1;
     			}
+    			inputType = true;
     			break;
     		case "-o":
     		case "-O":
@@ -138,6 +142,7 @@ public class Arguments
     					i++;
     				}
     			}
+    			outputType = true;
     			break;
     		case "-d":
     		case "-D":

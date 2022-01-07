@@ -66,6 +66,7 @@ public class Compiler
         }
         else
         {
+        	System.out.println();
         	for (var i = 0; i < instructions.size(); i += 1) {
         		var instruction = instructions.get(i);
         		System.out.println(i + " " + instruction);

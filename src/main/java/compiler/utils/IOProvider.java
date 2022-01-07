@@ -80,12 +80,12 @@ public class IOProvider
     	{
     		return;
     	}
-    	if(Arguments.isOutputType() && !fileName.equals("c--output"))
+    	if(Arguments.isOutputType() && fileName.equals("c--output"))
     	{
     		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
     		Date date = new Date(System.currentTimeMillis());
     		String currentTime = formatter.format(date);
-    		fileName = "c--output" + currentTime + ".txt";
+    		fileName = "c--output_" + currentTime + ".txt";
     	}
     	
     	File f = new File(fileName);
