@@ -1,9 +1,12 @@
 package compiler;
 
 import java.io.File;
+import java.util.List;
 
+import compiler.pl0.PL0Instruction;
 import compiler.utils.Debug;
 import lombok.Getter;
+import lombok.Setter;
 
 public class Arguments
 {
@@ -29,6 +32,10 @@ public class Arguments
 	
 	@Getter
 	private static String outputFileName = "c--output";
+	
+	@Getter
+	@Setter
+	private static List<PL0Instruction> instructions;
 	
 	/**
 	 * Provede kontrolu vstupniho indexu do pole retezcu. Ppodiva se,

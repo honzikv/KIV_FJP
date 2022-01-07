@@ -58,8 +58,18 @@ public class Compiler
         var entrypointProcessor = new EntrypointProcessor(entrypoint);
         entrypointProcessor.process(context);
 
-        // Ziskame instrukce a vypiseme je do stdoutu
+        // Ziskame instrukce a vypiseme je do stdoutu nebo do souboru
         var instructions = GeneratorContext.getInstructions();
+        for(var i = 0; i < instructions.size(); i += 1)
+    	{
+    		instructions.get(i).setInstructionNumber(i);
+    	} 
+        
+        if(Arguments.isInterpreter())
+        {
+        	Arguments.setInstructions(instructions);
+        }
+        
         if(Arguments.isOutputType())
         {
         	IOProvider.writeToFile(Arguments.getOutputFileName(), instructions);
@@ -67,10 +77,7 @@ public class Compiler
         else
         {
         	System.out.println();
-        	for (var i = 0; i < instructions.size(); i += 1) {
-        		var instruction = instructions.get(i);
-        		System.out.println(i + " " + instruction);
-        	}        	
+        	IOProvider.write(instructions);       	
         }
     }
 }

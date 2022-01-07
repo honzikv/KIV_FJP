@@ -10,7 +10,10 @@ import lombok.Setter;
 @Setter
 public class PL0Instruction {
 
-    /**
+    /***/
+	private long instructionNumber;
+	
+	/**
      * Typ instrukce
      */
     private PL0InstructionType instructionType;
@@ -38,5 +41,5 @@ public class PL0Instruction {
      * @return toString prikaz s newline pro PL0
      */
     @Override
-    public String toString() { return instructionType + " " + stackLevel + " " + instructionAddress; }
+    public String toString() { return instructionNumber + " " + instructionType + " " + stackLevel + " " + instructionAddress; }
 }
