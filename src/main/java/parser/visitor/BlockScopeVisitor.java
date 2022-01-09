@@ -5,6 +5,9 @@ import compiler.parsing.statement.function.FunctionBlockScope;
 import main.antlr4.grammar.CMMParser;
 import parser.visitor.function.ReturnStatementVisitor;
 
+/**
+ * Visitor pro {}
+ */
 public class BlockScopeVisitor extends CMMLevelAwareVisitor<BlockScope> {
     public BlockScopeVisitor(long depth) {
         super(depth);

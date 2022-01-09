@@ -11,6 +11,9 @@ import compiler.utils.CompileException;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
 
+/**
+ * Visitor pro unarni vyraz
+ */
 @AllArgsConstructor
 public class UnaryOperationExpressionProcessor implements IProcessor {
 

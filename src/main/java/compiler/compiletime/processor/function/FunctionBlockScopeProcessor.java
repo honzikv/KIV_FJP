@@ -9,6 +9,9 @@ import compiler.parsing.FunctionDefinition;
 import compiler.parsing.statement.function.FunctionBlockScope;
 import compiler.utils.CompileException;
 
+/**
+ * Processor pro funkcni blok - tzn. prikazy a statement
+ */
 public class FunctionBlockScopeProcessor extends BlockScopeProcessor {
 
     private final FunctionBlockScope functionBlockScope;

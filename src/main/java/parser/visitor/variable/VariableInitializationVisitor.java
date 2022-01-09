@@ -7,6 +7,9 @@ import main.antlr4.grammar.CMMParser;
 import parser.visitor.CMMLevelAwareVisitor;
 import parser.visitor.ExpressionVisitor;
 
+/**
+ * Visitor pro inicializaci promennych
+ */
 public class VariableInitializationVisitor extends CMMLevelAwareVisitor<VariableInitializationStatement> {
 
     /**

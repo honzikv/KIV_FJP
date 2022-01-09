@@ -3,6 +3,9 @@ package compiler.parsing.expression;
 import lombok.Getter;
 import lombok.ToString;
 
+/**
+ * Reprezentuje binarni vyraz
+ */
 @Getter
 @ToString
 public class BinaryOperationExpression extends Expression {
@@ -11,6 +14,9 @@ public class BinaryOperationExpression extends Expression {
 
     private final Expression rightSide;
 
+    /**
+     * Typ operace - scitani, odcitani, apod.
+     */
     private final OperationType operation;
 
     public BinaryOperationExpression(Expression leftSide, Expression rightSide,

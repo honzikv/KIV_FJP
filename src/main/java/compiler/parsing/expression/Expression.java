@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-
+/**
+ * Reprezentuje abstraktni vyraz
+ */
 @ToString
 public abstract class Expression {
 

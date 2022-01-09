@@ -9,6 +9,9 @@ import compiler.utils.CompileException;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 
+/**
+ * Processor pro instanceof operator
+ */
 @AllArgsConstructor
 public class InstanceOfExpressionProcessor implements IProcessor {
 

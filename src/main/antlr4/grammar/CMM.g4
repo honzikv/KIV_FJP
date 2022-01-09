@@ -1,7 +1,7 @@
 grammar CMM;
 
 // Datove typy
-INT: 'int'; BOOL: 'bool'; FLOAT: 'float';
+INT: 'int'; BOOL: 'bool'; FLOAT: 'float'; // float se nakonec nepouzil
 
 // Aritmeticka operatory
 PLUS: '+'; MINUS: '-'; MULT: '*'; DIV: '/'; MOD: '%';

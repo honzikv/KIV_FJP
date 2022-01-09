@@ -98,10 +98,8 @@ public class VariableAssignmentProcessor implements IProcessor {
         // Ziskame promenne
         for (var identifier : identifiers) {
             var variable = context.getVariableOrDefault(identifier);
-            // Tento if slouzi pro debug - pri normalnim pouzivani by mela byt promena vzdy v kontextu
             if (variable == null) {
-                throw new CompileException("Error, variable with identifier "
-                        + variable.getIdentifier() + " does not exist");
+                throw new CompileException("Error, missing variable identifier!");
             }
             variables.add(variable);
         }

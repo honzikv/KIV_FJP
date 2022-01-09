@@ -16,6 +16,9 @@ import java.util.Set;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
 
+/**
+ * Processor pro binarni porovnavani
+ */
 @AllArgsConstructor
 public class BinaryOperationExpressionProcessor implements IProcessor {
 
@@ -61,7 +64,13 @@ public class BinaryOperationExpressionProcessor implements IProcessor {
         return result;
     }
 
-
+    /**
+     * Validace
+     *
+     * @param leftSide
+     * @param rightSide
+     * @throws CompileException
+     */
     private void validate(Expression leftSide, Expression rightSide) throws CompileException {
         if (leftSide.getDataType() != rightSide.getDataType()) {
             throw new CompileException("Error, different operand types present in binary expression. Left side is "

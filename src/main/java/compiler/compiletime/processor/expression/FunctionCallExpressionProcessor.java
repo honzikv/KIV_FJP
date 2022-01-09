@@ -7,6 +7,9 @@ import compiler.parsing.expression.FunctionCallExpression;
 import compiler.utils.CompileException;
 import lombok.AllArgsConstructor;
 
+/**
+ * Processor pro funkcni volani
+ */
 @AllArgsConstructor
 public class FunctionCallExpressionProcessor implements IProcessor {
 
