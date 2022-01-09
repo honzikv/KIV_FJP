@@ -2,3 +2,7 @@ bool jump = true && false;
 if (jump) {
 	int x = 3000;
 }
+else {
+    const int x = 40000;
+    x = 230;
+}

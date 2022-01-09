@@ -14,7 +14,7 @@ public class AntlrErrorListener extends BaseErrorListener {
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line,
                             int charPositionInLine, String msg, RecognitionException e) {
         System.err.println("An error has occured at line " + line + ": " + msg);
-        System.out.println("Compilation cannot procede further. Fix the issue and recompile again");
+        System.out.println("Compilation cannot proceed further. Fix the issue and recompile again");
         System.exit(1);
     }
 }

@@ -18,7 +18,7 @@ INSTANCE_OF: 'is';
 // Keywordy
 IF: 'if'; ELSE: 'else';
 
-FOR: 'for'; WHILE: 'while'; REPEAT: 'repeat'; UNTIL: 'until'; DO: 'do';
+FOR: 'for'; WHILE: 'while'; DO: 'do';
 
 TRUE: 'true'; FALSE: 'false';
 VOID: 'void';
@@ -55,12 +55,11 @@ WHITESPACE: [\r\t \n] -> skip;
 // Legalni symboly pro prirazeni hodnoty promenne
 legalVariableLiterals: INTEGER_NUMBER | TRUE | FALSE | (INTEGER_NUMBER? DOT INTEGER_NUMBER) | (INTEGER_NUMBER DOT);
 
-chainAssignment: EQUALS IDENTIFIER;
+chainAssignment: EQUALS IDENTIFIER; // retezove prirazeni = x1 ... = x2 apod
 variableAssignment: IDENTIFIER chainAssignment* EQUALS (legalVariableLiterals | expression) SEMICOLON;
 variableDeclaration: legalDataTypes IDENTIFIER SEMICOLON;
 variableInitialization: legalDataTypes IDENTIFIER EQUALS (legalVariableLiterals | expression) SEMICOLON;
 constVariableInitialization: CONST variableInitialization;
-
 
 functionDataTypes: (VOID | legalDataTypes); // navratove hodnoty funkci
 blockScope: LEFT_CURLY (statement)* RIGHT_CURLY; // { } nebo { var x = 1; } nebo { int x() {} ...}
@@ -81,13 +80,8 @@ expressionChain: (IDENTIFIER | expression) (COMMA expressionChain)?; // (x1) (x1
 
 functionCall: IDENTIFIER LEFT_PAREN expressionChain? RIGHT_PAREN; // x(); nebo x(identifier_chain)
 
-///
-///     CONTROL FLOW + obecna pravidla
-///
-
 // pocatecni pravidlo
-entrypoint: (functionDefinition | statement)*;
-
+entrypoint: (functionDefinition | statement)+;
 
 statement:
     blockScope #blockOfCode
@@ -129,4 +123,4 @@ valueExpr: INTEGER_NUMBER | TRUE | FALSE | (INTEGER_NUMBER? DOT INTEGER_NUMBER) 
 
 
 // Legalni datove typy
-legalDataTypes: INT | BOOL | FLOAT | STRING;
+legalDataTypes: INT | BOOL;
