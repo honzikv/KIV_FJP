@@ -43,6 +43,11 @@ public class IOProvider
      */
     public static String readFile(String fileName)
     {
+    	if(!new File(fileName).exists())
+    	{
+    		return "error";
+    	}
+    	
     	String content = "";
 		try
 		{

@@ -28,13 +28,16 @@ public class Arguments
 	private static boolean outputType = false;
 	
 	@Getter
-	private static String inputFileName;
+	/**Vstupni nazev souboru*/
+	private static String inputFileName = "testcode.txt";
 	
 	@Getter
+	/**Vystupni nazev souboru*/
 	private static String outputFileName = "c--output";
 	
 	@Getter
 	@Setter
+	/**Vygenerovane instrukce pro vypis do koznole ci do souboru*/
 	private static List<PL0Instruction> instructions;
 	
 	/**

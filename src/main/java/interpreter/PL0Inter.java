@@ -9,15 +9,31 @@ import compiler.pl0.PL0Instruction;
  */
 public class PL0Inter
 {
-    private Stack<Long> stack;
+    /**Zasobnik hodnot*/
+	private Stack<Long> stack;
+	
+	/**Seznam vsech instrukci pro interpretr*/
     private PL0Instruction [] instructions;
+    
+    /**Baze*/
     private long base;
+    
+    /**Vrchol zasobniku*/
     private long head;
+    
+    /**Hodnoty, pro spravne zavolani callbacku*/
     private long [] calValues;
+    
+    /**Ziskani odbjektu konzole pro postupny vypis instrukci*/
     private Scanner in = new Scanner(System.in);
     
+    /**DEBUG mod*/
     public boolean debbug;
     
+    /**
+     * Zakladni konstruktor
+     * @param		inst		instrukce PL0 ke zpracovani
+     */
     public PL0Inter(PL0Instruction [] inst)
     {
         stack = new Stack<Long>();
@@ -32,6 +48,12 @@ public class PL0Inter
 		}
     }
     
+    /**
+     * Simulace PL0 kod se vsim vsudy, kde je
+     * po kazde provedene instrukci zobrazena
+     * nasledujici instrukce, stav zasobniku,
+     * bazi a vrchol zasobniku.
+     */
     public void simulatePL0()
     {
     	long index = 0;
@@ -65,6 +87,14 @@ public class PL0Inter
     	System.out.println("------------DONE------------");
     }
     
+    /**
+     * Provedeni konkretni instrukce na zaklade
+     * jejiho typu.
+     * @param		ins		vstupni instrukce
+     * @return				-1 pokud se nic vratit nema,
+     * 						jinak konkretni hodnota pro zmenu
+     * 						dalsi volane instrukce			
+     */
     private long inputInstruction(PL0Instruction ins)
     {
         switch(ins.getInstructionType())
@@ -90,6 +120,10 @@ public class PL0Inter
         return -1;
     }
     
+    /**
+     * Nacte hodnotu adresy v zasobniku a vlozi ji na vrchol zabosniku.
+     * @param		ins		vstupni instrukce
+     */
     private void LOD(PL0Instruction ins)
     {
         long tmp = 0;
@@ -112,6 +146,10 @@ public class PL0Inter
         this.head++;
     }
     
+    /**
+     * Zvyssi nebo snizi vrchol zasobniku.
+     * @param		ins		vstupni instrukce
+     */
     private void INT(PL0Instruction ins)
     {
         long value = ins.getInstructionAddress();
@@ -126,6 +164,11 @@ public class PL0Inter
         this.head += value;
     }
     
+    /**
+     * Pokud je na vrcholu zasobniku 0, skoci na
+     * konkretni instrukci.
+     * @param		ins		vstupni instrukce
+     */
     private long JMC(PL0Instruction ins)
     {
         long value = ins.getInstructionAddress();
@@ -141,16 +184,25 @@ public class PL0Inter
         }
     }
     
+    /**
+     * Skok na konkretni instrukci.
+     * @param		ins		vstupni instrukce
+     */
     private long JMP(PL0Instruction ins)
     {
     	return ins.getInstructionAddress();
     }
     
+    /**
+     * Navraceni scopu programu na zaklade hodnot
+     * zasobniku.
+     * @param		ins		vstupni instrukce
+     */
     private long RET(PL0Instruction ins)
     {
     	long b = stack.get((int)(this.base));
-    	long lb = stack.get((int)this.base+1);
-    	long in = stack.get((int)this.base+2);
+    	long lb = stack.get((int)(this.base+1));
+    	long in = stack.get((int)(this.base+2));
     	long remCount = this.head - this.base;
     	for(int i = 0; i < remCount + 1; i++)
     	{
@@ -168,6 +220,12 @@ public class PL0Inter
     	return in;
     }
     
+    /**
+     * Vytvoreni noveho scopu a ulozeni na zasobnik
+     * cislo instrukce, bazi a adresu pro zpetny navrat
+     * po ukonceni scopu.
+     * @param		ins		vstupni instrukce
+     */
     private long CAL(PL0Instruction ins)
     {
     	long insNum = ins.getInstructionNumber();
@@ -184,6 +242,11 @@ public class PL0Inter
     	return value;
     }
     
+    /**
+     * Operace nad dvemi hodnotami na zasobniku,
+     * polde predane hodnty na OPR.
+     * @param		ins		vstupni instrukce
+     */
     private void OPR(PL0Instruction ins)
     {
         long value = ins.getInstructionAddress();
@@ -321,6 +384,10 @@ public class PL0Inter
         }
     }
     
+    /**
+     * Ulozeni konkretni honodty na vrchol zasobniku.
+     * @param		ins		vstupni instrukce
+     */
     private void LIT(PL0Instruction ins)
     {
         long value = ins.getInstructionAddress();
@@ -328,6 +395,10 @@ public class PL0Inter
         this.head++;
     }
     
+    /**
+     * Ulozi hodnotu na vrcholu zasobniku na adresu v zasobniku.
+     * @param		ins		vstupni instrukce
+     */
     private void STO(PL0Instruction ins)
     {
     	long immer = ins.getStackLevel();

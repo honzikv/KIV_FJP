@@ -22,14 +22,12 @@ public class Compiler
     public void run() throws CompileException
     {
         //Ziskame vstup do compileru
-    	String input;
-    	if(Arguments.isInputType())
+    	String input = IOProvider.readFile(Arguments.getInputFileName());
+    	if(input.equals("error"))
     	{
-    		input = IOProvider.readFile(Arguments.getInputFileName()); 
-    	}
-    	else
-    	{
-    		input = IOProvider.read();
+    		System.out.println("Basic file for loading input code " + Arguments.getInputFileName()
+    		+ " was not found!");
+    		System.exit(0);
     	}
         compile(input);
     }
