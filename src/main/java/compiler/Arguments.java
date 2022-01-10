@@ -29,7 +29,7 @@ public class Arguments
 	
 	@Getter
 	/**Vstupni nazev souboru*/
-	private static String inputFileName = "testcode.txt";
+	private static String inputFileName;
 	
 	@Getter
 	/**Vystupni nazev souboru*/
@@ -114,24 +114,16 @@ public class Arguments
     			if(res == 0)
     			{
     				String tmp = args[++i];
-    				if(checkFileTypeTXT(tmp) == 0)
-    				{
-    					File f = new File(tmp);
-    					if(f.exists())
-    					{
-    						inputFileName = tmp;
-    					}
-    					else
-    					{
-    						System.out.println("Input file does not exist!");
-    						return 3;
-    					}
-    				}
-    				else
-    				{
-    					System.out.println("Input file is not in TXT format!");
-    					return 2;
-    				}
+    				File f = new File(tmp);
+					if(f.exists())
+					{
+						inputFileName = tmp;
+					}
+					else
+					{
+						System.out.println("Input file does not exist!");
+						return 2;
+					}
     			}
     			else
     			{
@@ -145,12 +137,13 @@ public class Arguments
     			res = checkIndexValidity(i, args.length);
     			if(res == 0)
     			{
-    				String tmp = args[i+1];
-    				if(checkFileTypeTXT(tmp) == 0)
-    				{
-    					outputFileName = tmp;
-    					i++;
-    				}
+    				String tmp = args[++i];
+    				outputFileName = tmp;
+    			}
+    			else
+    			{
+    				System.out.println("Argument for output file is missing!");
+					return 3;
     			}
     			outputType = true;
     			break;

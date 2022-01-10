@@ -4,6 +4,7 @@ public class Operations
 {
 	public static long NEG(long x)
 	{
-		return (~x) & 0xFF;
+		//return (~x) & 0xFF;
+		return x * -1;
 	}
 }

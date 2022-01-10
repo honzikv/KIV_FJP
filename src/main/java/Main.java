@@ -1,7 +1,5 @@
 import compiler.Arguments;
 import compiler.Compiler;
-import compiler.compiletime.GeneratorContext;
-import compiler.pl0.PL0Instruction;
 import compiler.utils.CompileException;
 import interpreter.PL0Inter;
 
@@ -17,14 +15,7 @@ public class Main
      */
     public static void main(String[] args)
     {
-		/*
-		 * long k = 111; String resultWithPadding = String.format("%64s",
-		 * Long.toBinaryString(k)).replaceAll(" ", "0"); // 32-bit Integer
-		 * System.out.println(resultWithPadding); k = Operations.NEG(k);
-		 * resultWithPadding = String.format("%64s",
-		 * Long.toBinaryString(k)).replaceAll(" ", "0"); // 32-bit Integer
-		 * System.out.println(resultWithPadding);
-		 */
+				 
     	try
         {
         	int res = Arguments.manageArguments(args);
@@ -32,14 +23,13 @@ public class Main
             {
             	return;
             }
-        	// Debugovani vypisu
-            //Debug.UseDebug = args.length > 0 && args[0].equals("--debug-mode");
+
             var compiler = new Compiler();
             compiler.run();
             
             if(Arguments.isInterpreter())
             {
-            	PL0Inter inter = new PL0Inter((PL0Instruction[])Arguments.getInstructions().toArray());
+            	PL0Inter inter = new PL0Inter(Arguments.getInstructions());
             	inter.debbug = true;
             	inter.simulatePL0();
             }

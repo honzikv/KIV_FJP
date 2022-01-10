@@ -13,7 +13,7 @@ public class PL0Inter
 	private Stack<Long> stack;
 	
 	/**Seznam vsech instrukci pro interpretr*/
-    private PL0Instruction [] instructions;
+    private List<PL0Instruction> instructions;
     
     /**Baze*/
     private long base;
@@ -34,18 +34,14 @@ public class PL0Inter
      * Zakladni konstruktor
      * @param		inst		instrukce PL0 ke zpracovani
      */
-    public PL0Inter(PL0Instruction [] inst)
+    public PL0Inter(List<PL0Instruction> inst)
     {
         stack = new Stack<Long>();
         base = 0;
         head = -1;
         debbug = false;
         calValues = new long[3];
-        instructions = new PL0Instruction[inst.length];
-        for(int i = 0; i < inst.length; i++)
-        {
-        	instructions[i] = inst[i];
-		}
+        instructions = inst;
     }
     
     /**
@@ -61,7 +57,7 @@ public class PL0Inter
     	calValues = new long[] {0,0,-1};
     	do
     	{
-    		long tmp = inputInstruction(instructions[(int)index]);
+    		long tmp = inputInstruction(instructions.get((int)index));
     		prev = index; 
     		if(tmp != -1)
     		{
@@ -74,8 +70,8 @@ public class PL0Inter
     		if(debbug)
     		{
     			System.out.println("----------------------------");
-    			System.out.println("CURR INSTRUCTION: " + instructions[(int)prev].toString());
-    			System.out.println("NEXT INSTRUCTION: " + instructions[(int)index].toString());
+    			System.out.println("CURR INSTRUCTION: " + instructions.get((int)prev));
+    			System.out.println("NEXT INSTRUCTION: " + instructions.get((int)index));
     			System.out.println("INST: " + prev);
     			System.out.println("BASE: " + base);
     			System.out.println("HEAD: " + head);
@@ -83,7 +79,7 @@ public class PL0Inter
     			System.out.println("----------------------------");
     		}
     		in.nextLine();
-    	}while(index != instructions.length - 1);
+    	}while(index != instructions.size() - 1);
     	System.out.println("------------DONE------------");
     }
     
@@ -153,13 +149,23 @@ public class PL0Inter
     private void INT(PL0Instruction ins)
     {
         long value = ins.getInstructionAddress();
-    	stack.push(calValues[0]);
-        stack.push(calValues[1]);
-        stack.push(calValues[2]);
-        for(int i = 3; i < value;i++)
+    	//stack.push(calValues[0]);
+        //stack.push(calValues[1]);
+        //stack.push(calValues[2]);
+		/*
+		 * for(int i = 3; i < value;i++) { stack.push((long)0); }
+		 */
+        for(int i = 0; i < value; i++)
         {
-            stack.push((long)0);
-        }
+        	if(value < 0)
+            {
+        		stack.pop();
+            }
+            else
+            {
+            	stack.push(0L);
+            }
+		}
         this.base = this.head + 1;
         this.head += value;
     }
@@ -262,25 +268,25 @@ public class PL0Inter
             case 2://Secteni dvou hodnot
                    tmp1 = stack.pop();
                    tmp2 = stack.pop();
-                   stack.push((tmp1+tmp2)& 255);
+                   stack.push(tmp1+tmp2);
                    this.head--;
                    break;
             case 3://Odecteni dvou hodnot
                    tmp1 = stack.pop();
                    tmp2 = stack.pop();
-                   stack.push((tmp1-tmp2)& 255);
+                   stack.push(tmp1-tmp2);
                    this.head--;
                    break;
             case 4://Nasobeni dvou hodnot
                    tmp1 = stack.pop();
                    tmp2 = stack.pop();
-                   stack.push((tmp1*tmp2)& 255);
+                   stack.push(tmp1*tmp2);
                    this.head--;
                    break;
             case 5://Deleni dvou cisel
                    tmp1 = stack.pop();
                    tmp2 = stack.pop();
-                   stack.push((tmp1/tmp2)& 255);
+                   stack.push(tmp1/tmp2);
                    this.head--;
                    break;
             case 6://Liche cislo(delitelne dvema)?
@@ -298,7 +304,7 @@ public class PL0Inter
             case 7://Modulo dvou cisel
                    tmp1 = stack.pop();
                    tmp2 = stack.pop();
-                   stack.push((tmp1%tmp2)& 255);
+                   stack.push(tmp1%tmp2);
                    this.head--;
                    break;
             case 8://==
