@@ -3,15 +3,19 @@ package compiler.utils;
 import compiler.Arguments;
 import compiler.pl0.PL0Instruction;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /**
  * Wrapper pro zapis a cteni ze stdio
@@ -41,27 +45,17 @@ public class IOProvider
      * @param		fileName		nazev vstupniho souboru
      * @return
      */
-    public static String readFile(String fileName)
+    public String readFile(String fileName)
     {
-    	if(!new File(fileName).exists())
+    	String content = "";
+    	InputStream in = getClass().getResourceAsStream("/" + fileName);
+    	if(in == null)
     	{
     		return "error";
     	}
-    	
-    	String content = "";
-		try
-		{
-			File f = new File(fileName);
-			Scanner s = new Scanner(f);
-			content = s.useDelimiter("\\Z").next();
-			s.close();
-			
-		} 
-		catch(FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-    	System.out.println(content);
+    	BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+    	content = reader.lines().collect(Collectors.joining());
+
     	return content;
     }
     
@@ -85,13 +79,13 @@ public class IOProvider
     	{
     		return;
     	}
-    	if(Arguments.isOutputType() && fileName.equals("c--output"))
-    	{
-    		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-    		Date date = new Date(System.currentTimeMillis());
-    		String currentTime = formatter.format(date);
-    		fileName = "c--output_" + currentTime + ".txt";
-    	}
+		
+    	/*
+		 * if(Arguments.isOutputType() && fileName.equals("c--output")) {
+		 * SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss"); Date
+		 * date = new Date(System.currentTimeMillis()); String currentTime =
+		 * formatter.format(date); fileName = "c--output_" + currentTime + ".txt"; }
+		 */
     	
     	File f = new File(fileName);
     	try
@@ -101,7 +95,7 @@ public class IOProvider
 			long count = 0;
 			for(PL0Instruction instruction : instructions)
 			{
-				myWriter.write(count + " " + instruction + "\n");
+				myWriter.write(instruction + "\n");
 				count++;
 			}
 		    myWriter.close();
