@@ -94,7 +94,6 @@ public class BinaryOperationExpressionProcessor implements IProcessor {
 
         var leftSide = expression.getLeftSide();
         var rightSide = expression.getRightSide();
-        // TODO zachova prioritu??? snad jo
         expressionProcessor.process(context, leftSide);
         expressionProcessor.process(context, rightSide);
 
@@ -112,7 +111,6 @@ public class BinaryOperationExpressionProcessor implements IProcessor {
             return;
         }
 
-        // TODO
         processFloatOperation(context);
     }
 
@@ -146,7 +144,7 @@ public class BinaryOperationExpressionProcessor implements IProcessor {
     }
 
     private void processFloatOperation(GeneratorContext context) {
-        throw new NotImplementedException("TODO implement this feature");
+        throw new NotImplementedException("This feature is not implemented");
     }
 
     /**

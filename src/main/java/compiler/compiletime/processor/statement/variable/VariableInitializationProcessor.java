@@ -14,7 +14,6 @@ public class VariableInitializationProcessor implements IProcessor {
 
     private final VariableInitializationStatement variableStatement;
 
-    // TODO - stringy - nesmeji se pridavat pres operator +, jinak je slozite zjistovat odkud string nacist
     @Override
     public void process(GeneratorContext context) throws CompileException {
         var variable = context.getVariableOrDefault(variableStatement.getIdentifier());

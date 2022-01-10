@@ -116,7 +116,9 @@ public class GeneratorContext {
         this.variables = new HashMap<>();
     }
 
-    public int getNextInstructionNumber() { return instructions.size(); }
+    public int getNextInstructionNumber() {
+        return instructions.size();
+    }
 
     /**
      * Ziska promennou z tohoto objektu a nebo rekurzivne z rodicu, pokud existuje
@@ -259,11 +261,10 @@ public class GeneratorContext {
     }
 
     public void debugLog() {
-        if(Debug.UseDebug)
-        {
-        	variables.forEach((__, variable) -> {
-        		System.out.println(variable);
-        	});        	
+        if (Debug.UseDebug) {
+            variables.forEach((__, variable) -> {
+                System.out.println(variable);
+            });
         }
     }
 }

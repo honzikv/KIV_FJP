@@ -45,7 +45,6 @@ public class ForLoopProcessor implements IProcessor {
         // Nacteme vyraz do promenne
         IntegerUtils.storeToStackAddress(context, iterationVariable.getAddress());
 
-        // TODO zkontrolovat jestli funguje
         var forLoopStartInstructionIdx = context.getNextInstructionNumber();
 
         // Tady by to teoreticky slo optimalizovat pomocnou promennou - ale tezko rict obecne, takze

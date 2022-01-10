@@ -59,7 +59,7 @@ public class UnaryOperationExpressionProcessor implements IProcessor {
         if (expression.getOperation() == OperationType.UnaryMinus
                 && childExpression.getDataType() == DataType.Float) {
             expression.setDataType(childExpression.getDataType());
-            throw new NotImplementedException("TODO implement this");
+            throw new NotImplementedException("This feature is not implemented");
         }
 
         throw new CompileException("Error, invalid unary operation present");

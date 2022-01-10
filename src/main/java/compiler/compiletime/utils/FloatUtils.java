@@ -5,12 +5,11 @@ import compiler.pl0.PL0InstructionType;
 import org.apache.commons.lang3.NotImplementedException;
 
 /**
- * TODO struktura floatu?
- * +-, cela cast, desetinna cast ?
+ * Nakonec implementovane
  */
 public class FloatUtils {
     public static void addOnStack(GeneratorContext context, Float value) {
-        throw new NotImplementedException("TODO implement this feature");
+        throw new NotImplementedException("Feature not implemented");
     }
 
     public static int sizeOf() {

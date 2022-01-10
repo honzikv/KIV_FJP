@@ -58,7 +58,7 @@ public class FunctionCallProcessor implements IProcessor {
         // Pokud funkce neco vracela nacteme to na stack
         if (function.getReturnType() != DataType.Void) {
             // Po iteraci pres zapis vsech parametru je nyni adresa nastavena na adresu vystupu funkce
-            context.addInstruction(PL0InstructionType.LOD, 0, paramsAddress); // TODO co tady ma bejt
+            context.addInstruction(PL0InstructionType.LOD, 0, paramsAddress);
         }
 
     }

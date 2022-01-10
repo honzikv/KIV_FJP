@@ -25,10 +25,9 @@ public enum DataType {
             case "bool" -> Boolean;
             case "string" -> String;
             case "void" -> Void;
-            default -> Invalid; // todo exception handling
+            default -> Invalid;
         };
 
-        // TODO remove
     }
 
     public static DataType getDataTypeFromValue(String value) {
