@@ -262,25 +262,25 @@ public class PL0Inter
             case 2://Secteni dvou hodnot
                    tmp1 = stack.pop();
                    tmp2 = stack.pop();
-                   stack.push((tmp1+tmp2)& 255);
+                   stack.push(tmp1+tmp2);
                    this.head--;
                    break;
             case 3://Odecteni dvou hodnot
                    tmp1 = stack.pop();
                    tmp2 = stack.pop();
-                   stack.push((tmp1-tmp2)& 255);
+                   stack.push(tmp1-tmp2);
                    this.head--;
                    break;
             case 4://Nasobeni dvou hodnot
                    tmp1 = stack.pop();
                    tmp2 = stack.pop();
-                   stack.push((tmp1*tmp2)& 255);
+                   stack.push(tmp1*tmp2);
                    this.head--;
                    break;
             case 5://Deleni dvou cisel
                    tmp1 = stack.pop();
                    tmp2 = stack.pop();
-                   stack.push((tmp1/tmp2)& 255);
+                   stack.push(tmp1/tmp2);
                    this.head--;
                    break;
             case 6://Liche cislo(delitelne dvema)?
@@ -298,7 +298,7 @@ public class PL0Inter
             case 7://Modulo dvou cisel
                    tmp1 = stack.pop();
                    tmp2 = stack.pop();
-                   stack.push((tmp1%tmp2)& 255);
+                   stack.push(tmp1%tmp2);
                    this.head--;
                    break;
             case 8://==
