@@ -8,5 +8,7 @@ a = a * 20;
 
 int b = 12;
 
+bool tru = int is int;
+
 const int c = a + b;
 
