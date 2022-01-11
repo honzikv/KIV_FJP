@@ -78,7 +78,7 @@ public class PL0Inter
     		if(debbug)
     		{
     			System.out.println("----------------------------");
-    			System.out.println("RUNNED INSTRUCTIONS: " + overallInstructionsCount);
+    			System.out.println("RUN INSTRUCTIONS: " + overallInstructionsCount);
     			System.out.println("CURR INSTRUCTION: " + instructions.get((int)prev));
     			System.out.println("NEXT INSTRUCTION: " + instructions.get((int)curr));
     			System.out.println("INST: " + prev);
