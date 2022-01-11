@@ -1,0 +1,4 @@
+
+int boolean = 2;
+
+bool boolean2 = boolean && true + 2 - 3 / 12;
