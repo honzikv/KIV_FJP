@@ -4,6 +4,7 @@ import compiler.pl0.PL0Instruction;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,13 +45,18 @@ public class IOProvider
     public String readFile(String fileName)
     {
     	String content = "";
-    	InputStream in = getClass().getResourceAsStream("/" + fileName);
-    	if(in == null)
-    	{
-    		return "error";
-    	}
-    	BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-    	content = reader.lines().collect(Collectors.joining());
+		try
+		{
+			File f = new File(fileName);
+			Scanner s = new Scanner(f);
+			content = s.useDelimiter("\\Z").next();
+			s.close();
+			
+		} 
+		catch(FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
 
     	return content;
     }
