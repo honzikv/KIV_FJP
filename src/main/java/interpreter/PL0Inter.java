@@ -12,6 +12,9 @@ public class PL0Inter
     /**Zasobnik hodnot*/
 	private Stack<Long> stack;
 	
+	/**Predesly a konkretni index instrukce*/
+	private long curr, prev;
+	
 	/**Seznam vsech instrukci pro interpretr*/
     private List<PL0Instruction> instructions;
     
@@ -52,26 +55,30 @@ public class PL0Inter
      */
     public void simulatePL0()
     {
-    	long index = 0;
-    	long prev = 0;
+    	curr = 0;
+    	prev = 0;
     	calValues = new long[] {0,0,-1};
+    	System.out.println("------------START------------");
+    	System.out.println("For next step press 'ENTER'!");
+    	long overallInstructionsCount = 1;
     	do
     	{
-    		long tmp = inputInstruction(instructions.get((int)index));
-    		prev = index; 
+    		long tmp = inputInstruction(instructions.get((int)curr));
+    		prev = curr; 
     		if(tmp != -1)
     		{
-    			index = tmp;
+    			curr = tmp;
     		}
     		else
     		{
-    			index++;
+    			curr++;
     		}
     		if(debbug)
     		{
     			System.out.println("----------------------------");
+    			System.out.println("RUNNED INSTRUCTIONS: " + overallInstructionsCount);
     			System.out.println("CURR INSTRUCTION: " + instructions.get((int)prev));
-    			System.out.println("NEXT INSTRUCTION: " + instructions.get((int)index));
+    			System.out.println("NEXT INSTRUCTION: " + instructions.get((int)curr));
     			System.out.println("INST: " + prev);
     			System.out.println("BASE: " + base);
     			System.out.println("HEAD: " + head);
@@ -79,7 +86,8 @@ public class PL0Inter
     			System.out.println("----------------------------");
     		}
     		in.nextLine();
-    	}while(index != instructions.size() - 1);
+    		overallInstructionsCount++;
+    	}while(curr != instructions.size() - 1);
     	System.out.println("------------DONE------------");
     }
     
@@ -143,31 +151,70 @@ public class PL0Inter
     }
     
     /**
+     * Ulozi hodnotu na vrcholu zasobniku na adresu v zasobniku.
+     * @param		ins		vstupni instrukce
+     */
+    private void STO(PL0Instruction ins)
+    {
+    	long immer = ins.getStackLevel();
+        long value = ins.getInstructionAddress();
+    	long tmp = stack.pop();
+        if(immer > 0)
+        {
+            long locBase = this.base;
+            for(long i = 0;i < immer;i++)
+            {
+                locBase = stack.get((int)locBase);
+            }
+            stack.set((int)(locBase + value), tmp);
+        }
+        else
+        {
+            stack.set((int)(this.base + value), tmp);
+        }   
+        this.head--;
+    }
+    
+    /**
+     * Ulozeni konkretni honodty na vrchol zasobniku.
+     * @param		ins		vstupni instrukce
+     */
+    private void LIT(PL0Instruction ins)
+    {
+        long value = ins.getInstructionAddress();
+    	stack.push(value);
+        this.head++;
+    }
+    
+    /**
      * Zvyssi nebo snizi vrchol zasobniku.
      * @param		ins		vstupni instrukce
      */
     private void INT(PL0Instruction ins)
     {
         long value = ins.getInstructionAddress();
-    	//stack.push(calValues[0]);
-        //stack.push(calValues[1]);
-        //stack.push(calValues[2]);
-		/*
-		 * for(int i = 3; i < value;i++) { stack.push((long)0); }
-		 */
+        boolean del = false;
+        if(value < 0)
+        {
+        	del = true;
+        	value *= -1;
+        }
         for(int i = 0; i < value; i++)
         {
-        	if(value < 0)
-            {
+        	if(del)
+        	{
         		stack.pop();
-            }
-            else
-            {
-            	stack.push(0L);
-            }
+        		this.head--;
+        	}
+        	else
+        	{
+        		if(this.head+1 >= stack.size())
+        		{
+        			stack.push(0L);
+        		}
+        		this.head++;
+        	}
 		}
-        this.base = this.head + 1;
-        this.head += value;
     }
     
     /**
@@ -206,24 +253,25 @@ public class PL0Inter
      */
     private long RET(PL0Instruction ins)
     {
-    	long b = stack.get((int)(this.base));
-    	long lb = stack.get((int)(this.base+1));
-    	long in = stack.get((int)(this.base+2));
+    	long staticBase = stack.get((int)(this.base));
+    	long dynamicBase = stack.get((int)(this.base+1));
+    	long instruction = stack.get((int)(this.base+2));
     	long remCount = this.head - this.base;
-    	for(int i = 0; i < remCount + 1; i++)
+    	System.out.println(remCount);
+    	for(int i = 0; i < (remCount + 1); i++)
     	{
     		stack.pop();
     	}
     	this.head -= remCount + 1;
-    	if(b != lb)
+    	if(staticBase != dynamicBase)
     	{
-    		this.base = lb;
+    		this.base = dynamicBase;
     	}
     	else
     	{
-    		this.base = b;
+    		this.base = staticBase;
     	}
-    	return in;
+    	return instruction;
     }
     
     /**
@@ -234,17 +282,25 @@ public class PL0Inter
      */
     private long CAL(PL0Instruction ins)
     {
-    	long insNum = ins.getInstructionNumber();
     	long immer = ins.getStackLevel();
-        long value = ins.getInstructionAddress();
-    	long stepBack = this.base;
-    	for(long i = 0; i < immer; i++)
-    	{
-    		stepBack = stack.get((int)stepBack);
-    	}
-    	calValues[0] = stepBack;
+    	long staticBase = this.base;
+    	if(immer > 0)
+        {
+            staticBase = this.base;
+            for(long i = 0;i < immer;i++)
+            {
+                staticBase = stack.get((int)staticBase);
+            }
+        }
+    	long value = ins.getInstructionAddress();
+    	calValues[0] = staticBase;
     	calValues[1] = this.base;
-    	calValues[2] = insNum + 1;
+    	calValues[2] = ins.getInstructionNumber() + 1;
+    	this.base = this.head + 1;
+    	for(long val: calValues)
+    	{
+    		stack.push(val);
+    	}
     	return value;
     }
     
@@ -293,11 +349,11 @@ public class PL0Inter
                    tmp1 = stack.pop();
                    if(tmp1%2 == 1)
                    {
-                	   stack.push((long)1);
+                	   stack.push(1L);
                    }
                    else
                    {
-                	   stack.push((long)0);   
+                	   stack.push(0L);   
                    }
                    this.head--;
                    break;
@@ -312,11 +368,11 @@ public class PL0Inter
                    tmp2 = stack.pop();
                    if(tmp1 == tmp2)
                    {
-                	   stack.push((long)1);                	   
+                	   stack.push(1L);                	   
                    }
                    else
                    {
-                	   stack.push((long)0);
+                	   stack.push(0L);
                    }
                    this.head--;
                    break;
@@ -325,11 +381,11 @@ public class PL0Inter
                    tmp2 = stack.pop();
                    if(tmp1 == tmp2)
                    {
-                	   stack.push((long)0);                	   
+                	   stack.push(0L);                	   
                    }
                    else
                    {
-                	   stack.push((long)1);
+                	   stack.push(1L);
                    }
                    this.head--;
                    break;
@@ -338,11 +394,11 @@ public class PL0Inter
             		tmp2 = stack.pop();
             		if(tmp1 < tmp2)
             		{
-            			stack.push((long)1);                	   
+            			stack.push(1L);                	   
             		}
             		else
             		{
-            			stack.push((long)0);
+            			stack.push(0L);
             		}
             		this.head--;
                     break;
@@ -351,11 +407,11 @@ public class PL0Inter
 	        		tmp2 = stack.pop();
 	        		if(tmp1 <= tmp2)
 	        		{
-	        			stack.push((long)1);                	   
+	        			stack.push(1L);                	   
 	        		}
 	        		else
 	        		{
-	        			stack.push((long)0);
+	        			stack.push(0L);
 	        		}
 	        		this.head--;
                     break;
@@ -364,11 +420,11 @@ public class PL0Inter
 	        		tmp2 = stack.pop();
 	        		if(tmp1 > tmp2)
 	        		{
-	        			stack.push((long)1);                	   
+	        			stack.push(1L);                	   
 	        		}
 	        		else
 	        		{
-	        			stack.push((long)0);
+	        			stack.push(0L);
 	        		}
 	        		this.head--;
 	        		break;
@@ -377,11 +433,11 @@ public class PL0Inter
 	        		tmp2 = stack.pop();
 	        		if(tmp1 >= tmp2)
 	        		{
-	        			stack.push((long)1);                	   
+	        			stack.push(1L);                	   
 	        		}
 	        		else
 	        		{
-	        			stack.push((long)0);
+	        			stack.push(0L);
 	        		}
 	        		this.head--;
 	        		break;
@@ -390,39 +446,4 @@ public class PL0Inter
         }
     }
     
-    /**
-     * Ulozeni konkretni honodty na vrchol zasobniku.
-     * @param		ins		vstupni instrukce
-     */
-    private void LIT(PL0Instruction ins)
-    {
-        long value = ins.getInstructionAddress();
-    	stack.push(value);
-        this.head++;
-    }
-    
-    /**
-     * Ulozi hodnotu na vrcholu zasobniku na adresu v zasobniku.
-     * @param		ins		vstupni instrukce
-     */
-    private void STO(PL0Instruction ins)
-    {
-    	long immer = ins.getStackLevel();
-        long value = ins.getInstructionAddress();
-    	long tmp = stack.pop();
-        if(immer > 0)
-        {
-            long locBase = this.base;
-            for(long i = 0;i < immer;i++)
-            {
-                locBase = stack.get((int)locBase);
-            }
-            stack.set((int)(locBase + value), tmp);
-        }
-        else
-        {
-            stack.set((int)(this.base + value), tmp);
-        }   
-        this.head--;
-    }
 }

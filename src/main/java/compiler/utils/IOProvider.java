@@ -1,18 +1,14 @@
 package compiler.utils;
 
-import compiler.Arguments;
 import compiler.pl0.PL0Instruction;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -92,11 +88,9 @@ public class IOProvider
     	{
 			f.createNewFile();
 			FileWriter myWriter = new FileWriter(fileName);
-			long count = 0;
 			for(PL0Instruction instruction : instructions)
 			{
 				myWriter.write(instruction + "\n");
-				count++;
 			}
 		    myWriter.close();
 		}
