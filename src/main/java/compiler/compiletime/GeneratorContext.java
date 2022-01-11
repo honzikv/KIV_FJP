@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -166,6 +167,7 @@ public class GeneratorContext {
         }
         var variable = variables.get(identifier);
         variable.setDeclared(true);
+        variable.setInitialized(true);
     }
 
     /**
@@ -178,9 +180,6 @@ public class GeneratorContext {
     public void addInstruction(PL0InstructionType instructionType,
                                long stackLevel, long instructionParam) {
         var instruction = new PL0Instruction(instructionType, stackLevel, instructionParam);
-        if (Debug.UseDebug) {
-            System.out.println("Adding new instruction (" + instruction + ") " + instruction);
-        }
         instructions.add(instruction);
         instructionNumber += 1;
 
@@ -219,10 +218,13 @@ public class GeneratorContext {
         if (!ignoreExists && variables.containsKey(identifier)) {
             throw new CompileException("Error, reallocation of existing variable in the same scope!");
         }
+        var random = new Random();
         switch (dataType) {
-            case Int -> allocateVariable(identifier, 0);
-            case Float -> allocateVariable(identifier, 0.0f);
-            case Boolean -> allocateVariable(identifier, false);
+            // Pro zabavu simulujumeme pamet jako v C, kdy kdyz si nenastavime promenne
+            // tak dostaneme nahodnou inicializaci
+            case Int -> allocateVariable(identifier, random.nextInt(Integer.MIN_VALUE, Integer.MAX_VALUE));
+            case Float -> allocateVariable(identifier, random.nextFloat(Float.MIN_VALUE, Float.MAX_VALUE));
+            case Boolean -> allocateVariable(identifier, random.nextBoolean());
             default -> throw new CompileException("Error, invalid data type present");
         }
     }
@@ -263,7 +265,8 @@ public class GeneratorContext {
     public void debugLog() {
         if (Debug.UseDebug) {
             variables.forEach((__, variable) -> {
-                System.out.println(variable);
+                System.out.println("Variable: " + variable.getIdentifier() + " stack address: " + variable.getAddress()
+                        + " dataType: " + variable.getDataType());
             });
         }
     }

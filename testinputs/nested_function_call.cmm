@@ -1,3 +1,6 @@
+int integer = foo(200, 56);
+int integer2 = bar(512, 512);
+
 int foo(int bar, int bar2) {
     return bar + bar2;
 }
@@ -6,5 +9,4 @@ int bar(int bar, int bar2) {
     return 1024 + foo(bar, bar2);
 }
 
-int integer = foo(200, 56);
-int integer2 = bar(512, 512);
+

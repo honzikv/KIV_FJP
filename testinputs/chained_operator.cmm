@@ -1,0 +1,8 @@
+int a;
+int b;
+int c;
+const int d = 5;
+
+a = b = c = d - 10;
+
+const int j = d;

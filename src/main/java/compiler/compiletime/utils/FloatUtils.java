@@ -5,7 +5,7 @@ import compiler.pl0.PL0InstructionType;
 import org.apache.commons.lang3.NotImplementedException;
 
 /**
- * Nakonec implementovane
+ * Utils pro float, nakonec nebylo vyuzito
  */
 public class FloatUtils {
     public static void addOnStack(GeneratorContext context, Float value) {

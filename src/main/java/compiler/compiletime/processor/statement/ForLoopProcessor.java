@@ -61,7 +61,7 @@ public class ForLoopProcessor implements IProcessor {
 
         // Provedeme porovnani
         context.addInstruction(PL0InstructionType.OPR, 0,
-                PL0Utils.getOperationNumberFromOperationType(OperationType.Equal));
+                PL0Utils.getOperationNumberFromOperationType(OperationType.GreaterThan));
 
         // Index instrukce, ktera skoci pri rovnosti
         var forLoopExitInstructionIdx = context.getNextInstructionNumber();

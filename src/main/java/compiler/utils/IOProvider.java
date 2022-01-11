@@ -1,18 +1,12 @@
 package compiler.utils;
 
 import compiler.pl0.PL0Instruction;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 /**
  * Wrapper pro zapis a cteni ze stdio
@@ -53,9 +47,9 @@ public class IOProvider
 			s.close();
 			
 		} 
-		catch(FileNotFoundException e)
-		{
-			e.printStackTrace();
+		catch (Exception e) {
+			System.err.println("Error while reading from file! " + (fileName == null ? "" : fileName));
+			System.exit(1);
 		}
 
     	return content;

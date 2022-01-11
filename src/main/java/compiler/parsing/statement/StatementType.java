@@ -9,10 +9,10 @@ public enum StatementType {
     VariableDeclaration,
     IfStatement,
     BlockScope,
-    ForLoop, // for i in (0, 10) { }
+    ForLoop, // for (i in 0..100)
     WhileLoop, // while (expression) { }
     DoWhileLoop,
-    ForEachLoop, // for each item in array { }
+    //    ForEachLoop, // for each item in array { } nevyuzito
     RepeatUntilLoop, // repeat { } until (expression)
     ReturnStatement,
     FunctionParameter,

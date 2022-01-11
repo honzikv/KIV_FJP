@@ -1,0 +1,8 @@
+
+int a;
+
+if (false) {
+    a = 2;
+}
+
+int b = a;

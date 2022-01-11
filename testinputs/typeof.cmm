@@ -1,0 +1,12 @@
+int a = 5;
+
+if (a is int) {
+    a = 10;
+}
+
+a = a * 20;
+
+int b = 12;
+
+const int c = a + b;
+
