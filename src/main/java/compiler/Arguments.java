@@ -15,6 +15,10 @@ public class Arguments
 	private static boolean interpreter = false;
 	
 	@Getter
+	/**Jestli se ma simulace interpreteru provest ihned, bez cekani*/
+	private static boolean immidiateInter = false;
+	
+	@Getter
 	/**Udava, jaky typ vstupu se ma provest
 	 * false - DEFAULT - vstup je definovan pomoci textu
 	 *               zadaneho do konzole
@@ -84,6 +88,7 @@ public class Arguments
 		System.out.println("List of valid arguments that program recognizes:");
 		System.out.println("------------------------------------------------");
 		System.out.println("-h,-H				Prints out list of all valid arguments for the program.");
+		System.out.println("-pa,-PA				Sets the program for runnig PL0 interpreter at the end in the console without user input.");
 		System.out.println("-p,-P				Sets the program for runnig PL0 interpreter at the end in the console.");
 		System.out.println("-i,-I <inputfilename.txt>	Sets the TXT file for the input of the program.");
 		System.out.println("-o,-O <outputfilename.txt>	Sets the program for puting the output to the desired file instead of the console.");
@@ -104,6 +109,9 @@ public class Arguments
     		String argument = args[i]; 
     		switch(argument)
     		{
+    		case "-pa":
+    		case "-PA":
+    			immidiateInter = true;
     		case "-p":
     		case "-P":
     			interpreter = true;
