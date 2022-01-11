@@ -2,6 +2,7 @@ package interpreter;
 
 import java.util.*;
 
+import compiler.Arguments;
 import compiler.pl0.PL0Instruction;
 /**
  * PL0 interpreter for our  generated C-- code.
@@ -61,6 +62,7 @@ public class PL0Inter
     	System.out.println("------------START------------");
     	System.out.println("For next step press 'ENTER'!");
     	long overallInstructionsCount = 1;
+    	boolean skip = Arguments.isImmidiateInter();
     	do
     	{
     		long tmp = inputInstruction(instructions.get((int)curr));
@@ -85,7 +87,10 @@ public class PL0Inter
     			System.out.println(stack.toString());
     			System.out.println("----------------------------");
     		}
-    		in.nextLine();
+    		if(!skip)
+    		{
+    			in.nextLine();    			
+    		}
     		overallInstructionsCount++;
     	}while(curr != instructions.size() - 1);
     	System.out.println("------------DONE------------");
