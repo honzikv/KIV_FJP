@@ -15,6 +15,6 @@ virtuálního stroje PL/0.
 - If + else (1b) ✅
 - Chained přiřazení (x = y = z = 2) - (1b) ✅
 - Předávání parametrů do funkce hodnotou (2b) ✅
-- Typeof operátor (3b) - vrátí typ proměnné ✅
+- Typeof operátor (3b) - test, zda-li je proměnná daného typu ✅
 - Návratová hodnota funkce (2b) ✅
 - Typová kontrola (3b) ✅
