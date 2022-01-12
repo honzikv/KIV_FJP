@@ -8,8 +8,8 @@ virtuálního stroje PL/0.
 - Ke překladu aplikace je potřeba SDK Javy 17+ a Maven 3.8+
 
 ### Spuštění
-a) Pomocí skriptu compile.bat / compile.sh
-b) pomocí `mvn clean install` a spuštění target/FJPSem-1.0-SNAPSHOT-jar-with-dependencies.jar
+- Pomocí skriptu compile.bat / compile.sh
+- pomocí `mvn clean install` a spuštění target/FJPSem-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 Výsledný jar rozběhneme klasicky pomocí příkazu: `java -jar <filename>.jar -i <input_file>`
 
