@@ -1,0 +1,25 @@
+int magic_variable1 = magic_function(5, true);
+
+int magic_function(int magic_param1, bool magic_param2) {
+	int sum = 0;
+	if (magic_param2) {
+		sum = 100 + magic_param1;
+	}
+	else {
+		sum = 1000 + magic_param1;
+	}
+
+	for (i in 0..10) {
+		sum = sum + 10;
+	}
+
+	while (false) {
+		sum = 0;
+	}
+
+	do {
+		sum = sum + 100;
+	}
+	while (false)
+	return sum;
+}

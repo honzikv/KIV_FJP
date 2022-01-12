@@ -1,0 +1,7 @@
+int a = 2;
+if (a is int) {
+	a = 3000;
+}
+if (!(int is int) || false) {
+	a = -1;
+}

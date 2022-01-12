@@ -10,7 +10,7 @@ virtuálního stroje PL/0.
 
 ## Bonusové body:
 
-- Základní datové typy **boolean** ✅, **float** (nakonec nedodelany) (1b)
+- Základní datové typy **boolean** ✅, **float** (nakonec nedodělaný) (1b)
 - For cyklus, while cyklus, do while cyklus (2b) ✅
 - If + else (1b) ✅
 - Chained přiřazení (x = y = z = 2) - (1b) ✅

@@ -53,7 +53,7 @@ INTEGER_NUMBER: DIGIT+;
 WHITESPACE: [\r\t \n] -> skip;
 
 // Legalni symboly pro prirazeni hodnoty promenne
-legalVariableLiterals: INTEGER_NUMBER | TRUE | FALSE | (INTEGER_NUMBER? DOT INTEGER_NUMBER) | (INTEGER_NUMBER DOT);
+legalVariableLiterals: INTEGER_NUMBER | TRUE | FALSE;
 
 chainAssignment: EQUALS IDENTIFIER; // retezove prirazeni = x1 ... = x2 apod
 variableAssignment: IDENTIFIER chainAssignment* EQUALS (legalVariableLiterals | expression) SEMICOLON;

@@ -1,0 +1,6 @@
+int a;
+int b;
+int c;
+
+const int constant = 200;
+a = b = c = constant * constant - 2 * constant;
