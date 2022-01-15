@@ -119,7 +119,7 @@ expression:
     | operation = (PLUS | MINUS) expression #unaryMinusExpression;
 
 
-valueExpr: INTEGER_NUMBER | TRUE | FALSE | (INTEGER_NUMBER? DOT INTEGER_NUMBER) | (INTEGER_NUMBER DOT);
+valueExpr: INTEGER_NUMBER | TRUE | FALSE;
 
 
 // Legalni datove typy
